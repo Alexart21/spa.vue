@@ -1,0 +1,117 @@
+<template>
+  <audio preload="auto">
+    <source src="./../assets/audio/buben.mp3" type="audio/mpeg">
+    <!-- <source src="./assets/audio/buben.ogg" type="audio/ogg"> -->
+  </audio>
+  <!--Окно чата-->
+  <div v-show="showMsg" @click="openMsgBlock" @mouseover="hideTooltip" :class="{msgOpened: msgOpened}"
+       :style="{right: marginRight}" id="msg-block">
+    <div v-show="showTooltip" @mouseover="hideTooltip" class="msg-tooltip">Здравствуйте, я Александр. Чем могу помочь?
+    </div>
+    <button @click.stop="closeMsgBlock" type="button" class="close"><span>×</span></button>
+    <div id="msg-content">
+      <div v-show="!msgOpened" class="msg-closed">
+        сюда иконки
+        <b class="msg-closed-text">Начните чат</b>
+      </div>
+      <img class="msg-img rounded-circle img-thumbnail" :class="{imgOpened: msgOpened}" src="./../assets/img/msg.png"
+           alt="">
+      <div class="msg-text">
+        <div class="text-center">Добрый вечер,я Александр.</div>
+        <div class="text-center text-info">выберите мессенджер и начните чат</div>
+        <i style="display:block;text-align: right"><span
+            class="fa fa-check"></span>{{ getTime }}&nbsp;&nbsp;</i>
+      </div>
+      <hr>
+      <a class="msg-btn viber-bg" href="viber://chat?number=79876680484"
+         target="_blank"> Viber</a>
+      <a class="msg-btn watsap-bg" href="whatsapp://send?phone=79876680484"
+         target="_blank"> Watsapp</a>
+      <a class="msg-btn tg-bg" href="https://telegram.me/Mihalych211" target="_blank"> Telegram</a>
+    </div>
+  </div>
+</template>
+<script>
+const screen_w = document.body.clientWidth;
+const screen_h = document.body.clientHeight;
+
+function readCookie(name) {
+  const matches = document.cookie.match(new RegExp(
+      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+  ));
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+export default {
+  props: {
+    right: {
+      type: Number,
+      required: true,
+    }
+  },
+  data() {
+    return {
+      showMsg: false,
+      msgOpened: false,
+      openMsg: false,
+      showTooltip: false,
+    }
+  },
+  methods: {
+    displayMsgBlock() {
+      setTimeout(() => {
+        this.showMsg = true;
+      }, 3000);
+
+    },
+    openMsgBlock() {
+      this.msgOpened = true;
+      this.showTooltip = false;
+    },
+    closeMsgBlock() {
+      this.msgOpened = false;
+    },
+    displayTooltip() {
+      setTimeout(() => {
+        this.showTooltip = true;
+      }, 6000);
+      if (!readCookie('msg')) { // только при свернутом окошке и нету куки (не заходил больше часа или сколько там)
+        let promise = document.querySelector('audio').play();
+        if (promise !== undefined) {
+          promise.then(_ => {
+            console.log('play!');
+          }).catch(err => {
+            console.log(err.message);
+          });
+        }
+        this.showTooltip = true;
+        document.cookie = "msg=1;max-age=3600;path=/"; // куку на час(в течении этого времени больше не будет всплывающих подсказок)
+      }
+    },
+    hideTooltip() {
+      this.showTooltip = false;
+    },
+    dropTooltip() {
+      setTimeout(() => {
+        this.showTooltip = false;
+      }, 12000);
+    },
+  },
+  computed: {
+    getTime() {
+      let dt = new Date();
+      // время без секунд вида 07:48
+      let currentTime = dt.toLocaleTimeString().slice(0, -3);
+      return currentTime;
+    },
+    marginRight() {
+      return this.right + 'px';
+    },
+  },
+  mounted() {
+    this.displayMsgBlock(); //  показываем блок с чатом
+    this.displayTooltip();
+    this.dropTooltip(); // скрываем подсказку
+  },
+}
+</script>
