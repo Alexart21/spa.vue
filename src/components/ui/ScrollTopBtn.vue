@@ -1,6 +1,5 @@
 <template>
- <div v-show="showGoTop" @click="goTop" id="scroller" class="" title="проскролить вверх">
- ВВЕРХ
+ <div v-show="showGoTop" @click="goTop" id="scroller"  class="fa fa-chevron-circle-up" title="проскролить вверх">
 </div>   
 </template>
 <script>

@@ -31,12 +31,9 @@
               Пн - Пт 9<sup>00</sup> - 18<sup>00</sup>
             </li>
           </ul>
-          <div id="p1" data-pjax-container="" data-pjax-timeout="20000">
-            <div class="call-btn"
-                 title="заказать обратный звонок">
-              <a rel="nofollow" class="call pulse-button" href="/call">обратный звонок</a>
+            <div @click="this.$store.commit('showCallModal')" class="call-btn">
+              <span class="call pulse-button">обратный звонок</span>
             </div>
-          </div>
         </div>
       </div>
       <div id="center">

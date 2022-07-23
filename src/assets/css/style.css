@@ -111,7 +111,7 @@ textarea {
 /* call btn */
 /* 10 */
 
-.call-btn > a, .call-btn > a:visited {
+.call-btn > span {
     display: block;
     height: 100% !important;
     color: #222 !important;
@@ -119,11 +119,12 @@ textarea {
     /*font-family: latoBold;*/
 }
 
-.call-btn > a:hover {
+.call-btn > span:hover {
     color: #fff !important;
 }
 
 .call-btn {
+    cursor: pointer;
     /*display: inline;*/
     transition: all 0.3s ease;
     letter-spacing: 1px;

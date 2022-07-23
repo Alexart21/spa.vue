@@ -1,36 +1,41 @@
+<style scoped>
+.modal{
+  display: block;
+   background: rgba(0,0,0,.2);
+}
+</style>
 <template>
-    <form name="indexForm" id="index-form" @submit.prevent="sendForm" action="/" method="post">
-    
-    <!-- <input type="hidden" name="_csrf" :value="csrfToken"> -->
-    
-    <div class="field form-group">
-      <label for="indexform-name">Имя</label>
-      <input @focus="choiceField" type="text" name="IndexForm[name]" required tabindex="1">
-    </div>
+<div v-show="modal" class="modal" id="callback">
+  <div class="modal-dialog">
+    <div class="modal-content animate__animated animate__bounceInDown">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Heading</h4>
+        <button  @click="this.$store.commit('hideCallModal')" type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+<div class="modal-body">
+<form name="callForm" @submit.prevent="sendForm" action="/call" method="post">
 
-    <div class="field form-group">
-      <label for="indexform-email">Email</label>
-      <input @focus="choiceField" type="email" name="IndexForm[email]" required tabindex="2">
-    </div>
+<div class="form-group">
+<input type="text" class="form-control" name="callForm[name]" required placeholder="Ваше имя" aria-required="true">
+<div class="help-block"></div>
+</div>
 
-    <div class="field form-group">
-      <label class="control-label" for="indexform-tel">Тел.</label>
-      <input v-phone placeholder="+7(___) ___-__-__" @focus="choiceField" type="text" name="IndexForm[tel]" required tabindex="3">
-    </div>
-
-    <div class="field form-group">
-      <label for="indexform-text">Текст</label>
-      <textarea @focus="choiceField" id="msg" class="form-control" name="IndexForm[text]" required tabindex="4"></textarea>
-    </div>
-
-    <!-- <input type="hidden" id="indexform-recaptcha" name="IndexForm[reCaptcha]"> -->
-
-    <div class="form-group">
-      <button type="submit" class="btn success-button">Отправить</button>
-      <h3 v-if="statusText" class="status" :class="[isOk ? 'text-success' : 'text-danger']">{{ statusText }}</h3>
-    </div>
-    
-  </form>
+<div class="form-group">
+<label class="control-label" for="callform-tel">Номер телефона</label>
+<input v-phone placeholder="+7(___) ___-__-__" type="text" class="form-control" name="callForm[tel]" required>
+</div>
+        
+<div class="form-group">
+<button type="submit" class="btn success-button button-anim">жду звонка!</button>
+<h3 v-if="statusText" class="status" :class="[isOk ? 'text-success' : 'text-danger']">{{ statusText }}</h3>
+</div>
+</form>
+</div>
+</div>
+  </div>
+</div>
 </template>
 <script>
 function readCookie(name) {
@@ -39,8 +44,10 @@ function readCookie(name) {
   ));
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
-
+//
+import { mapGetters } from 'vuex';
 export default {
+  computed: mapGetters(['modal']),
   directives: {
     // маска ввода +7 (999) 999-99-99
     phone: {
@@ -57,32 +64,27 @@ export default {
     }
     },
   },
-    data(){
+  data(){
       return {
         statusText: '',
         isOk: true,
         // csrfToken: readCookie('csrf_token'),
       }
     },
-    methods: {
-    choiceField(event) {
-      let el = event.target;
-      let lbl = el.previousElementSibling;
-      lbl.classList.add('fill');
-    },
+  methods: {
     hideStatus(){
         this.statusText = '';
     },
     clearForm(){
-      document.forms.indexForm.reset();
+      document.forms.callForm.reset();
       this.hideStatus();
     },
     async sendForm(){
-      let formData = new FormData(document.forms.indexForm);
+      let formData = new FormData(document.forms.callForm);
       formData.append(readCookie('csrf_param'), readCookie('csrf_token'));
       this.isOk = true,
       this.statusText = 'Отправка...';
-      const url = '/index';
+      const url = '/call';
          let response = await fetch(url, {
              method: 'POST',
              body: formData,
@@ -94,7 +96,7 @@ export default {
          let result = await response.text(); // приходит 0 или 1(true/false)
          if(response.ok){
             if(result){
-              this.statusText = this.statusText = 'Спасибо, данные приняты. Мы с Вами свяжемся';
+              this.statusText = 'Спасибо, данные приняты. Мы с Вами свяжемся';
               setTimeout(this.clearForm, 12000);
             }else{
               this.isOk = false;
@@ -111,7 +113,6 @@ export default {
     }
 }
 </script>
-
 <style scoped>
 .status{
   /* display: inline-block; */

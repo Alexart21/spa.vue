@@ -1,10 +1,7 @@
 <template>
-  <!-- loader -->
-  <div id="container_loading">
-    <i class="fab fa-osi fa-spin"></i>
-  </div>
-  <!-- end loader -->
-  <output id="my-modal"></output>
+  <!-- Modal -->
+  <call-modal />
+  <!-- end Modal -->
   <div id="container" @scroll="pageScroll" @click="containerClick" ref="container">
     <!--Flash-->
     <!--end Flash-->
@@ -48,8 +45,12 @@ import FooterBlock from '@/components/FooterBlock';
 import MsgBlock from '@/components/MsgBlock';
 import LeftBlock from '@/components/LeftBlock';
 import ScrollTopBtn from '@/components/ui/ScrollTopBtn';
+import CallModal from '@/components/CallModal';
+
+// import { mapGetters } from 'vuex';
 
 export default {
+// computed: mapGetters(['modal']),
   components: {
     TopMenu,
     FooterBlock,
@@ -57,6 +58,7 @@ export default {
     LeftBlock,
     HeaderBlock,
     ScrollTopBtn,
+    CallModal,
   },
   data() {
     return {
@@ -98,12 +100,10 @@ export default {
       }
     }
   },
-  computed: {},
   created() {
     window.addEventListener("scroll", this.handleScroll);
   },
   mounted() {
-    // console.log(this.$router);
     this.initMsgBlock();
     this.shtorkaAnimate = true;
   },
