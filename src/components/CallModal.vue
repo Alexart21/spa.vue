@@ -10,7 +10,7 @@
     <div class="modal-content animate__animated animate__bounceInDown">
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Modal Heading</h4>
+        <h4 class="modal-title">Обратный звонок</h4>
         <button  @click="this.$store.commit('hideCallModal')" type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <!-- Modal body -->

@@ -28,7 +28,7 @@
               </router-link>
             </li>
             <li>
-              <router-link :class="{link_fixed: menuFixed}" :to="{name: 'contacts'}" @click="goTop"
+              <router-link :class="{link_fixed: menuFixed}" :to="{name: 'contacts'}" @click="anchors"
                            exact-active-class="header_shadow cursor-default" data-m="контакты" title="">контакты
               </router-link>
             </li>
@@ -47,12 +47,18 @@ export default {
     },
   },
   methods: {
+    anchors() {
+      this.$router.afterEach((to, from) => {
+       let h = location.hash;
+        let anchor = h.slice(1); // хеш без символа #
+        let el = document.getElementById(anchor);
+        let top = el.offsetTop + el.offsetParent.offsetTop;
+        window.scrollTo(0, top);
+    })
+    },
     goTop() {
       window.scrollTo(0, 0);
     },
   },
-  data() {
-    return {}
-  }
 }
 </script>

@@ -31,8 +31,8 @@ const routes = [
   },
   {
     name: 'contacts',
-    path: '/contacts',
-    component: Contacts
+    path: '/#contacts',
+    component: Index
   },
   {
     name: 'parsing',
@@ -52,6 +52,11 @@ const routes = [
   {
     name: 'internet_magazin',
     path: '/sozdanie#internet_magazin',
+    component: Sozdanie
+  },
+  {
+    name: 'response',
+    path: '/sozdanie#response',
     component: Sozdanie
   },
   {

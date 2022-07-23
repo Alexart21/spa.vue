@@ -84,8 +84,9 @@
       <br/><!--noindex--><strong class="l_header">Другие услуги</strong><!--/noindex-->
       <br/>
       <ul>
-        <li class="left_gr2"><a  title="парсинг сайтов" href="/parsing">парсинг
-          сайтов</a>
+        <li class="left_gr2">
+          <router-link @click="goTop" :to="{name: 'parsing'}" title="парсинг сайтов">парсинг сайтов
+          </router-link>
         </li>
       </ul>
     </nav>
@@ -118,7 +119,10 @@ export default {
       mobMenu.classList.toggle('menu-animate');
       menuBtn.classList.toggle('btn-pos');
       this.$emit('mobMenuEmit');
-    }
+    },
+    goTop() {
+      window.scrollTo(0, 0);
+    },
   }
 }
 </script>

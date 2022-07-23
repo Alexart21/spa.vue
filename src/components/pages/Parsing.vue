@@ -26,14 +26,17 @@
       <strong>Достоинства парсинга:</strong>
     </p>
     <ul>
-      <li><span class="fa fa-check logo"></span>
+      <li>
+        <fa-icon icon="check" class="logo" />
         Программа парсер быстро и и безошибочно отделит служебную и техническую информацию
         от нужной.
       </li>
-      <li><span class="fa fa-check logo"></span>
+      <li>
+        <fa-icon icon="check" class="logo" />
         Парсер легко справляется с большими объемами информации.
       </li>
-      <li><span class="fa fa-check logo"></span>
+      <li>
+        <fa-icon icon="check" class="logo" />
         Минимальное участие человека.Практически весь процесс автоматизирован.
       </li>
     </ul>
@@ -47,7 +50,7 @@
 
     </p>
     <p>
-      Стоимость парсинга сайта начинается от <span class="red">1&#8202;500</span><span class="fa fa-ruble-sign"></span>
+      Стоимость парсинга сайта начинается от <span class="red">1&#8202;500</span><span class="ruble"> ₽</span>
     </p>
     <p>
       Если Вам нужен парсинг сайта свяжитесь с нами любым удобным для Вас способом.Мы осуществим

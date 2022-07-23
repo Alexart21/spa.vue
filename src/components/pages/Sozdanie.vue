@@ -38,31 +38,32 @@
     </p>
     <h3>Заказав у нас сайт визитку вы получите:</h3>
     <ul class="list list_block">
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;5-7 страниц информации на сайте</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Размещение прайс листов</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Форму обратной связи и(или) заявки на сайте</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Схему проезда до вашей организации</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Регистрацию и покупку домена</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Регистрацию в поисковых системах Яндекс и Google</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Валидный <abbr
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;5-7 страниц информации на сайте</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Размещение прайс листов</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Форму обратной связи и(или) заявки на сайте</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Схему проезда до вашей организации</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Регистрацию и покупку домена</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Регистрацию в поисковых системах Яндекс и Google</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Валидный <abbr
           title="англ. HyperText Markup Language, version 5 — язык для структурирования и представления содержимого всемирной паутины">HTML</abbr>
         код
       </li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Оптимизированную для <abbr
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Оптимизированную для <abbr
           title="англ. search engine optimization — комплекс мер по внутренней и внешней оптимизации, для поднятия позиций сайта в результатах выдачи поисковых систем">SEO</abbr>
         структуру страниц
       </li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Установку счетчика посещений</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Индивидуальный дизайн</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Установку счетчика посещений</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Индивидуальный дизайн</li>
     </ul>
     <p></p>
     <p>
       Создание сайтов этой категории обычно занимает 5-7 дней после написания брифа
       и утверждения структуры, дизайна.<br>
-      <strong>Цена для сайта визитки</strong> от <span class="red">7&#8202;000</span><span
-        class="fa fa-ruble-sign"></span><br>
-      <a href="/#contacts" title="заказать сайт визитку" class="zayavka link-anim"><span
-          class="fab fa-telegram-plane no-sh"></span> сделать заявку на сайт визитку</a>
+      <strong>Цена для сайта визитки</strong> от <span class="red">7&#8202;000</span>
+      <span class="ruble">₽</span><br>
+      <router-link @click="anchors" :to="{name: 'contacts'}" title="заказать сайт визитку" class="zayavka link-anim">
+          заказать сайт визитку
+      </router-link>
     </p>
     <div class="hr"></div>
     <h2 id="korporativniy_sait" class="header_shadow anchors">Корпоративный сайт</h2>
@@ -90,25 +91,26 @@
     </p>
     <h3>В цену включены:</h3>
     <ul class="list list_block">
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Индивидуальный дизайн</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;До 50 страниц информации</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Базовая <abbr
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Индивидуальный дизайн</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;До 50 страниц информации</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Базовая <abbr
           title="англ. search engine optimization — комплекс мер по внутренней и внешней оптимизации, для поднятия позиций сайта в результатах выдачи поисковых систем">SEO</abbr>
         оптимизация всех страниц
       </li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Каталог товаров и услуг</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Микроразметка для товаров и контактов</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Форма обратной связи(заявки)</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Система управления контентом</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Новости или блог</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Регистрация в поисковых системах</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Счетчик посетителей</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Настройка систем Яндекс метрика и Google analitics</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Cопровождение после сдачи в течении 3 месяцев</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Каталог товаров и услуг</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Микроразметка для товаров и контактов</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Форма обратной связи(заявки)</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Система управления контентом</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Новости или блог</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Регистрация в поисковых системах</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Счетчик посетителей</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Настройка систем Яндекс метрика и Google analitics</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Cопровождение после сдачи в течении 3 месяцев</li>
     </ul>
     <br>
-    <a href="/#contacts" title="заказать корпоративный сайт" class="zayavka link-anim"><span
-        class="fab fa-telegram-plane no-sh"></span> сделать заявку на корпоративный сайт</a>
+    <router-link :to="{name: 'contacts'}" @click="anchors" title="заказать корпоративный сайт" class="zayavka link-anim">
+    заказать корпоративный сайт
+    </router-link>
     <div class="hr"></div>
     <h2 id="internet_magazin" class="header_shadow anchors">Интернет магазин</h2>
     <p>
@@ -131,25 +133,27 @@
     </p>
     <h3>Цена включает:</h3>
     <ul class="list list_block">
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Индивидуальный дизайн</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Внутреннюю оптимизацию всех страниц</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Наполнение сайта содержимым</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Поиск по товарам</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Систему для добавления/удаления товара</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Корзину покупателя</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Удобную форму для заказа товара покупателем</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Продающие <abbr
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Внутреннюю оптимизацию всех страниц</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Индивидуальный дизайн</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Индивидуальный дизайн</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Наполнение сайта содержимым</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Поиск по товарам</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Систему для добавления/удаления товара</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Корзину покупателя</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Удобную форму для заказа товара покупателем</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Продающие <abbr
           title="англ. search engine optimization — комплекс мер по внутренней и внешней оптимизации, для поднятия позиций сайта в результатах выдачи поисковых систем">SEO</abbr>
         тексты
       </li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Счетчик посещений</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Настройку целей в Яндекс метрике</li>
-      <li><span class="fa fa-check logo"></span>&nbsp;&nbsp;Техническое сопровождение сайта в течении 3 месяцев</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Счетчик посещений</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Настройку целей в Яндекс метрике</li>
+      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Техническое сопровождение сайта в течении 3 месяцев</li>
     </ul>
+    <router-link :to="{name: 'contacts'}" @click="anchors" title="заказать разработку интернет магазина" class="zayavka link-anim">
+    заказать разработку интернет магазина
+    </router-link>
     <br>
-    <a href="/#contacts" title="заказать разработку интернет магазина" class="zayavka link-anim"><span
-        class="fab fa-telegram-plane no-sh"></span> заказать разработку интернет магазина</a>
-    <div class="hr"></div>
+    <br>
     <p>
       На практике получить привлекательный по дизайну (или как минимум не вызывающий отторжения)
       и удобный для посетителя сайт не такая тривиальная задача, как видится
@@ -191,6 +195,17 @@
 </template>
 <script>
 export default {
+  methods: {
+    anchors() {
+      this.$router.afterEach((to, from) => {
+       let h = location.hash;
+        let anchor = h.slice(1); // хеш без символа #
+        let el = document.getElementById(anchor);
+        let top = el.offsetTop + el.offsetParent.offsetTop;
+        window.scrollTo(0, top);
+    })
+    },
+  },
   mounted(){
     let h = location.hash;
     if(h){

@@ -117,8 +117,10 @@
       Стоимость на продвижение сайта по ключевым фразам зависит от многих факторов: <br>
       коммерческой популярности запроса, возраста сайта и др.
     </p>
-    <a href="/#contacts" title="продвижение сайта стоимость" class="zayavka link-anim"><span
-        class="fab fa-telegram-plane no-sh"></span> узнать стоимость продвижения для Вашего сайта</a><br>
+    <router-link @click="anchors" :to="{name: 'contacts'}" title="заказать сайт визитку" class="zayavka link-anim">
+    узнать стоимость продвижения для Вашего сайта
+    </router-link>
+    <br>
     <br>
   </article>
   <div class="hr"></div>
@@ -179,18 +181,21 @@
     <p>
     </p>
     <ul>
-      <li><strong>Настройка рекламы на Яндекс</strong> <span class="red">3&#8202;000</span> <span
-          class="fa fa-ruble-sign"></span></li>
-      <li><strong>Настройка рекламы на Google</strong> <span class="red">3&#8202;000</span> <span
-          class="fa fa-ruble-sign"></span></li>
+      <li><strong>Настройка рекламы на Яндекс</strong> 
+      <span class="red">3&#8202;000</span>
+      <span class="ruble"> ₽</span>
+      </li>
+      <li><strong>Настройка рекламы на Google</strong> <span class="red">3&#8202;000</span>
+      <span class="ruble"> ₽</span>
+      </li>
       <li><strong>Настройка рекламы на Яндекс Директ и Google Adwords</strong> <span class="red">4&#8202;500</span>
-        <span class="fa fa-ruble-sign"></span> (единоразово)
+        <span class="ruble"> ₽</span> (единоразово)
       </li>
     </ul>
     <strong>Профессиональное ведение рекламной кампании</strong> от <span class="red">3&#8202;000</span> <span
       class="fa fa-ruble-sign"></span>/месяц<br>
-    <span class="strong_text">При заказе сайта от <span class="red">40&#8202;000</span> <span
-        class="fa fa-ruble-sign"></span> настройку проведем <b class="underline">БЕСПЛАТНО.</b></span>
+    <span class="strong_text">При заказе сайта от <span class="red">40&#8202;000</span><span class="ruble" style="font-weight:normal"> ₽</span>
+     настройку проведем <b class="underline">БЕСПЛАТНО.</b></span>
     <p></p>
     <h2>Продвижение сайта методами <abbr
         title="англ. search engine optimization — комплекс мер по внутренней и внешней оптимизации, для поднятия позиций сайта в результатах выдачи поисковых систем">SEO</abbr>
@@ -214,6 +219,17 @@
 </template>
 <script>
 export default {
+  methods: {
+    anchors() {
+      this.$router.afterEach((to, from) => {
+       let h = location.hash;
+        let anchor = h.slice(1); // хеш без символа #
+        let el = document.getElementById(anchor);
+        let top = el.offsetTop + el.offsetParent.offsetTop;
+        window.scrollTo(0, top);
+    })
+    },
+  },
   mounted(){
     let h = location.hash;
     if(h){
