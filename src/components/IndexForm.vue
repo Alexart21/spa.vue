@@ -23,7 +23,7 @@
       <textarea @focus="choiceField" id="msg" class="form-control" name="IndexForm[text]" required tabindex="4"></textarea>
     </div>
 
-    <!-- <input type="hidden" id="indexform-recaptcha" name="IndexForm[reCaptcha]"> -->
+    <input type="hidden" id="indexform-recaptcha" name="IndexForm[reCaptcha]">
 
     <div class="form-group">
       <button type="submit" class="btn success-button">Отправить</button>
@@ -78,7 +78,18 @@ export default {
       this.hideStatus();
     },
     async sendForm(){
-      let formData = new FormData(document.forms.indexForm);
+      const form = document.forms.indexForm;
+      
+      await grecaptcha.ready(function () {
+          // сам скрипт с google подключается в щаблоне views/layout/spa.php
+          grecaptcha.execute('6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC', {action: 'index'}).then(function (token) {
+              let inp = document.getElementById('indexform-recaptcha');
+              inp.value = token;
+              //
+          });
+      });
+      
+      let formData = new FormData(form);
       formData.append(readCookie('csrf_param'), readCookie('csrf_token'));
       this.isOk = true,
       this.statusText = 'Отправка...';
@@ -91,14 +102,17 @@ export default {
                // в зависимости от тела запроса
             },
          });
-         let result = await response.text(); // приходит 0 или 1(true/false)
+         let result = await response.json(); // с сервера json вида {status: true, msg:{}}
+         result = JSON.parse(result);
          if(response.ok){
-            if(result){
+            if(result.status){
               this.statusText = this.statusText = 'Спасибо, данные приняты. Мы с Вами свяжемся';
               setTimeout(this.clearForm, 12000);
+              // console.log(result)
             }else{
               this.isOk = false;
               this.statusText = 'Ошибка! Что то пошло не так...';
+              console.log(result.msg)
             }
             
             // console.log(result);
@@ -108,7 +122,10 @@ export default {
             console.log(response)
         }
     },
-    }
+    },
+    created() {
+    
+  },
 }
 </script>
 

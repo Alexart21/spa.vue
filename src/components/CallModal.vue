@@ -26,6 +26,8 @@
 <label class="control-label" for="callform-tel">Номер телефона</label>
 <input v-phone placeholder="+7(___) ___-__-__" type="text" class="form-control" name="callForm[tel]" required>
 </div>
+
+<input id="callform-recaptcha" type="hidden" name="callForm[reCaptcha]">
         
 <div class="form-group">
 <button type="submit" class="btn success-button button-anim">жду звонка!</button>
@@ -59,7 +61,6 @@ export default {
         const x = this.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/)
         x[1] = '+7'; 
         this.value = !x[3] ? x[1] + ' (' + x[2] : x[1] + ' (' + x[2] + ') ' + x[3] + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '')
-        
       }
     }
     },
@@ -80,7 +81,19 @@ export default {
       this.hideStatus();
     },
     async sendForm(){
-      let formData = new FormData(document.forms.callForm);
+    let form = document.forms.callForm;
+      //
+    
+    await grecaptcha.ready(function () {
+        // сам скрипт с google подключается в щаблоне views/layout/spa.php
+    grecaptcha.execute('6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC', {action: 'call'}).then(function (token) {
+        let inp = document.getElementById('callform-recaptcha');
+        inp.value = token;
+    });
+    });
+    
+      //
+      let formData = new FormData(form);
       formData.append(readCookie('csrf_param'), readCookie('csrf_token'));
       this.isOk = true,
       this.statusText = 'Отправка...';
@@ -93,24 +106,26 @@ export default {
                // в зависимости от тела запроса
             },
          });
-         let result = await response.text(); // приходит 0 или 1(true/false)
+         let result = await response.json(); // с сервера json вида {status: true, msg:{}}
+         result = JSON.parse(result);
          if(response.ok){
-            if(result){
-              this.statusText = 'Спасибо, данные приняты. Мы с Вами свяжемся';
+            if(result.status){
+              this.statusText = this.statusText = 'Спасибо, данные приняты. Мы с Вами свяжемся';
               setTimeout(this.clearForm, 12000);
+              // console.log(result)
             }else{
               this.isOk = false;
               this.statusText = 'Ошибка! Что то пошло не так...';
+              console.log(result.msg)
             }
-            
-            // console.log(result);
            }else{
             this.isOk = false;
             this.statusText = 'Произошла ошибка!';
             console.log(response)
         }
     },
-    }
+    },
+    
 }
 </script>
 <style scoped>

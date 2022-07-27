@@ -3,6 +3,7 @@ import {createApp} from "vue";
 import App from './App';
 import store from './store';
 import router from './router';
+// import { VueReCaptcha } from 'vue-recaptcha-v3'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -27,3 +28,4 @@ createApp(App)
 import './assets/css/bootstrap.min.css';
 import './assets/css/style.css';
 import './assets/css/animate.min.css';
+
