@@ -5,17 +5,35 @@
     
     <div class="field form-group">
       <label for="indexform-name">Имя</label>
-      <input @focus="choiceField" type="text" name="IndexForm[name]" required tabindex="1">
+      <input @click="choiceField" type="text" v-model.lazy="name" @focus="v$.$reset();" @blur="v$.name.$touch();" name="IndexForm[name]" tabindex="1">
+      
+      <p v-for="error of v$.$errors" :key="error.$uid" class="text-danger">
+      <span v-if="error.$property === 'name'">
+        <span v-if="error.$validator === 'minLength'">
+          Длина имени не менее {{ v$.name.minLength.$params.min }} символов
+        </span>
+        <span v-else-if="error.$validator === 'maxLength'">
+          Длина имени не должна превышать {{ v$.name.maxLength.$params.max }} символов
+        </span>
+        <span v-else-if="error.$validator === 'required'">
+          Поле имя обязательно к заполнению
+        </span>
+        <span v-else>
+          Пожалуйста, пишите кириллицей
+        </span>
+      </span>
+      </p>
+
     </div>
 
     <div class="field form-group">
       <label for="indexform-email">Email</label>
-      <input @focus="choiceField" type="email" name="IndexForm[email]" required tabindex="2">
+      <input @focus="choiceField" type="email" name="IndexForm[email]" tabindex="2">
     </div>
 
     <div class="field form-group">
       <label class="control-label" for="indexform-tel">Тел.</label>
-      <input v-phone placeholder="+7(___) ___-__-__" @focus="choiceField" type="text" name="IndexForm[tel]" required tabindex="3">
+      <input v-phone placeholder="+7(___) ___-__-__" @focus="choiceField" type="text" name="IndexForm[tel]" tabindex="3">
     </div>
 
     <div class="field form-group">
@@ -28,6 +46,9 @@
     <div class="form-group">
       <button type="submit" class="btn success-button">Отправить</button>
       <h3 v-if="statusText" class="status" :class="[isOk ? 'text-success' : 'text-danger']">{{ statusText }}</h3>
+      <div v-show="errArr.length">
+        <h4 class="text-danger" v-for="(item, index) in errArr" :key="index">{{ item }}</h4>
+      </div>
     </div>
     
   </form>
@@ -39,7 +60,10 @@ function readCookie(name) {
   ));
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
-
+//
+import useValidate from '@vuelidate/core'
+import { required, email, minLength, maxLength, alfa, between } from '@vuelidate/validators'
+//
 export default {
   directives: {
     // маска ввода +7 (999) 999-99-99
@@ -59,11 +83,24 @@ export default {
   },
     data(){
       return {
+        v$: useValidate(),
+        name: '',
         statusText: '',
+        errArr: [],
         isOk: true,
         // csrfToken: readCookie('csrf_token'),
       }
     },
+  validations() {
+    return {
+      name: {
+        required,
+        minLength: minLength(3),
+        maxLength: maxLength(30),
+        alpha: val => /^[а-яё]*$/i.test(val),
+    },
+    }
+  },
     methods: {
     choiceField(event) {
       let el = event.target;
@@ -78,21 +115,22 @@ export default {
       this.hideStatus();
     },
     async sendForm(){
+      this.v$.$validate() // checks all inputs
+      console.log(this.v$.$error);
       const form = document.forms.indexForm;
-      
-      await grecaptcha.ready(function () {
-          // сам скрипт с google подключается в щаблоне views/layout/spa.php
-          grecaptcha.execute('6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC', {action: 'index'}).then(function (token) {
-              let inp = document.getElementById('indexform-recaptcha');
-              inp.value = token;
-              //
-          });
-      });
-      
+      // await grecaptcha.ready(function () {
+      //     // сам скрипт с google подключается в щаблоне views/layout/spa.php
+      //     grecaptcha.execute('6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC', {action: 'index'}).then(function (token) {
+      //         let inp = document.getElementById('indexform-recaptcha');
+      //         inp.value = token;
+      //         //
+      //     });
+      // });
       let formData = new FormData(form);
       formData.append(readCookie('csrf_param'), readCookie('csrf_token'));
       this.isOk = true,
       this.statusText = 'Отправка...';
+      this.errArr = [];
       const url = '/index';
          let response = await fetch(url, {
              method: 'POST',
@@ -111,8 +149,13 @@ export default {
               // console.log(result)
             }else{
               this.isOk = false;
+              let txt = '';
               this.statusText = 'Ошибка! Что то пошло не так...';
-              console.log(result.msg)
+              // let {msg} = result.msg; // 
+              // console.log(result.msg)
+              for (let [key, value] of Object.entries(result.msg)) {
+                this.errArr.push(value);
+              }
             }
             
             // console.log(result);
@@ -123,8 +166,10 @@ export default {
         }
     },
     },
-    created() {
-    
+  created() {
+  },
+  mounted(){
+    console.log(this.v$);
   },
 }
 </script>

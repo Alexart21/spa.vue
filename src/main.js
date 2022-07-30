@@ -17,6 +17,7 @@ createApp(App)
     .use(store)
     .use(router)
     .component('fa-icon', FontAwesomeIcon)
+    // .use(Vuelidate)
     // .use(VueReCaptcha, {
     //     siteKey: '6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC',
     //     loaderOptions: {

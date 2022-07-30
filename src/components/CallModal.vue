@@ -33,6 +33,9 @@
 <button type="submit" class="btn success-button button-anim">жду звонка!</button>
 <h3 v-if="statusText" class="status" :class="[isOk ? 'text-success' : 'text-danger']">{{ statusText }}</h3>
 </div>
+<div v-show="errArr.length">
+  <h4 class="text-danger" v-for="(item, index) in errArr" :key="index">{{ item }}</h4>
+</div>
 </form>
 </div>
 </div>
@@ -68,6 +71,7 @@ export default {
   data(){
       return {
         statusText: '',
+        errArr: [],
         isOk: true,
         // csrfToken: readCookie('csrf_token'),
       }
@@ -97,6 +101,7 @@ export default {
       formData.append(readCookie('csrf_param'), readCookie('csrf_token'));
       this.isOk = true,
       this.statusText = 'Отправка...';
+      this.errArr = [];
       const url = '/call';
          let response = await fetch(url, {
              method: 'POST',
@@ -115,8 +120,12 @@ export default {
               // console.log(result)
             }else{
               this.isOk = false;
+              let txt = '';
               this.statusText = 'Ошибка! Что то пошло не так...';
-              console.log(result.msg)
+              // console.log(result.msg)
+              for (let [key, value] of Object.entries(result.msg)) {
+                this.errArr.push(value);
+              }
             }
            }else{
             this.isOk = false;
