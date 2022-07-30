@@ -18,13 +18,33 @@
 <form name="callForm" @submit.prevent="sendForm" action="/call" method="post">
 
 <div class="form-group">
-<input type="text" class="form-control" name="callForm[name]" required placeholder="Ваше имя" aria-required="true">
-<div class="help-block"></div>
+<input v-model.lazy="name" @focus="v$.$reset();" @blur="v$.name.$touch();" type="text" class="form-control" name="callForm[name]"  placeholder="Ваше имя">
+  <p v-for="error of v$.$errors" :key="error.$uid" class="text-danger">
+      <span v-if="error.$property === 'name'">
+        <span v-if="error.$validator === 'minLength'">
+          Длина имени не менее {{ v$.name.minLength.$params.min }} символов
+        </span>
+        <span v-else-if="error.$validator === 'maxLength'">
+          Длина имени не должна превышать {{ v$.name.maxLength.$params.max }} символов
+        </span>
+        <span v-else-if="error.$validator === 'required'">
+          Поле имя обязательно к заполнению
+        </span>
+        <span v-else>
+          Пожалуйста, пишите кириллицей
+        </span>
+      </span>
+  </p>
 </div>
 
 <div class="form-group">
-<label class="control-label" for="callform-tel">Номер телефона</label>
-<input v-phone placeholder="+7(___) ___-__-__" type="text" class="form-control" name="callForm[tel]" required>
+  <label class="control-label" for="callform-tel">Номер телефона</label>
+  <input v-model.lazy="tel" @focus="v$.$reset();" @blur="v$.tel.$touch();" v-phone placeholder="+7(___) ___-__-__" type="text" class="form-control" name="callForm[tel]">
+  <p v-for="error of v$.$errors" :key="error.$uid" class="text-danger">
+      <span v-if="error.$property === 'tel'">
+          Номер телефона обязателен
+      </span>
+  </p>
 </div>
 
 <input id="callform-recaptcha" type="hidden" name="callForm[reCaptcha]">
@@ -51,6 +71,10 @@ function readCookie(name) {
 }
 //
 import { mapGetters } from 'vuex';
+//
+import useValidate from '@vuelidate/core'
+import { required, email, minLength, maxLength, alfa } from '@vuelidate/validators'
+//
 export default {
   computed: mapGetters(['modal']),
   directives: {
@@ -70,12 +94,28 @@ export default {
   },
   data(){
       return {
+        v$: useValidate(),
+        name: '',
+        tel: '',
         statusText: '',
         errArr: [],
         isOk: true,
         // csrfToken: readCookie('csrf_token'),
       }
     },
+  validations() {
+    return {
+      name: {
+        required,
+        minLength: minLength(3),
+        maxLength: maxLength(30),
+        alpha: val => /^[а-яё]*$/i.test(val),
+      },
+      tel: {
+        required,
+      },
+    }
+  },
   methods: {
     hideStatus(){
         this.statusText = '';
@@ -85,9 +125,14 @@ export default {
       this.hideStatus();
     },
     async sendForm(){
+    const isFormCorrect = await this.v$.$validate()
+      if (!isFormCorrect){
+        alert('Заполните форму корректными данными!');
+        // this.v$.$reset();
+        return;
+      }
     let form = document.forms.callForm;
       //
-    
     await grecaptcha.ready(function () {
         // сам скрипт с google подключается в щаблоне views/layout/spa.php
     grecaptcha.execute('6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC', {action: 'call'}).then(function (token) {
@@ -95,7 +140,6 @@ export default {
         inp.value = token;
     });
     });
-    
       //
       let formData = new FormData(form);
       formData.append(readCookie('csrf_param'), readCookie('csrf_token'));

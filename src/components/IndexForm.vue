@@ -28,7 +28,17 @@
 
     <div class="field form-group">
       <label for="indexform-email">Email</label>
-      <input @focus="choiceField" type="email" name="IndexForm[email]" tabindex="2">
+      <input @click="choiceField" type="text" name="IndexForm[email]" v-model.lazy="email" @focus="v$.$reset();" @blur="v$.email.$touch();" tabindex="2">
+      <p v-for="error of v$.$errors" :key="error.$uid" class="text-danger">
+        <span v-if="error.$property === 'email'">
+          <span v-if="error.$validator === 'email'">
+            Введите корректный email
+          </span>
+          <span v-else>
+            Поле email обязательно к заполнению
+          </span>
+        </span>
+      </p>
     </div>
 
     <div class="field form-group">
@@ -38,7 +48,22 @@
 
     <div class="field form-group">
       <label for="indexform-text">Текст</label>
-      <textarea @focus="choiceField" id="msg" class="form-control" name="IndexForm[text]" required tabindex="4"></textarea>
+      <textarea @click="choiceField" v-model.lazy="text" @focus="v$.$reset();" @blur="v$.text.$touch();" id="msg" class="form-control" name="IndexForm[text]" tabindex="4"></textarea>
+      
+      <p v-for="error of v$.$errors" :key="error.$uid" class="text-danger">
+      <span v-if="error.$property === 'text'">
+        <span v-if="error.$validator === 'minLength'">
+          Введите хотя бы {{ v$.text.minLength.$params.min }} символа
+        </span>
+        <span v-else-if="error.$validator === 'maxLength'">
+          Длина текста не должна превышать {{ v$.text.maxLength.$params.max }} символов
+        </span>
+        <span v-else>
+          Поле текст обязательно к заполнению
+        </span>
+      </span>
+      </p>
+
     </div>
 
     <input type="hidden" id="indexform-recaptcha" name="IndexForm[reCaptcha]">
@@ -62,7 +87,7 @@ function readCookie(name) {
 }
 //
 import useValidate from '@vuelidate/core'
-import { required, email, minLength, maxLength, alfa, between } from '@vuelidate/validators'
+import { required, email, minLength, maxLength, alfa } from '@vuelidate/validators'
 //
 export default {
   directives: {
@@ -85,6 +110,8 @@ export default {
       return {
         v$: useValidate(),
         name: '',
+        email: '',
+        text: '',
         statusText: '',
         errArr: [],
         isOk: true,
@@ -98,7 +125,16 @@ export default {
         minLength: minLength(3),
         maxLength: maxLength(30),
         alpha: val => /^[а-яё]*$/i.test(val),
-    },
+      },
+      email: {
+        required,
+        email,
+      },
+      text: {
+        required,
+        minLength: minLength(2),
+        maxLength: maxLength(2000),
+      },
     }
   },
     methods: {
@@ -115,17 +151,21 @@ export default {
       this.hideStatus();
     },
     async sendForm(){
-      this.v$.$validate() // checks all inputs
-      console.log(this.v$.$error);
+      const isFormCorrect = await this.v$.$validate()
+      if (!isFormCorrect){
+        alert('Заполните форму корректными данными!');
+        // this.v$.$reset();
+        return;
+      }
       const form = document.forms.indexForm;
-      // await grecaptcha.ready(function () {
-      //     // сам скрипт с google подключается в щаблоне views/layout/spa.php
-      //     grecaptcha.execute('6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC', {action: 'index'}).then(function (token) {
-      //         let inp = document.getElementById('indexform-recaptcha');
-      //         inp.value = token;
-      //         //
-      //     });
-      // });
+      await grecaptcha.ready(function () {
+          // сам скрипт с google подключается в щаблоне views/layout/spa.php
+          grecaptcha.execute('6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC', {action: 'index'}).then(function (token) {
+              let inp = document.getElementById('indexform-recaptcha');
+              inp.value = token;
+              //
+          });
+      });
       let formData = new FormData(form);
       formData.append(readCookie('csrf_param'), readCookie('csrf_token'));
       this.isOk = true,
@@ -169,7 +209,7 @@ export default {
   created() {
   },
   mounted(){
-    console.log(this.v$);
+    // console.log(this.v$);
   },
 }
 </script>
