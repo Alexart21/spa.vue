@@ -167,6 +167,7 @@ export default {
           });
       });
       let formData = new FormData(form);
+      // куки установлены в шаблоне views/layout/spa.php
       formData.append(readCookie('csrf_param'), readCookie('csrf_token'));
       this.isOk = true,
       this.statusText = 'Отправка...';

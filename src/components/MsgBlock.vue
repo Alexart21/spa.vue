@@ -4,8 +4,8 @@
     <!-- <source src="./assets/audio/buben.ogg" type="audio/ogg"> -->
   </audio>
   <!--Окно чата-->
-  <div v-show="showMsg" @click="openMsgBlock" @mouseover="hideTooltip" :class="{msgOpened: msgOpened}"
-       :style="{right: marginRight}" id="msg-block" class="animate__animated animate__fadeInUpBig">
+  <div v-show="showMsg" @click="openMsgBlock" @mouseover="hideTooltip" :class="msgBlockClasses"
+       :style="{right: marginRight}" id="msg-block">
     <div v-show="showTooltip" @mouseover="hideTooltip" class="msg-tooltip">Здравствуйте, я Александр. Чем могу помочь?
     </div>
     <button @click.stop="closeMsgBlock" type="button" class="close"><span>×</span></button>
@@ -59,6 +59,7 @@ export default {
       msgOpened: false,
       openMsg: false,
       showTooltip: false,
+      // openedClasses: 'msgOpened',
     }
   },
   methods: {
@@ -102,6 +103,9 @@ export default {
     },
   },
   computed: {
+    msgBlockClasses(){
+      return this.msgOpened ? 'msgOpened animate__animated animate__bounceInUp' : '';
+    },
     getTime() {
       let dt = new Date();
       // время без секунд вида 07:48
