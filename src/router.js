@@ -6,6 +6,7 @@ import Prodvijenie from '@/components/pages/Prodvijenie';
 import Portfolio from '@/components/pages/Portfolio';
 import Contacts from '@/components/pages/Contacts';
 import Parsing from '@/components/pages/Parsing';
+import Region from '@/components/pages/Region';
 import AppE404 from '@/components/pages/E404';
 
 const routes = [
@@ -73,6 +74,11 @@ const routes = [
     name: 'context',
     path: '/prodvijenie#context',
     component: Prodvijenie
+  },
+  {
+    name: 'region',
+    path: '/region',
+    component: Region
   },
   {
     path: '/:any(.*)', // .*

@@ -18,5 +18,7 @@
       <div><a class="text-dark" href="/user/login">вход</a></div>&nbsp;&nbsp;
       <div><a class="text-dark" href="/user/signup">регистрация</a></div>
     </div>
+    <router-link :to="{name: 'region'}" >Select region
+              </router-link>
   </footer>
 </template>
