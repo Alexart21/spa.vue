@@ -1,32 +1,45 @@
 <template>
   <h1>Region && City select</h1>
-  <select name="region" ref="region" @change="regionSelect" v-model="code">
-    <option v-for="(item, index) in regions"  :value="item.code" :key="index">{{ item.name }}</option>
+  <select
+    name="region"
+    ref="region"
+    @change="loadCitys(region_code)"
+    v-model="region_code"
+  >
+    <option
+      v-for="(item, index) in regions"
+      :value="item.region_id"
+      :key="index"
+    >
+      {{ item.name }}
+    </option>
   </select>
-  <select v-show="showCitys" name="citys" id="citys" >
-    <option v-for="(item, index) in citys" value="item.name" :key="index">{{ item.name }}</option>
+  <select name="citys" id="citys">
+    <option v-for="(item, index) in citys" value="item.name" :key="index">
+      {{ item.name }}
+    </option>
   </select>
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
 
 export default {
-  data(){
+  data() {
     return {
-      code: '',
-    }
+      country_code: 3159, // страна россия
+      region_code: 4312, // регион Москва и Московская обл.
+      // region_code: 5600, // регион Чувашия
+    };
   },
   methods: {
-    regionSelect(){
-      this.$store.dispatch('loadCitys', this.code)
-      // console.log(this.$refs.region.value)
-      // console.log(this.code)
-    }
+    ...mapActions(['loadCitys', 'loadRegions'])
   },
-  computed: mapGetters(["regions", "citys", "showCitys"]),
+  computed: {
+    ...mapGetters(["regions", "citys", "showCitys"]),
+  },
   mounted() {
-    // console.log('mounted region');
-    // this.$store.dispatch('loadRegions')
-  }
+    this.loadRegions(this.country_code);
+    this.loadCitys(this.region_code);
+  },
 };
 </script>
