@@ -6,12 +6,18 @@ const store = {
     countrys: [],
     regions: [],
     citys: [],
+    isGuest: true,
+    username: '',
+    avatarPath: '',
   },
   getters: {
     modal: (state) => state.modal,
     countrys: (state) => state.countrys,
     regions: (state) => state.regions,
     citys: (state) => state.citys,
+    isGuest: (state) => state.isGuest,
+    username: (state) => state.username,
+    avatarPath: (state) => state.avatarPath,
   },
   mutations: {
     showCallModal(state) {
@@ -34,10 +40,32 @@ const store = {
     },
     clearCitys(state){
       state.citys = [];
-    }
+    },
+    // setGuest(state) {
+    //   state.isGuest = true;
+    // },
+    setUser(state, response) {
+      if(response.isGuest){
+        state.isGuest = true;
+      }else{
+        state.isGuest = false;
+        state.username = response.username;
+        state.avatarPath = response.avatarPath;
+      }
+    },
   },
   actions: {
-    async loadCountrys(context, code) {
+    async loadUser(context){
+      let url = "/user";
+      let response = await fetch(url);
+      response = await response.json();
+      // let isGuest = response.isGuest;
+      // let username = response.username;
+      // let avatarPath = response.avatarPath;
+      // console.log(avatarPath);
+      context.commit("setUser", response);
+    },
+    async loadCountrys(context) {
       let url = "/country";
       let response = await fetch(url);
       response = await response.json();

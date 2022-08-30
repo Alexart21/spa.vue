@@ -11,14 +11,61 @@
     <a href="https://policies.google.com/terms">условиями применения</a>.
   </small>
     <br>
-    <div class="d-flex justify-content-center user-block">
+    <div v-if="isGuest" class="d-flex justify-content-center user-block">
       <div>
         <div class="no-avatar"></div>
       </div>&nbsp;&nbsp;&nbsp;
       <div><a class="text-dark" href="/user/login">вход</a></div>&nbsp;&nbsp;
       <div><a class="text-dark" href="/user/signup">регистрация</a></div>
     </div>
+    <div v-else class="d-flex justify-content-center user-block">
+      <div><a href="/user-settings" title="личный кабинет"><img :src="avatarPath" alt="" class="avatar rounded-circle img-thumbnail"></a></div>
+      &nbsp;&nbsp;<div class="username"><a href="/user-settings" title="личный кабинет" class="text-dark">{{ username }}</a></div>
+      <div>&nbsp;&nbsp;
+        <!-- <a href="/user/logout" data-method="post"><span title="выйти">выход</span></a> -->
+        <form name="logout" @submit.prevent="logout" action="/user/logout" method="post" style="display: inline">
+          <input type="hidden" ref="csrf" value="">
+          <input type="submit" value="выход" style="display: inline;background: transparent">
+        </form>
+        </div>
+    </div>
     <router-link :to="{name: 'location'}" >Select location
               </router-link>
   </footer>
 </template>
+<script>
+function readCookie(name) {
+  const matches = document.cookie.match(
+    new RegExp(
+      "(?:^|; )" +
+        name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
+        "=([^;]*)"
+    )
+  );
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+//
+import { mapGetters, mapActions } from "vuex";
+export default {
+  data() {
+    return {
+    };
+  },
+  methods: {
+    ...mapActions(["loadUser"]),
+    logout(){
+      let csrf = this.$refs.csrf;
+      csrf.name =  readCookie("csrf_param");
+      csrf.value =  readCookie("csrf_token");
+      let form = document.forms.logout;
+      form.submit();
+    }
+  },
+  computed: {
+    ...mapGetters(["isGuest", "username", "avatarPath"]),
+  },
+  mounted() {
+   this.loadUser();
+  },
+}
+</script>

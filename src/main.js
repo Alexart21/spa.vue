@@ -29,4 +29,7 @@ createApp(App)
 import './assets/css/bootstrap.min.css';
 import './assets/css/style.css';
 import './assets/css/animate.min.css';
+// import './assets/js/bootstrap.min.js';
+// import './assets/js/jquery.min.js';
+// import './assets/js/bootstrap.bundle.js';
 
