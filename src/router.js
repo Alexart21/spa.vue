@@ -6,7 +6,7 @@ import Prodvijenie from '@/components/pages/Prodvijenie';
 import Portfolio from '@/components/pages/Portfolio';
 import Contacts from '@/components/pages/Contacts';
 import Parsing from '@/components/pages/Parsing';
-import Region from '@/components/pages/Region';
+import Location from '@/components/pages/Location';
 import AppE404 from '@/components/pages/E404';
 
 const routes = [
@@ -76,9 +76,9 @@ const routes = [
     component: Prodvijenie
   },
   {
-    name: 'region',
-    path: '/region',
-    component: Region
+    name: 'location',
+    path: '/location',
+    component: Location
   },
   {
     path: '/:any(.*)', // .*
