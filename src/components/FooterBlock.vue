@@ -34,25 +34,13 @@
   </footer>
 </template>
 <script>
-function readCookie(name) {
-  const matches = document.cookie.match(
-    new RegExp(
-      "(?:^|; )" +
-        name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
-        "=([^;]*)"
-    )
-  );
-  return matches ? decodeURIComponent(matches[1]) : undefined;
-}
-//
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
     };
   },
   methods: {
-    // ...mapActions(["loadUser"]),
     // кнопка "выйти" должна быть методом POST
     logout(){
       let csrf = this.$refs.csrf;

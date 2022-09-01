@@ -64,24 +64,28 @@ const store = {
     },
   },
   actions: {
+    // данные пользователя если авторизован
     async loadUser({ commit }){
       let url = "/user";
       let response = await fetch(url);
       response = await response.json();
       commit("setUser", response);
     },
+    // список стран
     async loadCountrys({ commit }) {
       let url = "/country";
       let response = await fetch(url);
       response = await response.json();
       commit("setCountrys", response);
     },
+    // регионы для выбранной страны
     async loadRegions({ commit }, code) {
       let url = "/region?code=" + code;
       let response = await fetch(url);
       response = await response.json();
       commit("setRegions", response);
     },
+    // города для выбранного региона
     async loadCitys({ commit }, code) {
       let url = "/city?code=" + code;
       let response = await fetch(url);

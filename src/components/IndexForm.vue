@@ -79,14 +79,7 @@
   </form>
 </template>
 <script>
-function readCookie(name) {
-  const matches = document.cookie.match(new RegExp(
-      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-  ));
-  return matches ? decodeURIComponent(matches[1]) : undefined;
-}
-//
-import useValidate from '@vuelidate/core'
+import useValidate from '@vuelidate/core';
 import { required, email, minLength, maxLength, alfa } from '@vuelidate/validators'
 //
 export default {
@@ -115,7 +108,6 @@ export default {
         statusText: '',
         errArr: [],
         isOk: true,
-        // csrfToken: readCookie('csrf_token'),
       }
     },
   validations() {
