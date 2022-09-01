@@ -18,7 +18,7 @@
       <div><a class="text-dark" href="/user/login">вход</a></div>&nbsp;&nbsp;
       <div><a class="text-dark" href="/user/signup">регистрация</a></div>
     </div>
-    <div v-else class="d-flex justify-content-center user-block">
+    <div v-else-if="userStatus == 10" class="d-flex justify-content-center user-block">
       <div><a href="/user-settings" title="личный кабинет"><img :src="avatarPath" alt="" class="avatar rounded-circle img-thumbnail"></a></div>
       &nbsp;&nbsp;<div class="username"><a href="/user-settings" title="личный кабинет" class="text-dark">{{ username }}</a></div>
       <div>&nbsp;&nbsp;
@@ -52,7 +52,8 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["loadUser"]),
+    // ...mapActions(["loadUser"]),
+    // кнопка "выйти" должна быть методом POST
     logout(){
       let csrf = this.$refs.csrf;
       csrf.name =  readCookie("csrf_param");
@@ -62,10 +63,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["isGuest", "username", "avatarPath"]),
+    ...mapGetters(["isGuest", "username", "userStatus", "avatarPath"]),
   },
   mounted() {
-   this.loadUser();
+   // loadUser вызывается в main.js 
+  //  this.loadUser();
   },
 }
 </script>

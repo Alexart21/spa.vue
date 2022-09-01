@@ -17,19 +17,10 @@ createApp(App)
     .use(store)
     .use(router)
     .component('fa-icon', FontAwesomeIcon)
-    // .use(Vuelidate)
-    // .use(VueReCaptcha, {
-    //     siteKey: '6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC',
-    //     loaderOptions: {
-    //       useRecaptchaNet: true
-    //     }
-    //   })
     .mount('#app');
+
+store.dispatch('loadUser');
 
 import './assets/css/bootstrap.min.css';
 import './assets/css/style.css';
-import './assets/css/animate.min.css';
-// import './assets/js/bootstrap.min.js';
-// import './assets/js/jquery.min.js';
-// import './assets/js/bootstrap.bundle.js';
-
+import './assets/css/animate.min.css'

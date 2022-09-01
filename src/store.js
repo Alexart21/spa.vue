@@ -8,6 +8,9 @@ const store = {
     citys: [],
     isGuest: true,
     username: '',
+    userEmail: '',
+    userRole: '',
+    userStatus: '',
     avatarPath: '',
   },
   getters: {
@@ -17,6 +20,9 @@ const store = {
     citys: (state) => state.citys,
     isGuest: (state) => state.isGuest,
     username: (state) => state.username,
+    userEmail: (state) => state.userEmail,
+    userRole: (state) => state.userRole,
+    userStatus: (state) => state.userStatus,
     avatarPath: (state) => state.avatarPath,
   },
   mutations: {
@@ -50,38 +56,37 @@ const store = {
       }else{
         state.isGuest = false;
         state.username = response.username;
+        state.userEmail = response.email;
+        state.userRole = response.role;
+        state.userStatus = response.status;
         state.avatarPath = response.avatarPath;
       }
     },
   },
   actions: {
-    async loadUser(context){
+    async loadUser({ commit }){
       let url = "/user";
       let response = await fetch(url);
       response = await response.json();
-      // let isGuest = response.isGuest;
-      // let username = response.username;
-      // let avatarPath = response.avatarPath;
-      // console.log(avatarPath);
-      context.commit("setUser", response);
+      commit("setUser", response);
     },
-    async loadCountrys(context) {
+    async loadCountrys({ commit }) {
       let url = "/country";
       let response = await fetch(url);
       response = await response.json();
-      context.commit("setCountrys", response);
+      commit("setCountrys", response);
     },
-    async loadRegions(context, code) {
+    async loadRegions({ commit }, code) {
       let url = "/region?code=" + code;
       let response = await fetch(url);
       response = await response.json();
-      context.commit("setRegions", response);
+      commit("setRegions", response);
     },
-    async loadCitys(context, code) {
+    async loadCitys({ commit }, code) {
       let url = "/city?code=" + code;
       let response = await fetch(url);
       response = await response.json();
-      context.commit("setCitys", response);
+      commit("setCitys", response);
     },
   },
   strict: process.env.NODE_ENV !== "production",
