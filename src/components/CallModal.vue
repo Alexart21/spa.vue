@@ -189,30 +189,12 @@ export default {
       document.forms.callForm.reset();
       this.hideStatus();
     },
-    async sendForm() {
-      const isFormCorrect = await this.v$.$validate();
-      if (!isFormCorrect) {
-        alert("Заполните форму корректными данными!");
-        // this.v$.$reset();
-        return;
-      }
+    async fetchData(){
       let form = document.forms.callForm;
-      //
-      await grecaptcha.ready(function () {
-        // сам скрипт с google подключается в щаблоне views/layout/spa.php
-        grecaptcha
-          .execute("6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC", {
-            action: "call",
-          })
-          .then(function (token) {
-            let inp = document.getElementById("callform-recaptcha");
-            inp.value = token;
-          });
-      });
-      //
       let formData = new FormData(form);
       formData.append(readCookie("csrf_param"), readCookie("csrf_token"));
-      (this.isOk = true), (this.statusText = "Отправка...");
+      this.isOk = true;
+      this.statusText = "Отправка...";
       this.errArr = [];
       const url = "/call";
       let response = await fetch(url, {
@@ -245,6 +227,28 @@ export default {
         this.statusText = "Произошла ошибка!";
         console.log(response);
       }
+    },
+    async sendForm() {
+      const isFormCorrect = await this.v$.$validate();
+      if (!isFormCorrect) {
+        alert("Заполните форму корректными данными!");
+        // this.v$.$reset();
+        return;
+      }
+      // привязываем контекст 
+      let that = this;
+      await grecaptcha.ready(function () {
+        // сам скрипт с google подключается в щаблоне views/layout/spa.php
+        grecaptcha
+          .execute("6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC", {
+            action: "call",
+          })
+          .then(function (token) {
+            let inp = document.getElementById("callform-recaptcha");
+            inp.value = token;
+            that.fetchData();
+          });
+      });
     },
   },
 };
