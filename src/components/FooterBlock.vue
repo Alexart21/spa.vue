@@ -25,7 +25,7 @@
         <!-- <a href="/user/logout" data-method="post"><span title="выйти">выход</span></a> -->
         <form name="logout" @submit.prevent="logout" action="/user/logout" method="post" style="display: inline">
           <input type="hidden" ref="csrf" value="">
-          <input type="submit" value="выход" style="display: inline;background: transparent">
+          <button type="submit" title="выход" style="display: inline;background: transparent;transform: rotateZ(45deg)"><fa-icon icon="external-link-alt" /></button>
         </form>
         </div>
     </div>
