@@ -200,8 +200,6 @@ export default {
       let formData = new FormData(form);
       // куки установлены в шаблоне views/layout/spa.php
       formData.append(readCookie("csrf_param"), readCookie("csrf_token"));
-      this.isOk = true;
-      this.statusText = "Отправка...";
       this.errArr = [];
       const url = "/index";
       let response = await fetch(url, {
@@ -243,20 +241,28 @@ export default {
         // this.v$.$reset();
         return;
       }
+      this.isOk = true;
+      this.statusText = "Отправка...";
       // привязываем контекст
       let that = this;
-      grecaptcha.ready(async function () {
-        // сам скрипт с google подключается в щаблоне views/layout/spa.php
-        grecaptcha
-          .execute("6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC", {
-            action: "index",
-          })
-          .then(function (token) {
-            let inp = document.getElementById("indexform-recaptcha");
-            inp.value = token;
-            that.fetchData();
-          });
-      });
+      try {
+        grecaptcha.ready(function () {
+          // сам скрипт с google подключается в щаблоне views/layout/spa.php
+          grecaptcha
+            .execute("6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC", {
+              action: "index",
+            })
+            .then(function (token) {
+              let inp = document.getElementById("indexform-recaptcha");
+              inp.value = token;
+              that.fetchData();
+            });
+        });
+      } catch (error) {
+        this.isOk = false;
+        this.statusText = "Ошибка ReCaptcha!";
+        console.log(error);
+      }
     },
   },
   created() {},
