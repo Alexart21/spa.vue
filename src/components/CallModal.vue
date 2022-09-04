@@ -186,8 +186,10 @@ export default {
       this.statusText = "";
     },
     clearForm() {
-      document.forms.callForm.reset();
-      this.hideStatus();
+        this.hideStatus();
+        this.name = '';
+        this.tel = '';
+        this.v$.$reset(); // иначе выбрасывает валидацию что поля пустые
     },
     async fetchData() {
       let form = document.forms.callForm;
@@ -209,7 +211,7 @@ export default {
         if (result.status) {
           this.statusText = this.statusText =
             "Спасибо, данные приняты. Мы с Вами свяжемся";
-          setTimeout(this.clearForm, 12000);
+          setTimeout(this.clearForm, 4000);
           // console.log(result)
         } else {
           this.isOk = false;
@@ -254,6 +256,8 @@ export default {
         this.isOk = false;
         this.statusText = "Ошибка ReCaptcha!";
         console.log(error);
+        // setTimeout(this.clearForm, 4000);
+        setTimeout(this.hideStatus, 4000);
       }
     },
   },
