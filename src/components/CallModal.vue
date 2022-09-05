@@ -174,7 +174,7 @@ export default {
         required,
         minLength: minLength(3),
         maxLength: maxLength(30),
-        alpha: (val) => /^[а-яё]*$/i.test(val),
+        alpha: (val) => /^[А-Яа-яё -]*$/i.test(val),
       },
       tel: {
         required,
@@ -231,7 +231,6 @@ export default {
     async sendForm() {
       const isFormCorrect = await this.v$.$validate();
       if (!isFormCorrect) {
-        alert("Заполните форму корректными данными!");
         // this.v$.$reset();
         return;
       }
