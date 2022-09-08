@@ -1,8 +1,8 @@
 import {createApp} from "vue";
 
-import App from './App';
-import store from './store';
-import router from './router';
+import App from '@/App';
+import store from '@/store';
+import router from '@/router';
 // import { VueReCaptcha } from 'vue-recaptcha-v3'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
