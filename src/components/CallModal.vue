@@ -176,7 +176,7 @@ export default {
         required,
         minLength: minLength(3),
         maxLength: maxLength(30),
-        alpha: (val) => /^[А-Яа-яё -]*$/i.test(val),
+        alpha: (val) => /^[А-Яа-яё -][А-Яа-яё -][А-Яа-яё -]*$/i.test(val),
       },
       tel: {
         required,
