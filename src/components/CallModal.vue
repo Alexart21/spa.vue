@@ -80,7 +80,9 @@
                 class="text-danger"
               >
                 <span v-if="error.$property === 'tel'">
+                  <span v-if="error.$validator === 'required'">
                   Номер телефона обязателен
+                </span>
                 </span>
               </p>
             </div>
@@ -253,7 +255,7 @@ export default {
         });
       } catch (error) {
         this.isOk = false;
-        this.statusText = "Ошибка ReCaptcha!";
+        this.statusText = "Ошибка ReCaptcha! Попробуйте повторить попытку.";
         console.log(error);
         // setTimeout(this.clearForm, 4000);
         setTimeout(this.hideStatus, 4000);

@@ -207,7 +207,7 @@ export default {
       // куки установлены в шаблоне views/layout/spa.php
       formData.append(readCookie("csrf_param"), readCookie("csrf_token"));
       this.errArr = [];
-      const url = "/index";
+      const url = "/form";
       let response = await fetch(url, {
         method: "POST",
         body: formData,
@@ -265,7 +265,7 @@ export default {
         });
       } catch (error) {
         this.isOk = false;
-        this.statusText = "Ошибка ReCaptcha!";
+        this.statusText = "Ошибка ReCaptcha! Попробуйте повторить попытку.";
         console.log(error);
         // setTimeout(this.clearForm, 4000);
         setTimeout(this.hideStatus, 4000);
