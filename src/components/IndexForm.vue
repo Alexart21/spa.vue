@@ -13,7 +13,7 @@
       <input
         @click="choiceField"
         type="text"
-        v-model.lazy="name"
+        v-model.lazy.trim="name"
         @focus="v$.$reset()"
         @blur="v$.name.$touch()"
         name="IndexForm[name]"
@@ -43,7 +43,7 @@
         @click="choiceField"
         type="text"
         name="IndexForm[email]"
-        v-model.lazy="email"
+        v-model.lazy.trim="email"
         @focus="v$.$reset()"
         @blur="v$.email.$touch()"
         tabindex="2"
@@ -63,7 +63,7 @@
       <input
         v-phone
         placeholder="+7(___) ___-__-__"
-        v-model.lazy="tel"
+        v-model.lazy.trim="tel"
         @focus="choiceField"
         type="text"
         name="IndexForm[tel]"
@@ -75,7 +75,7 @@
       <label for="indexform-text">Текст</label>
       <textarea
         @click="choiceField"
-        v-model.lazy="text"
+        v-model.lazy.trim="text"
         @focus="v$.$reset()"
         @blur="v$.text.$touch()"
         id="msg"

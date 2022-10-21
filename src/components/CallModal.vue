@@ -30,7 +30,7 @@
           >
             <div class="form-group">
               <input
-                v-model.lazy="name"
+                v-model.lazy.trim="name"
                 @focus="v$.$reset()"
                 @blur="v$.name.$touch()"
                 type="text"
@@ -65,7 +65,7 @@
                 >Номер телефона</label
               >
               <input
-                v-model.lazy="tel"
+                v-model.lazy.trim="tel"
                 @focus="v$.$reset()"
                 @blur="v$.tel.$touch()"
                 v-phone
