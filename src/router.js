@@ -7,6 +7,7 @@ import Portfolio from '@/components/pages/Portfolio';
 import Contacts from '@/components/pages/Contacts';
 import Parsing from '@/components/pages/Parsing';
 import Location from '@/components/pages/Location';
+import Address from '@/components/pages/Address';
 import AppE404 from '@/components/pages/E404';
 
 const routes = [
@@ -79,6 +80,11 @@ const routes = [
     name: 'location',
     path: '/location',
     component: Location
+  },
+  {
+    name: 'address',
+    path: '/address',
+    component: Address
   },
   {
     path: '/:any(.*)', // .*
