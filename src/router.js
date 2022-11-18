@@ -8,6 +8,7 @@ import Contacts from '@/components/pages/Contacts';
 import Parsing from '@/components/pages/Parsing';
 import Location from '@/components/pages/Location';
 import Address from '@/components/pages/Address';
+import Scroll from '@/components/pages/Scroll';
 import AppE404 from '@/components/pages/E404';
 
 const routes = [
@@ -85,6 +86,11 @@ const routes = [
     name: 'address',
     path: '/address',
     component: Address
+  },
+  {
+    name: 'scroll',
+    path: '/scroll',
+    component: Scroll
   },
   {
     path: '/:any(.*)', // .*

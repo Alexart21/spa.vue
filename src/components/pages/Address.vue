@@ -1,6 +1,6 @@
 <style>
     .d-list, .d-list input,  .d-list datalist, .d-list option{
-        width: 500px;
+        width: 100%;
         min-width: 400px;
     }
     .d-list input, .d-list input:focus{
@@ -31,6 +31,9 @@
         res: '',
         q: '',
         opt: [],
+        url: process.env.VUE_APP_DADATA_URL,
+        token: process.env.VUE_APP_DADATA_TOKEN,
+        secret: process.env.VUE_APP_DADATA_SECRET,
       };
     },
     methods: {
@@ -40,25 +43,17 @@
       },
       async fetchData(){
         if(this.q.length > 3){
-          // console.log(this.q)
-          let url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
-          let token = "570d95978c2db5381256783439e3ea14984c7e2b";
-          let secret = "23138042db05223b5c7dd18d8c2d222c61c9d398";
-          let query = this.q;
-          // query = "москва хабар";
-          // console.log(query);
-          // return;
           let options = {
               method: "POST",
               // mode: "cors",
               headers: {
                   "Content-Type": "application/json",
-                  "Authorization": "Token " + token,
-                  "X-Secret": secret
+                  "Authorization": "Token " + this.token,
+                  "X-Secret": this.secret
             },
-            body: JSON.stringify({query: query})
+            body: JSON.stringify({query: this.q})
           };
-          await fetch(url, options)
+          await fetch(this.url, options)
           .then(response => response.json())
           .then(result => {
             console.log(result.suggestions);
