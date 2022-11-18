@@ -41,7 +41,7 @@ export default{
                 this.loader = true;
                 this.stop = true; // запираем а то скрол дергается и несколько запросов летит
                 // чтобы не оправлять следующий запрос не обработав предидущий
-            let url = "https://spa.local/inf?offset=" + this.offset + '&step=' + this.step;
+            let url = "/inf?offset=" + this.offset + '&step=' + this.step;
             let options = {
                 mode: "no-cors",
             };
