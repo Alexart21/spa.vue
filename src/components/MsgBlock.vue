@@ -79,8 +79,7 @@ export default {
     displayTooltip() {
       setTimeout(() => {
         this.showTooltip = true;
-      }, 6000);
-      if (!readCookie('msg')) { // только при свернутом окошке и нету куки (не заходил больше часа или сколько там)
+        //
         let promise = document.querySelector('audio').play();
         if (promise !== undefined) {
           promise.then(_ => {
@@ -89,9 +88,8 @@ export default {
             console.log(err.message);
           });
         }
-        this.showTooltip = true;
-        document.cookie = "msg=1;max-age=3600;path=/"; // куку на час(в течении этого времени больше не будет всплывающих подсказок)
-      }
+        //
+      }, 6000);
     },
     hideTooltip() {
       this.showTooltip = false;
