@@ -5,5 +5,5 @@ module.exports = defineConfig({
 	publicPath: '/',
 	// productionSourceMap: true,
 	filenameHashing: false,
-	assetsDir: "spa_assets",
+	assetsDir: "spa",
 })

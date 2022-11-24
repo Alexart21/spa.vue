@@ -20,6 +20,7 @@ createApp(App)
     .component('fa-icon', FontAwesomeIcon)
     .mount('#app');
 
+store.dispatch('loadCsrf');
 store.dispatch('loadUser');
 
 import './assets/css/bootstrap.min.css';

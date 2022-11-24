@@ -15,16 +15,16 @@
       <div>
         <div class="no-avatar"></div>
       </div>&nbsp;&nbsp;&nbsp;
-      <div><a class="text-dark" href="/user/login">вход</a></div>&nbsp;&nbsp;
-      <div><a class="text-dark" href="/user/signup">регистрация</a></div>
+      <div><a class="text-dark" href="/login">вход</a></div>&nbsp;&nbsp;
+      <div><a class="text-dark" href="/register">регистрация</a></div>
     </div>
     <div v-else-if="userStatus == 10" class="d-flex justify-content-center user-block">
-      <div><a href="/user-settings" title="личный кабинет"><img :src="avatarPath" alt="" class="avatar rounded-circle img-thumbnail"></a></div>
-      &nbsp;&nbsp;<div class="username"><a href="/user-settings" title="личный кабинет" class="text-dark">{{ username }}</a></div>
+      <div><a href="/user/profile" title="личный кабинет"><img :src="avatarPath" alt="" class="avatar rounded-circle img-thumbnail"></a></div>
+      &nbsp;&nbsp;<div class="username"><a href="/user/profile" title="личный кабинет" class="text-dark">{{ username }}</a></div>
       <div>&nbsp;&nbsp;
         <!-- <a href="/user/logout" data-method="post"><span title="выйти">выход</span></a> -->
-        <form name="logout" @submit.prevent="logout" action="/user/logout" method="post" style="display: inline">
-          <input type="hidden" ref="csrf" value="">
+        <form name="logout" @submit.prevent="logout" action="/logout" method="post" style="display: inline">
+          <input type="hidden" name="_token" ref="csrf_input" value="csrf">
           <button type="submit" title="выход" style="display: inline;background: transparent;transform: rotateZ(45deg)"><fa-icon icon="external-link-alt" /></button>
         </form>
         </div>
@@ -41,17 +41,16 @@ export default {
     };
   },
   methods: {
-    // кнопка "выйти" должна быть методом POST
+    // кнопка "выйти" должна быть методом POST и с ткеном
     logout(){
-      let csrf = this.$refs.csrf;
-      csrf.name =  readCookie("csrf_param");
-      csrf.value =  readCookie("csrf_token");
+      let csrf_input = this.$refs.csrf_input;
+      csrf_input.value =  this.csrf;
       let form = document.forms.logout;
       form.submit();
     }
   },
   computed: {
-    ...mapGetters(["isGuest", "username", "userStatus", "avatarPath"]),
+    ...mapGetters(["isGuest", "username", "userStatus", "avatarPath", "csrf"]),
   },
   mounted() {
    // loadUser вызывается в main.js 

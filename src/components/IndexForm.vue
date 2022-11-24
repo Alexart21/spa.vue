@@ -16,7 +16,7 @@
         v-model.lazy.trim="name"
         @focus="v$.$reset()"
         @blur="v$.name.$touch()"
-        name="IndexForm[name]"
+        name="name"
         tabindex="1"
       />
 
@@ -42,7 +42,7 @@
       <input
         @click="choiceField"
         type="text"
-        name="IndexForm[email]"
+        name="email"
         v-model.lazy.trim="email"
         @focus="v$.$reset()"
         @blur="v$.email.$touch()"
@@ -66,7 +66,7 @@
         v-model.lazy.trim="tel"
         @focus="choiceField"
         type="text"
-        name="IndexForm[tel]"
+        name="tel"
         tabindex="3"
       />
     </div>
@@ -80,7 +80,7 @@
         @blur="v$.text.$touch()"
         id="msg"
         class="form-control"
-        name="IndexForm[text]"
+        name="body"
         tabindex="4"
       ></textarea>
 
@@ -98,7 +98,7 @@
       </p>
     </div>
 
-    <input type="hidden" id="indexform-recaptcha" name="IndexForm[reCaptcha]" />
+    <input type="hidden" id="indexform-recaptcha" name="reCaptcha" />
 
     <div class="form-group">
       <button type="submit" class="btn success-button">Отправить</button>
@@ -119,6 +119,7 @@
 </template>
 <script>
 import useValidate from "@vuelidate/core";
+import { mapGetters } from "vuex";
 import {
   required,
   email,
@@ -128,6 +129,7 @@ import {
 } from "@vuelidate/validators";
 //
 export default {
+  computed: mapGetters(["csrf"]),
   directives: {
     // маска ввода +7 (999) 999-99-99
     phone: {
@@ -204,10 +206,9 @@ export default {
     async fetchData() {
       const form = document.forms.indexForm;
       let formData = new FormData(form);
-      // куки установлены в шаблоне views/layout/spa.php
-      formData.append(readCookie("csrf_param"), readCookie("csrf_token"));
+      formData.append('_token', this.csrf);
       this.errArr = [];
-      const url = "/form";
+      const url = "/api/mail";
       let response = await fetch(url, {
         method: "POST",
         body: formData,
@@ -217,20 +218,16 @@ export default {
         },
       });
       let result = await response.json(); // с сервера json вида {status: true, msg:{}}
-      result = JSON.parse(result);
       if (response.ok) {
-        if (result.status) {
+        if (result.success) {
           this.statusText = "Спасибо, данные приняты. Мы с Вами свяжемся";
           setTimeout(this.clearForm, 4000);
-          // setTimeout(this.hideStatus, 4000);
-          // console.log(result)
         } else {
           this.isOk = false;
-          let txt = "";
           this.statusText = "Ошибка! Что то пошло не так...";
-          // let {msg} = result.msg; //
-          // console.log(result.msg)
-          for (let [key, value] of Object.entries(result.msg)) {
+          console.log(response);
+          console.log(result);
+          for (let [key, value] of Object.entries(result.errors)) {
             this.errArr.push(value);
           }
         }

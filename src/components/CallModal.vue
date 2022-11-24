@@ -35,7 +35,7 @@
                 @blur="v$.name.$touch()"
                 type="text"
                 class="form-control"
-                name="callForm[name]"
+                name="name"
                 placeholder="Ваше имя"
               />
               <p
@@ -61,7 +61,7 @@
             </div>
 
             <div class="form-group">
-              <label class="control-label" for="callform-tel"
+              <label class="control-label" for="tel"
                 >Номер телефона</label
               >
               <input
@@ -72,7 +72,7 @@
                 placeholder="+7(___) ___-__-__"
                 type="text"
                 class="form-control"
-                name="callForm[tel]"
+                name="tel"
               />
               <p
                 v-for="error of v$.$errors"
@@ -86,11 +86,10 @@
                 </span>
               </p>
             </div>
-
             <input
               id="callform-recaptcha"
               type="hidden"
-              name="callForm[reCaptcha]"
+              name="reCaptcha"
             />
 
             <div class="form-group">
@@ -133,7 +132,7 @@ import {
 } from "@vuelidate/validators";
 //
 export default {
-  computed: mapGetters(["modal"]),
+  computed: mapGetters(["modal", "csrf"]),
   directives: {
     // маска ввода +7 (999) 999-99-99
     phone: {
@@ -196,9 +195,9 @@ export default {
     async fetchData() {
       let form = document.forms.callForm;
       let formData = new FormData(form);
-      formData.append(readCookie("csrf_param"), readCookie("csrf_token"));
+      formData.append('_token', this.csrf);
       this.errArr = [];
-      const url = "/call";
+      const url = "/api/zvonok";
       let response = await fetch(url, {
         method: "POST",
         body: formData,
@@ -208,25 +207,23 @@ export default {
         },
       });
       let result = await response.json(); // с сервера json вида {status: true, msg:{}}
-      result = JSON.parse(result);
       if (response.ok) {
-        if (result.status) {
-          this.statusText = this.statusText =
-            "Спасибо, данные приняты. Мы с Вами свяжемся";
+        if (result.success) {
+          this.statusText = "Спасибо, данные приняты. Мы с Вами свяжемся";
           setTimeout(this.clearForm, 4000);
           // console.log(result)
         } else {
           this.isOk = false;
-          let txt = "";
           this.statusText = "Ошибка! Что то пошло не так...";
-          // console.log(result.msg)
-          for (let [key, value] of Object.entries(result.msg)) {
+          console.log(response);
+          console.log(result);
+          for (let [key, value] of Object.entries(result.errors)) {
             this.errArr.push(value);
           }
         }
       } else {
-        this.isOk = false;
         this.statusText = "Произошла ошибка!";
+        this.isOk = false;
         console.log(response);
       }
     },

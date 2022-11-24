@@ -12,6 +12,7 @@ const store = {
     userRole: '',
     userStatus: '',
     avatarPath: '',
+    csrf: '',
   },
   getters: {
     modal: (state) => state.modal,
@@ -24,6 +25,7 @@ const store = {
     userRole: (state) => state.userRole,
     userStatus: (state) => state.userStatus,
     avatarPath: (state) => state.avatarPath,
+    csrf: (state) => state.csrf,
   },
   mutations: {
     showCallModal(state) {
@@ -47,6 +49,9 @@ const store = {
     clearCitys(state){
       state.citys = [];
     },
+    setCsrf(state, response) {
+      state.csrf = response.csrf;
+    },
     // setGuest(state) {
     //   state.isGuest = true;
     // },
@@ -64,6 +69,12 @@ const store = {
     },
   },
   actions: {
+    async loadCsrf({ commit }){
+      let url = "/csrf";
+      let response = await fetch(url);
+      response = await response.json();
+      commit("setCsrf", response);
+    },
     // данные пользователя если авторизован
     async loadUser({ commit }){
       let url = "/user";
