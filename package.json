@@ -20,25 +20,18 @@
     "find-cache-dir": "^3.3.2",
     "jquery": "^3.6.0",
     "maska": "^1.5.0",
+    "v3-infinite-loading": "^1.2.2",
     "vue": "^3.2.31",
     "vue-axios": "^3.4.1",
-    "vue-recaptcha-v3": "^2.0.1",
     "vue-router": "^4.0.14",
-    "vue3-carousel": "^0.1.38",
     "vue3-datepicker": "^0.3.4",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~5.0.4",
-    "@vue/cli-service": "~5.0.4",
+    "@vue/cli-plugin-babel": "*",
+    "@vue/cli-service": "*",
     "@vue/compiler-sfc": "*",
-    "node-sass": "^7.0.1",
-    "sass-loader": "^12.6.0"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead",
-    "not ie 11"
-  ]
+    "node-sass": "*",
+    "sass-loader": "*"
+  }
 }

@@ -32,7 +32,7 @@
             </li>
           </ul>
             <div @click="this.$store.commit('showCallModal')" class="call-btn">
-              <span class="call pulse-button">обратный звонок</span>
+              <span class="pulse-button">обратный звонок</span>
             </div>
         </div>
       </div>

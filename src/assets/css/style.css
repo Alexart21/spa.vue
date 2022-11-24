@@ -1,4 +1,6 @@
 :root {
+    --max-container-width: 1900px;
+    /**/
     --logo-color: #e61b05;
     --btn-color: #FD9638;
     --viber-color: #774E98;
@@ -111,21 +113,21 @@ textarea {
 /* call btn */
 /* 10 */
 
-.call-btn > span {
+.call-btn > .pulse-button {
     display: block;
     height: 100% !important;
     color: #222 !important;
-    padding: 4px;
-    /*font-family: latoBold;*/
+    padding: 8px;
+    font-family: latoBold;
 }
-
-.call-btn > span:hover {
+/* 
+.call-btn > a:hover {
     color: #fff !important;
-}
+} */
 
 .call-btn {
-    cursor: pointer;
     /*display: inline;*/
+    cursor: pointer;
     transition: all 0.3s ease;
     letter-spacing: 1px;
     position: relative;
@@ -190,7 +192,7 @@ html, body, #container {
 #container {
     /* Новогодний понт */
     /*border-image-width: 0 10px 0 10px !important;
-    border-image-source: url("/img/girland.gif") !important;
+    border-image-source: url("./../img/girland.gif") !important;
     border-image-repeat: repeat !important;
     border-image-slice: 10;*/
     /*border: 10px solid red;*/
@@ -376,7 +378,7 @@ header {
 
 .shtorkaAnimate {
     width: 0;
-    transition: width linear .6s;
+    transition: width linear 0.4s;
 }
 
 #right {
@@ -446,8 +448,8 @@ header {
 
 #container {
     position: relative !important;
-    max-width: 1366px;
-    max-width: 1300px; /* Это для своего монитора */
+    /*max-width: 1366px;*/ /* Это для своего монитора */
+    max-width: var(--max-container-width);
     margin: auto;
 }
 
@@ -462,7 +464,7 @@ header {
     padding-bottom: 160px; /* Высота прижатого футера здесь !!! */
     overflow: hidden;
     /*background: lime;*/
-    /*background: url(/img/left.gif) repeat-y;*/
+    /*background: url(./../img/left.gif) repeat-y;*/
 }
 
 #left {
@@ -581,7 +583,8 @@ header noscript {
     z-index: 1;
     width: 100%;
     height: 150px;
-    max-width: 1300px; /* не шире блока #container */
+    /*max-width: 1300px; !* не шире блока #container *!*/
+    max-width: var(--max-container-width); /* не шире блока #container */
 }
 
 #header_shadow:before, #header_shadow:after {
@@ -615,25 +618,9 @@ header noscript {
 #menu_outer {
     position: relative;
     width: 100%;
-    max-width: 1300px; /*  из значения max-width для блока #container */
+    /*max-width: 1300px; !*  из значения max-width для блока #container *!*/
+    max-width: var(--max-container-width); /* не шире блока #container */ /*  из значения max-width для блока #container */
     background-color: #fff;
-}
-
-.menu_outer_fixed{
-    top: 0;
-    position: fixed !important;
-    background: transparent;
-    z-index: 10;
-}
-
-.resp_fixed{
-    border: none;
-    margin-top: -20px;
-}
-
-.link_fixed{
-    color: #313A3D;
-    border-right: 1px dotted #e61b05;
 }
 
 .scrolled {
@@ -655,13 +642,9 @@ nav.resp {
     overflow: hidden;
 }
 
-.resp_fixed{
-
-}
-
 nav.resp ul {
     display: block;
-    width: 90%;
+    width: 90% !important;
     margin: 0 auto;
     list-style: none;
     overflow: hidden;
@@ -809,7 +792,7 @@ ul.highlightTextIn li a:before {
 /* Активная ссылка-левое меню */
 .link-active{
     background: #ddd;
-    /*background: url('/img/menu-bg.png');*/
+    /*background: url('./../img/menu-bg.png');*/
     border: 1px solid var(--logo-color) !important;
     /*left: 5px !important;*/
     /*bottom: 5px !important;*/
@@ -901,9 +884,13 @@ ul.highlightTextIn li a:before {
 
     .mob-menu-col {
         display: block;
-        /*background: url(/img/left_resp.gif) repeat-y;*/
+        /*background: url(./../img/left_resp.gif) repeat-y;*/
     }
 
+    #block {
+        /*background: lime;*/
+        /*background: url(data:image/gif;base64,R0lGODlhPAABAIAAAO/v7wAAACH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4zLWMwMTEgNjYuMTQ1NjYxLCAyMDEyLzAyLzA2LTE0OjU2OjI3ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDowRjExMENBNkI2RkIxMUU1OEFFOUZBRTc2RDg3MTQwMCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDowRjExMENBN0I2RkIxMUU1OEFFOUZBRTc2RDg3MTQwMCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjBGMTEwQ0E0QjZGQjExRTU4QUU5RkFFNzZEODcxNDAwIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjBGMTEwQ0E1QjZGQjExRTU4QUU5RkFFNzZEODcxNDAwIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+Af/+/fz7+vn49/b19PPy8fDv7u3s6+rp6Ofm5eTj4uHg397d3Nva2djX1tXU09LR0M/OzczLysnIx8bFxMPCwcC/vr28u7q5uLe2tbSzsrGwr66trKuqqainpqWko6KhoJ+enZybmpmYl5aVlJOSkZCPjo2Mi4qJiIeGhYSDgoGAf359fHt6eXh3dnV0c3JxcG9ubWxramloZ2ZlZGNiYWBfXl1cW1pZWFdWVVRTUlFQT05NTEtKSUhHRkVEQ0JBQD8+PTw7Ojk4NzY1NDMyMTAvLi0sKyopKCcmJSQjIiEgHx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQAAIfkEAAAAAAAsAAAAADwAAQAAAgeEj6nL7VkAADs=) repeat-y;*/
+    }
 
     #left {
         width: 60px;
@@ -983,15 +970,12 @@ ul.highlightTextIn li a:before {
         margin-top: -60px !important;
     }
 
-    
+    .tooltip-inner{
+        font-size: 180% !important;
+    }
 
     .msg-btn{
         letter-spacing: 2px;
-        position: relative;
-    }
-
-    .msg-btn-icon{
-        color: red !important;
     }
 
     .viber-bg{
@@ -1048,7 +1032,7 @@ ul.highlightTextIn li a:before {
 /* анимация AJAX загрузки */
 
 #container_loading {
-    position: absolute;
+    position: fixed;
     z-index: 10000000000;
     left: calc(100%/2 - 30px);
     top: calc(100%/2 - 30px);
@@ -1423,7 +1407,7 @@ code {
 
 /* Кнопка наверх */
 #scroller {
-    /* display: none; */
+    display: none;
     position: fixed;
     bottom: 200px;
     font-size: 50px;
@@ -1536,7 +1520,7 @@ button.close {
     background: linear-gradient(to right, rgba(102, 102, 102, 0.8) 0%, rgba(102, 102, 102, 1) 20%, rgba(68, 68, 68, 1) 50%, rgba(102, 102, 102, 1) 80%, rgba(102, 102, 102, 0.8) 98%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cc666666', endColorstr='#cc666666', GradientType=1);
     position: fixed;
-    /* visibility: hidden; */
+    visibility: hidden;
     left: -237px;
     top: 0;
     z-index: 10000 !important;
@@ -1781,7 +1765,6 @@ button.close {
 
 /*  */
 
-
 /* Слайды на стр. создание */
 .align-left {
     float: left;
@@ -1846,7 +1829,7 @@ button.close {
     height: 65px;
     margin: 0;
     padding: 18px 0;
-    padding-left: 19.5%;
+    padding-left: 20.5%;
     color: #313A3D;
     font-size: 1.5vw;
     letter-spacing: 0.05em;
@@ -1894,14 +1877,14 @@ button.close {
 }
 
 #index-form .field:hover label {
-    width: 18%;
+    width: 20%;
     background: #003333;
     color: white;
 }
 
 
 .fill{
-    width: 18% !important;
+    width: 20% !important;
     background:#003333 !important;
     color: white !important;
 }
@@ -2003,10 +1986,8 @@ button.close {
     font-size: 70%;
 }
 
-.ruble {
-    display: inline-block;
-    font-size: 120% !important;
-    padding-left: .2em;
+.fa-ruble-sign {
+    font-size: 110% !important;
     text-indent: 0;
 }
 
@@ -2016,6 +1997,7 @@ mark {
 
 /* блок с иконками мессенджеров*/
 #msg-block {
+    display: none;
     position: fixed;
     z-index: 100000;
     bottom: 0;
@@ -2025,20 +2007,14 @@ mark {
     border: 1px solid #222;
     /*background: rgba(150, 150, 150, .4);*/
     background: #f4fcff;
-    /*background: url('/img/wats-bg.gif');*/
+    /*background: url('./../img/wats-bg.gif');*/
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     box-shadow: 0 0 40px #87ffdb, 0 0 5px var(--btn-color) inset;
 }
 
-.msgOpened{
-    /* background-color: red !important; */
+.msg-opened{
     height: 350px !important;
-    background: url('./../img/wats-bg.gif');
-}
-
-.imgOpened{
-    left: calc(50% - 30px);
 }
 
 .msg-text {
@@ -2134,7 +2110,6 @@ mark {
 #msg-block > button {
     /*display: none;*/
     position: absolute;
-    z-index: 1000000000000000;
     top: 10px;
     right: 24px;
 }
@@ -2144,23 +2119,19 @@ mark {
 }
 
 /* всплывающая подсказка над чатом */
-.msg-tooltip{
-    position: absolute;
-    top: -70px;
-    width: 220px;
-    height: 80px;
-    font-size: 80%;
-
+.tooltip{
     z-index: 100001 !important;
-    font-size: 16px;
-    padding: .5em;
+}
+
+.tooltip-inner{
+    font-size: 18px;
     color: #222;
-    /* font-weight: bold; */
+    font-weight: bold;
     letter-spacing: 1px;
     background-color: #fff !important;
     border: 1px solid #222;
-    box-shadow: 0 0 3px inset var(--logo-color);
-    }
+    box-shadow: 0 0 8px inset var(--logo-color);
+}
 
 .arrow::before{
     border-top-color: #222 !important;
@@ -2193,6 +2164,8 @@ abbr{
 }
 /* Анимация кнопки обратного звонка */
 .pulse-button {
+    background: inherit;
+    line-height: 100%;
     animation: borderPulse 5s infinite ease-out;
 }
 
@@ -2296,17 +2269,28 @@ abbr{
     background-position: center center;
     background-image: url("data:image/svg+xml;charset=UTF-8,%3c?xml version='1.0' encoding='iso-8859-1'?%3e%3csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 487.6 487.6' style='fill:%23999999;' xml:space='preserve'%3e%3cg%3e%3cg%3e%3cpath d='M0,243.8c0,134.4,109.4,243.8,243.8,243.8s243.8-109.4,243.8-243.8S378.2,0,243.8,0C109.4,0,0,109.4,0,243.8z M101.9,410.8c36-24.3,66.9-39.9,76-44.4c5.5-2.7,9-8.2,9-14.4v-30.6c0-2.2-0.6-4.3-1.7-6.2c-6.2-10.5-10.5-23.1-12.7-37.4 c-0.7-4.8-4.3-8.7-8.8-9.9c-1.2-1.5-4.6-6.7-8.9-21.8c-3.4-12-3.4-17.9-3.1-20.3c3.7,0,7.3-1.7,9.6-4.7c2.6-3.3,3.3-7.7,1.9-11.6 c-4.8-13.6-5.4-27.5-1.7-41.7c3.2-13.6,10.5-26.4,21.8-38c6.1-6.5,13.1-12.3,20.6-17c0.1-0.1,0.3-0.2,0.4-0.3 c6.3-4.4,12.8-7.7,19.3-9.9h0.1c5.5-1.9,11.2-2.9,17.3-3.2c16.4-1.4,31.1,1.6,44,9.3c14.2,7.8,19.9,18,19.9,18 c2,3.8,5.8,6.3,10,6.6c0.1,0,5.5,1,10.4,7.4c5.8,7.7,14,27.7,4,76c-1.1,5.5,1.6,11,6.5,13.4c0.4,1.9,0.9,7.7-2.9,21.2 c-3.4,12-6.2,17.7-7.9,20.3c-2.1-0.3-4.4,0-6.4,0.8c-3.8,1.6-6.6,5.1-7.3,9.1c-2,11.3-5.1,21.4-9.3,30c-0.8,1.7-1.2,3.5-1.2,5.3 v35.4c0,6.2,3.4,11.7,9,14.4c9.2,4.5,40.1,20.2,76,44.4c-38.3,32.6-87.8,52.3-141.9,52.3C189.7,463.1,140.2,443.4,101.9,410.8z M243.8,24.5c120.9,0,219.3,98.4,219.3,219.3c0,57.8-22.5,110.5-59.2,149.7c-34.3-23.5-64.8-39.8-78.6-46.7v-27.4 c3.3-7.2,6-15.2,8-23.7c9.8-3.7,16.7-15.1,23.2-38c5.9-20.9,5.4-35.6-1.6-44c7.3-40.1,4-69.7-9.9-88c-7.2-9.6-15.6-13.8-21.4-15.6 c-4.1-5.8-12.4-15.2-26.2-22.8c-17.1-10.1-36.7-14.3-57.8-12.5c-8,0.4-15.9,1.9-23.6,4.5h-0.1c-8.6,2.9-17,7.2-25.1,12.8 c-9.2,5.9-17.7,12.9-25,20.6c-14.4,14.7-23.8,31.3-27.9,49c-3.8,14.6-4.2,29.2-1.1,43.6c-1.3,1-2.6,2.1-3.7,3.5 c-7.2,8.7-7.8,22.6-1.8,43.9c4,14.1,9.2,28.6,18.2,35.3c2.7,13.5,7,25.8,12.9,36.6v22.2c-13.7,6.9-44.3,23.2-78.6,46.7 c-36.7-39.2-59.3-91.9-59.3-149.7C24.5,122.9,122.9,24.5,243.8,24.5z'/%3e%3c/g%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3cg%3e%3c/g%3e%3c/svg%3e ");
 }
-
-.check-icon{
-    color: var(--logo-color);
+#logoutDialog{
+    width: 20em;
+    height: 8em;
+    border: 2px solid red;
+    border-radius: 3px;
+    box-shadow: 0 0 30px #fff;
+    left: calc(50% - 10em);
+    top: calc(50% - 4em);
+    letter-spacing: 2px;
 }
 
-.msg-icons-block{
-    display: inline-flex;
-    margin-bottom: -5px;
+#logoutDialog form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.icon-item{
-    margin: 0 8px 0 8px;
-    font-size: 30px;
+#logoutDialog form button{
+   font-weight: bold;
+   letter-spacing: 2px;
+}
+
+#logoutDialog::backdrop{
+    background: rgba(0,0,0, .7);
 }
