@@ -19,7 +19,8 @@
         name="name"
         tabindex="1"
       />
-
+      <!-- <div v-if="v$.name.$errors.length" class="errLabel"><fa-icon icon="exclamation-circle" /></div> -->
+      <div v-if="v$.name.$errors.length" class="errLabel"><mdicon name="exclamation-thick" /></div>
       <p v-for="error of v$.$errors" :key="error.$uid" class="text-danger">
         <span v-if="error.$property === 'name'">
           <span v-if="error.$validator === 'minLength'">
@@ -41,13 +42,14 @@
       <label for="indexform-email">Email</label>
       <input
         @click="choiceField"
-        type="text"
-        name="email"
-        v-model.lazy.trim="email"
         @focus="v$.$reset()"
         @blur="v$.email.$touch()"
+        type="text"
+        name="email"
+        v-model.trim="email"
         tabindex="2"
       />
+      <div v-if="v$.email.$errors.length" class="errLabel"><mdicon name="exclamation-thick" /></div>
       <p v-for="error of v$.$errors" :key="error.$uid" class="text-danger">
         <span v-if="error.$property === 'email'">
           <span v-if="error.$validator === 'email'">
@@ -75,15 +77,15 @@
       <label for="indexform-text">Текст</label>
       <textarea
         @click="choiceField"
-        v-model.lazy.trim="text"
         @focus="v$.$reset()"
         @blur="v$.text.$touch()"
+        v-model.lazy.trim="text"
         id="msg"
         class="form-control"
         name="body"
         tabindex="4"
       ></textarea>
-
+      <div v-if="v$.text.$errors.length" class="errLabel"><mdicon name="exclamation-thick" /></div>
       <p v-for="error of v$.$errors" :key="error.$uid" class="text-danger">
         <span v-if="error.$property === 'text'">
           <span v-if="error.$validator === 'minLength'">
@@ -245,19 +247,17 @@ export default {
       }
       this.isOk = true;
       this.statusText = "Отправка...";
-      // привязываем контекст
-      let that = this;
       try {
-        grecaptcha.ready(function () {
+        grecaptcha.ready(() => {
           // сам скрипт с google подключается в щаблоне views/layout/spa.php
           grecaptcha
             .execute("6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC", {
               action: "index",
             })
-            .then(function (token) {
+            .then((token) => {
               let inp = document.getElementById("indexform-recaptcha");
               inp.value = token;
-              that.fetchData();
+              this.fetchData();
             });
         });
       } catch (error) {

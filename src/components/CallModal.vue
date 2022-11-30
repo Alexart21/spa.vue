@@ -12,7 +12,7 @@
         <div class="modal-header">
           <h4 class="modal-title">Обратный звонок</h4>
           <button
-            @click="this.$store.commit('hideCallModal')"
+            @click="hideCallModal"
             type="button"
             class="close"
             data-dismiss="modal"
@@ -38,6 +38,7 @@
                 name="name"
                 placeholder="Ваше имя"
               />
+              <div v-if="v$.name.$errors.length" class="errLabel"><mdicon name="exclamation-thick" /></div>
               <p
                 v-for="error of v$.$errors"
                 :key="error.$uid"
@@ -120,7 +121,7 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 //
 import useValidate from "@vuelidate/core";
 import {
@@ -183,6 +184,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(['hideCallModal']),
     hideStatus() {
       this.statusText = "";
     },
@@ -235,19 +237,17 @@ export default {
       }
       this.isOk = true;
       this.statusText = "Отправка...";
-      // привязываем контекст
-      let that = this;
       try {
-        await grecaptcha.ready(function () {
+        await grecaptcha.ready(() => {
           // сам скрипт с google подключается в щаблоне views/layout/spa.php
           grecaptcha
             .execute("6LftRl0aAAAAAHJDSCKdThCy1TaS9OwaGNPSgWyC", {
               action: "call",
             })
-            .then(function (token) {
+            .then((token) => {
               let inp = document.getElementById("callform-recaptcha");
               inp.value = token;
-              that.fetchData();
+              this.fetchData();
             });
         });
       } catch (error) {

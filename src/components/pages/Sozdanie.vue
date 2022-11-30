@@ -2,9 +2,11 @@
   <figure class="position-relative">
     <img width="250" height="167" class="resp_img no_shadow no_border align-left img-outs1"
          src="./../../assets/img/main_img/sozdanie.png" alt="создание сайтов" title="создание сайтов">
-    <span class="fab fa-html5"></span>
-    <span class="fab fa-css3"></span>
-    <span class="fab fa-js"></span>
+    <!-- <div style="position: absolute;bottom: 0 !important;left:0 !important">
+      <mdicon name="language-html5" class="logo" width="30" height="30" />
+      <mdicon name="language-css3" class="logo" width="30" height="30" />
+      <mdicon name="code-json" class="logo" width="30" height="30" />
+    </div> -->
   </figure>
   <article>
     <h2 class="header_shadow">Создание сайтов для бизнеса и не только</h2>
@@ -38,22 +40,22 @@
     </p>
     <h3>Заказав у нас сайт визитку вы получите:</h3>
     <ul class="list list_block">
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;5-7 страниц информации на сайте</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Размещение прайс листов</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Форму обратной связи и(или) заявки на сайте</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Схему проезда до вашей организации</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Регистрацию и покупку домена</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Регистрацию в поисковых системах Яндекс и Google</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Валидный <abbr
+      <li><mdicon name="check-bold" class="check-icon" />&nbsp;&nbsp;5-7 страниц информации на сайте</li>
+      <li><mdicon name="check-bold" class="check-icon" />&nbsp;&nbsp;Размещение прайс листов</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Форму обратной связи и(или) заявки на сайте</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Схему проезда до вашей организации</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Регистрацию и покупку домена</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Регистрацию в поисковых системах Яндекс и Google</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Валидный <abbr
           title="англ. HyperText Markup Language, version 5 — язык для структурирования и представления содержимого всемирной паутины">HTML</abbr>
         код
       </li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Оптимизированную для <abbr
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Оптимизированную для <abbr
           title="англ. search engine optimization — комплекс мер по внутренней и внешней оптимизации, для поднятия позиций сайта в результатах выдачи поисковых систем">SEO</abbr>
         структуру страниц
       </li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Установку счетчика посещений</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Индивидуальный дизайн</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Установку счетчика посещений</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Индивидуальный дизайн</li>
     </ul>
     <p></p>
     <p>
@@ -86,26 +88,25 @@
       что "универсальные" cms достаточно сложны в использовании для неподготовленного человека и поэтому
       мы готовы написать для Вас систему управления контентом под Ваш конкретный сайт где внесение изменений
       будет не сложнее, чем например поменять фото в соцсетях :).<br>
-      <strong>Цена для корпоративного сайта</strong> от <span class="red">12&#8202;000</span><span
-        class="fa fa-ruble-sign"></span><br>
+      <strong>Цена для корпоративного сайта</strong> от <span class="red">12&#8202;000</span><span class="ruble">₽</span><br>
     </p>
     <h3>В цену включены:</h3>
     <ul class="list list_block">
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Индивидуальный дизайн</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;До 50 страниц информации</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Базовая <abbr
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Индивидуальный дизайн</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;До 50 страниц информации</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Базовая <abbr
           title="англ. search engine optimization — комплекс мер по внутренней и внешней оптимизации, для поднятия позиций сайта в результатах выдачи поисковых систем">SEO</abbr>
         оптимизация всех страниц
       </li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Каталог товаров и услуг</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Микроразметка для товаров и контактов</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Форма обратной связи(заявки)</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Система управления контентом</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Новости или блог</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Регистрация в поисковых системах</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Счетчик посетителей</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Настройка систем Яндекс метрика и Google analitics</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Cопровождение после сдачи в течении 3 месяцев</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Каталог товаров и услуг</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Микроразметка для товаров и контактов</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Форма обратной связи(заявки)</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Система управления контентом</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Новости или блог</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Регистрация в поисковых системах</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Счетчик посетителей</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Настройка систем Яндекс метрика и Google analitics</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Cопровождение после сдачи в течении 3 месяцев</li>
     </ul>
     <br>
     <router-link :to="{name: 'contacts'}" @click="anchors" title="заказать корпоративный сайт" class="zayavka link-anim">
@@ -128,26 +129,25 @@
       создания интернет магазина зависит от таких факторов: объема каталога товаров, интеграции с
       платежными системами, интеграции сайта с системой 1С, наличия авторизации пользователей и др.
       Сроки исполнения для <strong>интернет магазина</strong> от трех недель.
-      <strong>Цена для интернет магазина</strong> от <span class="red">20&#8202;000</span><span
-        class="fa fa-ruble-sign"></span><br>
+      <strong>Цена для интернет магазина</strong> от <span class="red">20&#8202;000</span><span class="ruble">₽</span><br>
     </p>
     <h3>Цена включает:</h3>
     <ul class="list list_block">
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Внутреннюю оптимизацию всех страниц</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Индивидуальный дизайн</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Индивидуальный дизайн</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Наполнение сайта содержимым</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Поиск по товарам</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Систему для добавления/удаления товара</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Корзину покупателя</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Удобную форму для заказа товара покупателем</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Продающие <abbr
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Внутреннюю оптимизацию всех страниц</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Индивидуальный дизайн</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Индивидуальный дизайн</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Наполнение сайта содержимым</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Поиск по товарам</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Систему для добавления/удаления товара</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Корзину покупателя</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Удобную форму для заказа товара покупателем</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Продающие <abbr
           title="англ. search engine optimization — комплекс мер по внутренней и внешней оптимизации, для поднятия позиций сайта в результатах выдачи поисковых систем">SEO</abbr>
         тексты
       </li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Счетчик посещений</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Настройку целей в Яндекс метрике</li>
-      <li><fa-icon icon="check" class="logo" />&nbsp;&nbsp;Техническое сопровождение сайта в течении 3 месяцев</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Счетчик посещений</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Настройку целей в Яндекс метрике</li>
+      <li><mdicon name="check-bold" class="logo" />&nbsp;&nbsp;Техническое сопровождение сайта в течении 3 месяцев</li>
     </ul>
     <router-link :to="{name: 'contacts'}" @click="anchors" title="заказать разработку интернет магазина" class="zayavka link-anim">
     заказать разработку интернет магазина

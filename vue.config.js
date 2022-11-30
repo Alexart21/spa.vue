@@ -3,7 +3,7 @@ const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
 	transpileDependencies: true,
 	publicPath: '/',
-	// productionSourceMap: true,
+	productionSourceMap: false,
 	filenameHashing: false,
 	assetsDir: "spa",
 })

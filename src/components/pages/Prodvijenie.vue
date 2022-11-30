@@ -192,8 +192,7 @@
         <span class="ruble"> ₽</span> (единоразово)
       </li>
     </ul>
-    <strong>Профессиональное ведение рекламной кампании</strong> от <span class="red">3&#8202;000</span> <span
-      class="fa fa-ruble-sign"></span>/месяц<br>
+    <strong>Профессиональное ведение рекламной кампании</strong> от <span class="red">3&#8202;000</span> <span class="ruble">₽</span>/месяц<br>
     <span class="strong_text">При заказе сайта от <span class="red">40&#8202;000</span><span class="ruble" style="font-weight:normal"> ₽</span>
      настройку проведем <b class="underline">БЕСПЛАТНО.</b></span>
     <p></p>

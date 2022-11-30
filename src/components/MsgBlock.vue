@@ -12,26 +12,25 @@
     <div id="msg-content">
       <div v-show="!msgOpened" class="msg-closed">
         <div class="msg-icons-block">
-        <fa-icon :icon="['fab', 'viber']" class="viber d-block icon-item" />
-        <fa-icon :icon="['fab', 'whatsapp']" class="wats d-block icon-item" />
-        <fa-icon :icon="['fab', 'telegram-plane']" class="tg d-block icon-item" />
+        <span class="viber-icon viber d-block icon-item"></span>
+        <span class="wats-icon wats d-block icon-item"></span>
+        <span class="tg-icon tg d-block icon-item"></span>
         </div>
         <b class="msg-closed-text">Начните чат</b>
       </div>
       <img class="msg-img rounded-circle img-thumbnail" :class="{imgOpened: msgOpened}" src="./../assets/img/msg.png"
            alt="">
       <div class="msg-text">
-        <div class="text-center">{{ hello }}, я Александр.</div>
+        <div class="text-center text-info">{{ hello }}, я Александр.</div>
         <div class="text-center text-info">выберите мессенджер и начните чат</div>
-        <i style="display:block;text-align: right"><span
-            class="fa fa-check"></span>{{ getTime }}&nbsp;&nbsp;</i>
+        <i style="display:block;text-align: right"><mdicon name="check-all" class="text-success" />{{ getTime }}&nbsp;&nbsp;</i>
       </div>
       <hr>
       <a class="msg-btn viber-bg" href="viber://chat?number=79876680484"
-         target="_blank"><fa-icon :icon="['fab', 'viber']"  style="font-size:140%" /> Viber</a>
+         target="_blank"><div class="viber-icon icon-large"></div> Viber</a>
       <a class="msg-btn watsap-bg" href="whatsapp://send?phone=79876680484"
-         target="_blank"><fa-icon :icon="['fab', 'whatsapp']"  style="font-size:140%" /> Watsapp</a>
-      <a class="msg-btn tg-bg" href="https://telegram.me/Mihalych211" target="_blank"><fa-icon :icon="['fab', 'telegram-plane']" style="font-size:140%" /> Telegram</a>
+         target="_blank"><div class="wats-icon icon-large"></div> Watsapp</a>
+      <a class="msg-btn tg-bg" href="https://telegram.me/Mihalych211" target="_blank"><div class="tg-icon icon-large"></div> Telegram</a>
     </div>
   </div>
 </template>

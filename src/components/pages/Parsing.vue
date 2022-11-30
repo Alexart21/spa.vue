@@ -27,16 +27,16 @@
     </p>
     <ul>
       <li>
-        <fa-icon icon="check" class="logo" />
+        <mdicon name="check-bold" class="check-icon" />
         Программа парсер быстро и и безошибочно отделит служебную и техническую информацию
         от нужной.
       </li>
       <li>
-        <fa-icon icon="check" class="logo" />
+        <mdicon name="check-bold" class="check-icon" />
         Парсер легко справляется с большими объемами информации.
       </li>
       <li>
-        <fa-icon icon="check" class="logo" />
+        <mdicon name="check-bold" class="check-icon" />
         Минимальное участие человека.Практически весь процесс автоматизирован.
       </li>
     </ul>

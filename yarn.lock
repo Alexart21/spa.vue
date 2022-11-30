@@ -1235,6 +1235,11 @@
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz#b2ac626d6cb9c8718ab459166d4bb405b8ffa78b"
   integrity sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==
 
+"@mdi/js@*", "@mdi/js@^7.0.96":
+  version "7.0.96"
+  resolved "https://registry.yarnpkg.com/@mdi/js/-/js-7.0.96.tgz#8e7a54d5cb38831e3150632cc19e380f54d9edd6"
+  integrity sha512-lNqhkV3cpPfYb/Avh+vXLFukUTbHbyHoFo4Jdc7Oc9UvURGVhamFIpgOVvEf2bNA78zvjXTZeVWExUTR+DLBfQ==
+
 "@node-ipc/js-queue@2.0.3":
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@node-ipc/js-queue/-/js-queue-2.0.3.tgz#ac7fe33d766fa53e233ef8fedaf3443a01c5a4cd"
@@ -5869,6 +5874,13 @@ maska@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/maska/-/maska-1.5.0.tgz#6e2f6386d290ab7dc8b44cfc04f34891e06a1e25"
   integrity sha512-BwZXzs5gHeu6wtn3iWFqrKRtcsM3sTpkHvfAngVNVNlN7tl9ZyQUeHTz11s9Sy7Bq1MoQ+xyR/+IzghY8nR84Q==
+
+mdi-vue@^3.0.13:
+  version "3.0.13"
+  resolved "https://registry.yarnpkg.com/mdi-vue/-/mdi-vue-3.0.13.tgz#d3ab6b4b121ed34bedf2fdc92d3e3465dfd0fd36"
+  integrity sha512-QHfRJZfhTA4FLqxBh4Gzxq+U+V/XQLw9l8lSIwJGMY4L+7oP+5HkAd+rsySIGfcHLEZakN3xcYpcroLZAoh0cw==
+  dependencies:
+    "@mdi/js" "*"
 
 mdn-data@2.0.14:
   version "2.0.14"
