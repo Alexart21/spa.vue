@@ -103,13 +103,13 @@
     <input type="hidden" id="indexform-recaptcha" name="reCaptcha" />
 
     <div class="form-group">
-      <button type="submit" class="btn success-button">Отправить</button>
+      <button type="submit" class="btn success-button" :disabled="btnDisabled">Отправить</button>
       <h3
         v-if="statusText"
         class="status"
         :class="[isOk ? 'text-success' : 'text-danger']"
       >
-        {{ statusText }}
+      <span v-if="loader"><loader /></span>{{ statusText }}
       </h3>
       <div v-show="errArr.length">
         <h4 class="text-danger" v-for="(item, index) in errArr" :key="index">
@@ -121,6 +121,7 @@
 </template>
 <script>
 import useValidate from "@vuelidate/core";
+import Loader from "./ui/Loader.vue";
 import { mapGetters } from "vuex";
 import {
   required,
@@ -131,6 +132,9 @@ import {
 } from "@vuelidate/validators";
 //
 export default {
+  components: {
+    Loader
+  },
   computed: mapGetters(["csrf"]),
   directives: {
     // маска ввода +7 (999) 999-99-99
@@ -164,7 +168,9 @@ export default {
       email: "",
       tel: "",
       text: "",
+      loader: false,
       statusText: "",
+      btnDisabled: false,
       errArr: [],
       isOk: true,
     };
@@ -221,6 +227,8 @@ export default {
       });
       let result = await response.json(); // с сервера json вида {status: true, msg:{}}
       if (response.ok) {
+        this.loader = false;
+        this.btnDisabled = false;
         if (result.success) {
           this.statusText = "Спасибо, данные приняты. Мы с Вами свяжемся";
           setTimeout(this.clearForm, 4000);
@@ -234,8 +242,10 @@ export default {
           }
         }
       } else {
+        this.loader = false;
         this.isOk = false;
         this.statusText = "Произошла ошибка!";
+        this.btnDisabled = false;
         console.log(response);
       }
     },
@@ -246,7 +256,9 @@ export default {
         return;
       }
       this.isOk = true;
+      this.loader = true;
       this.statusText = "Отправка...";
+      this.btnDisabled = true;
       try {
         grecaptcha.ready(() => {
           // сам скрипт с google подключается в щаблоне views/layout/spa.php
@@ -261,8 +273,10 @@ export default {
             });
         });
       } catch (error) {
+        this.loader = false;
         this.isOk = false;
         this.statusText = "Ошибка ReCaptcha! Попробуйте повторить попытку.";
+        this.btnDisabled = false;
         console.log(error);
         // setTimeout(this.clearForm, 4000);
         setTimeout(this.hideStatus, 4000);
