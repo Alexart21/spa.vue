@@ -2,11 +2,12 @@
     <form ref="testForm"  @submit.prevent="sendForm" action="">
         <label for="name">Name</label>
         <input type="text" name="name" v-model="name">
-        <div style="color:red">{{ err.name ?? '' }}</div>
+        <div style="color:red"><span v-html="err.name ?? ''"></span></div>
 
         <label for="age">Age</label>
         <input type="text" name="age" v-model="age">
-        <div style="color:red">{{ err.age ?? '' }}</div>
+        <div style="color:red"><span v-html="err.age ?? ''"></span></div>
+
         <div v-show="loader">отправка...</div>
         <h3 :style="{color: msgColor}">{{ statusText }}</h3>
         <input type="submit" value="отправить">
@@ -45,7 +46,15 @@ export default {
                 }
                 if(result.errors){
                     for(let key in result.errors){
-                        this.err[key] = result.errors[key][0];
+                        if(result.errors[key].length > 1){ // более 1 ошибки валидации на поле
+                            let str = '';
+                            result.errors[key].map((item) => {
+                                str = str + item + '<br>'; // выводим построчно
+                            })
+                            this.err[key] = str;
+                        }else{
+                            this.err[key] = result.errors[key][0];
+                        }
                     }
                     // console.log(this.err)
                 }
