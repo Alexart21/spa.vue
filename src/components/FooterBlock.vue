@@ -25,7 +25,7 @@
         <!-- <a href="/user/logout" data-method="post"><span title="выйти">выход</span></a> -->
         <form name="logout" @submit.prevent="logout" action="/logout" method="post" style="display: inline">
           <input type="hidden" name="_token" ref="csrf_input" value="csrf">
-          <button type="submit" title="выход" style="display: inline;background: transparent;transform: rotateZ(45deg)"><mdicon name="logout" width="30" height="30" style="line-height: 40px; color:#555" /></button>
+          <button type="submit" title="выход" style="display: inline;background: transparent"><mdicon name="logout" width="30" height="30" style="line-height: 40px; color:#555" /></button>
         </form>
         </div>
     </div>

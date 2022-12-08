@@ -1,3 +1,3 @@
 <template>
-    <mdicon name="loading" spin  class=""/>
+    <mdicon name="dots-circle" spin  class="text-body"/>
 </template>

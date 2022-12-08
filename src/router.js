@@ -4,12 +4,12 @@ import Index from '@/components/pages/Index';
 import Sozdanie from '@/components/pages/Sozdanie';
 import Prodvijenie from '@/components/pages/Prodvijenie';
 import Portfolio from '@/components/pages/Portfolio';
-import Contacts from '@/components/pages/Contacts';
 import Parsing from '@/components/pages/Parsing';
 import Location from '@/components/pages/Location';
 import Address from '@/components/pages/Address';
 import Scroll from '@/components/pages/Scroll';
 import AppE404 from '@/components/pages/E404';
+import Test from '@/components/pages/Test';
 
 const routes = [
   {
@@ -91,6 +91,11 @@ const routes = [
     name: 'scroll',
     path: '/scroll',
     component: Scroll
+  },
+  {
+    name: 'test',
+    path: '/test',
+    component: Test
   },
   {
     path: '/:any(.*)', // .*

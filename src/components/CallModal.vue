@@ -102,7 +102,7 @@
                 class="status"
                 :class="[isOk ? 'text-success' : 'text-danger']"
               >
-              <span v-if="loader"><loader /></span>{{ statusText }}
+              <span v-show="loader"><loader /></span>{{ statusText }}
               </h3>
             </div>
             <div v-show="errArr.length">

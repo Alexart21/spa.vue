@@ -9,7 +9,7 @@ import router from '@/router';
 // import { library } from '@fortawesome/fontawesome-svg-core'
 // import { faCheck, faAsterisk, faExternalLinkAlt, faExclamationCircle, faCheckCircle} from '@fortawesome/free-solid-svg-icons'
 // import { faDrupal, faWordpress, faReact, faTelegramPlane, faViber, faWhatsapp} from '@fortawesome/free-brands-svg-icons'
-import { readCookie } from './assets/js/functions';
+// import { readCookie } from './assets/js/functions';
 
 import mdiVue from 'mdi-vue/v3'
 import * as mdijs from '@mdi/js'
@@ -19,7 +19,6 @@ import * as mdijs from '@mdi/js'
 createApp(App)
     .use(store)
     .use(router)
-    .use(readCookie)
     // .component('fa-icon', FontAwesomeIcon)
     .use(mdiVue, {
         icons: mdijs

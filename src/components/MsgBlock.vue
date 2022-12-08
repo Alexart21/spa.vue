@@ -37,14 +37,6 @@
 <script>
 const screen_w = document.body.clientWidth;
 const screen_h = document.body.clientHeight;
-
-function readCookie(name) {
-  const matches = document.cookie.match(new RegExp(
-      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-  ));
-  return matches ? decodeURIComponent(matches[1]) : undefined;
-}
-
 export default {
   props: {
     right: {
