@@ -2,15 +2,19 @@
     <form ref="testForm"  @submit.prevent="sendForm" action="">
         <label for="name">Name</label>
         <input type="text" name="name" v-model="name">
-        <div style="color:red"><span v-html="err.name ?? ''"></span></div>
+        <div v-if="err.name" style="color:red">
+            <div v-for="item,i in err.name" :key="i">{{ item }}</div>
+        </div>
 
         <label for="age">Age</label>
         <input type="text" name="age" v-model="age">
-        <div style="color:red"><span v-html="err.age ?? ''"></span></div>
+        <div v-if="err.age" style="color:red">
+            <div v-for="item,i in err.age" :key="i">{{ item }}</div>
+        </div>
 
         <div v-show="loader">отправка...</div>
         <h3 :style="{color: msgColor}">{{ statusText }}</h3>
-        <input type="submit" value="отправить">
+        <input type="submit" :disabled="disabled" value="отправить">
         
     </form>
 </template>
@@ -23,16 +27,25 @@ export default {
             age: '',
             err: {},
             loader: false,
+            disabled: false,
             success: true,
             statusText: '',
         }
     },
     methods: {
-        async sendForm(){
+        start(){
             this.err = {};
+            this.loader = true;
             this.success = true;
             this.statusText = '';
-            this.loader = true;
+            this.disabled = true;
+        },
+        stop(){
+            this.loader = false;
+            this.disabled = false;
+        },
+        async sendForm(){
+            this.start();
             let formData = new FormData(this.$refs.testForm);
             formData.append('_token', this.csrf);
             await fetch('/api/test', {
@@ -46,15 +59,7 @@ export default {
                 }
                 if(result.errors){
                     for(let key in result.errors){
-                        if(result.errors[key].length > 1){ // более 1 ошибки валидации на поле
-                            let str = '';
-                            result.errors[key].map((item) => {
-                                str = str + item + '<br>'; // выводим построчно
-                            })
-                            this.err[key] = str;
-                        }else{
-                            this.err[key] = result.errors[key][0];
-                        }
+                        this.err[key] = result.errors[key];
                     }
                     // console.log(this.err)
                 }
@@ -63,8 +68,9 @@ export default {
                 console.log("error", error);
                 this.success = false;
                 this.statusText = "ошибка!";
+                this.stop();
             })
-            this.loader = false;
+            this.stop();
         }
     },
     computed: {
