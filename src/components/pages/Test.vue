@@ -1,5 +1,6 @@
 <template>
     <form ref="testForm"  @submit.prevent="sendForm" action="">
+    <!-- <form ref="testForm"  @submit.prevent="sendFormAxios" action=""> -->
         <label for="name">Name</label>
         <input type="text" name="name" v-model="name">
         <div v-if="err.name" style="color:red">
@@ -20,6 +21,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import axios from 'axios';
 export default {
     data(){
         return {
@@ -61,7 +63,6 @@ export default {
                     for(let key in result.errors){
                         this.err[key] = result.errors[key];
                     }
-                    // console.log(this.err)
                 }
             })
             .catch((error) => {
@@ -71,7 +72,37 @@ export default {
                 this.stop();
             })
             this.stop();
-        }
+        },
+        /*
+        async sendFormAxios(){
+            this.start();
+            let formData = new FormData(this.$refs.testForm);
+            formData.append('_token', this.csrf);
+            await axios.post('/api/test', formData)
+            .then((response) => {
+                if(response.data.success){
+                    this.statusText = 'Успешно!';
+                }else{
+                    this.success = false;
+                    this.statusText = 'Что то пошло не так...';
+                }
+            })
+            .catch((error) => {
+                console.log(error.response)
+                if(error.response.status === 422){
+                    let errors = error.response.data.errors;
+                    for(let key in errors){
+                        this.err[key] = errors[key];
+                    }
+                }else if (error.response.status === 500){
+                    this.success = false;
+                    this.statusText = "ошибка сервера!";
+                }
+            });
+            this.stop();
+        },
+        */
+        
     },
     computed: {
         ...mapGetters(["csrf"]),
