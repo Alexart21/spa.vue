@@ -10,6 +10,7 @@ import Address from '@/components/pages/Address';
 import Scroll from '@/components/pages/Scroll';
 import AppE404 from '@/components/pages/E404';
 import Test from '@/components/pages/Test';
+import Dragdrop from '@/components/pages/Dragdrop';
 
 const routes = [
   {
@@ -96,6 +97,11 @@ const routes = [
     name: 'test',
     path: '/test',
     component: Test
+  },
+  {
+    name: 'dragdrop',
+    path: '/dragdrop',
+    component: Dragdrop
   },
   {
     path: '/:any(.*)', // .*
