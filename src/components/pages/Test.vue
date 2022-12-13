@@ -100,7 +100,7 @@ export default {
             this.isFileSelected = this.$refs.avatar_img.files.length;
             let formData = new FormData(this.$refs.testForm);
             formData.append('_token', this.csrf);
-            await axios.post('/api/test',
+            await axios.post('/test',
              formData,
              {
                 headers: {

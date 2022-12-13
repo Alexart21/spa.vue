@@ -49,7 +49,12 @@
       </template>
       <h3 :style="{color: success ? 'green' : 'red'}">{{ statusText }}</h3>
       </div>
-      <button type="submit" form="imgs_form" class="btn btn-success sb-btn">SEND</button>
+      <div class="send-block">
+        <div v-if="loader" class="loader">
+          <loader/>
+        </div>
+        <button type="submit" form="imgs_form" class="btn btn-success sb-btn">SEND</button>
+      </div>
     </div>
   </template>
   
@@ -57,14 +62,18 @@
   import axios from 'axios';
   import { mapGetters } from 'vuex';
   import ProgressBar from './../ui/ProgressBar';
+  import Loader from './../ui/Loader';
   export default {
     components: {
         ProgressBar,
+        Loader,
     },
     data() {
       return {
         isDragging: false,
         files: [],
+        loader: false,
+        disabled: false,
         percentage: 0,
         success: true,
         statusText: '',
@@ -113,14 +122,22 @@
         this.isDragging = false;
       },
       //
-      async uploadFiles() {
+      startUpload(){
+        this.disabled = true;
         this.success = true;
+        this.loader = true;
         this.percentage = 0;
-        console.log(this.files)
+      },
+      stopUpload(){
+        this.loader = false;
+        this.disabled = false;
+      },
+      async uploadFiles() {
         if(!this.files.length){
           console.log('empty files!');
           return;
         }
+        this.startUpload();
         // let formData = new FormData(this.$refs.imgs_form);
         let formData = new FormData();
         this.files.forEach((file) => {
@@ -129,7 +146,7 @@
         formData.append('_token', this.csrf);
         await axios({
             method: "POST",
-            url: '/api/upload',
+            url: '/upload',
             data: formData,
             headers: {
                 "Content-Type": "multipart/form-data",
@@ -150,7 +167,9 @@
             .catch((error) => {
                 console.log(error.response);
                 this.success = false;
+                // this.stopUpload()
             });
+            this.stopUpload()
       },
     },
     computed: {
@@ -162,7 +181,7 @@
   };
   </script>
   
-  <style>
+  <style scoped>
   .main {
     display: flex;
     flex-grow: 1;
@@ -208,12 +227,22 @@
   }
 
   .sb-btn{
+    display: block;
     margin-top: 1em;
   }
   .cloud-icon svg{
     /* fill: red; */
     width: 50px;
     height: 50px;
+  }
+  .send-block{
+    position: relative;
+    /* height: 2em; */
+    /* line-height: 2em; */
+  }
+  .loader{
+    position: absolute;
+    left: -2em;
   }
   </style>
   

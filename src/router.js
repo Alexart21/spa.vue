@@ -11,6 +11,7 @@ import Scroll from '@/components/pages/Scroll';
 import AppE404 from '@/components/pages/E404';
 import Test from '@/components/pages/Test';
 import Dragdrop from '@/components/pages/Dragdrop';
+import Photo from '@/components/pages/Photo';
 
 const routes = [
   {
@@ -102,6 +103,11 @@ const routes = [
     name: 'dragdrop',
     path: '/dragdrop',
     component: Dragdrop
+  },
+  {
+    name: 'photo',
+    path: '/photo',
+    component: Photo
   },
   {
     path: '/:any(.*)', // .*
