@@ -216,7 +216,7 @@ export default {
       let formData = new FormData(form);
       formData.append('_token', this.csrf);
       this.errArr = [];
-      const url = "/api/mail";
+      const url = "/mail";
       let response = await fetch(url, {
         method: "POST",
         body: formData,

@@ -204,7 +204,7 @@ export default {
       let formData = new FormData(form);
       formData.append('_token', this.csrf);
       this.errArr = [];
-      const url = "/api/zvonok";
+      const url = "/zvonok";
       let response = await fetch(url, {
         method: "POST",
         body: formData,

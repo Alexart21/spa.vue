@@ -1939,7 +1939,7 @@ button.close {
 /* здесь анимация на кнопке */
 .button-anim:before {
     position: absolute;
-    content: '';
+    /* content: ''; */
     display: inline-block;
     /*top: -180px;*/
     /*left: 0;*/
