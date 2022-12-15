@@ -12,6 +12,7 @@ import AppE404 from '@/components/pages/E404';
 import Test from '@/components/pages/Test';
 import Dragdrop from '@/components/pages/Dragdrop';
 import Photo from '@/components/pages/Photo';
+import Cropper from '@/components/pages/Cropper';
 
 const routes = [
   {
@@ -108,6 +109,11 @@ const routes = [
     name: 'photo',
     path: '/photo',
     component: Photo
+  },
+  {
+    name: 'cropper',
+    path: '/cropper',
+    component:Cropper 
   },
   {
     path: '/:any(.*)', // .*
