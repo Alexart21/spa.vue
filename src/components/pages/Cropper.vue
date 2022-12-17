@@ -6,7 +6,7 @@
     </div>
   </template>
   <div>
-    Допустимы файлы <b>{{ validExts }}</b> не более {{ MAX_FILE_SIZE }} кб
+    Допустимые файлы <b>{{ validExts }}</b> не более {{ MAX_FILE_SIZE }} кб
   </div>
   <input type="file" @change="readFile" ref="imgInp" />
   <br />
@@ -21,7 +21,7 @@
   </button>
   <br />
   <br />
-  <button @click="save" type="button" class="btn btn-success">save</button>
+  <button @click="save" type="button" class="btn btn-success">save local</button>
   <!-- <div v-if="croppedSrc">
     <h1>Cropped</h1>
     <img :src="croppedSrc" alt="" />
@@ -53,8 +53,7 @@ export default {
     };
   },
   methods: {
-    getFileExt(fname) {
-      // получаем расширение файла
+    getFileExt(fname) { // получаем расширение файла
       return fname.slice(((fname.lastIndexOf(".") - 1) >>> 0) + 2);
     },
     validate(file) {
@@ -77,6 +76,7 @@ export default {
       this.src = null;
       let input = this.$refs.imgInp;
       let file = input.files[0];
+      // console.log(file);
       this.validate(file);
       if (!this.isValid) return;
       let reader = new FileReader();
@@ -145,8 +145,7 @@ export default {
           this.statusText = "Ошибка сервера!";
         });
     },
-    strRand(len) {
-      // случайная строка для имени файла
+    strRand(len) { // рандомная строка для имени файла
       let result = "";
       let words =
         "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
@@ -160,7 +159,10 @@ export default {
     save() {
       this.cropImage();
       let link = document.createElement("a");
-      let fileName = this.strRand(12) + ".png";
+      let timestamp = String(new Date().getTime());
+      let rnd = timestamp.slice(timestamp.length - 4);
+      // let fileName = this.strRand(12) + ".png";
+      let fileName = `crop${rnd}${this.fileName}`;
       link.download = fileName;
       link.href = this.croppedSrc;
       link.click();
