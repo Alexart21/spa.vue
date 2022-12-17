@@ -6,7 +6,7 @@
     </div>
   </template>
   <div>
-    Допустимые файлы <b>{{ validExts }}</b> не более {{ MAX_FILE_SIZE }} кб
+    Допустимые файл <b>{{ validExts }}</b> не более {{ MAX_FILE_SIZE }} кб
   </div>
   <input type="file" @change="readFile" ref="imgInp" />
   <br />
