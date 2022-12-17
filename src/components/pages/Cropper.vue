@@ -1,6 +1,6 @@
 <template>
   <template v-if="src">
-    <vue-cropper ref="cropper" :src="src" alt="Source Image" />
+    <vue-cropper ref="cropper" :src="src" :aspect-ratio="1/1" />
     <div v-if="fileName">
       <h5>{{ fileName }}</h5>
     </div>
