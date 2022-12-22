@@ -1,5 +1,8 @@
 <template>
   <h1>Drag & Drop</h1>
+  <router-link :to="{ name: 'photo' }" class="btn btn-primary">
+    Фотогалерея
+  </router-link>
   <div class="main">
     <div
       class="dropzone-container"
@@ -77,6 +80,8 @@ export default {
   },
   data() {
     return {
+      MAX_FILE_COUNT: 10,
+      MAX_FILE_SIZE: 200, // kb
       isDragging: false,
       files: [],
       loader: false,
@@ -139,11 +144,28 @@ export default {
       this.loader = false;
       this.disabled = false;
     },
-    async uploadFiles() {
+    validate() {
       if (!this.files.length) {
         console.log("empty files!");
-        return;
+        return false;
+      } else if (this.files.length > this.MAX_FILE_COUNT) {
+        this.success = false;
+        this.statusText = `Не более ${this.MAX_FILE_COUNT} файлов по ${this.MAX_FILE_SIZE} кБ каждый`;
+        return false;
+      } else {
+        let err = this.files.filter(item => {
+          return item.size > (this.MAX_FILE_SIZE * 1024);
+        })
+        if(err.length) {
+          this.success = false;
+          this.statusText = `Файл ${err[0].name} весит более ${this.MAX_FILE_SIZE} кБ`;
+          return false;
+        }
+        return true;
       }
+    },
+    async uploadFiles() {
+      if (!this.validate()) return;
       this.startUpload();
       // let formData = new FormData(this.$refs.imgs_form);
       let formData = new FormData();
@@ -174,8 +196,11 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error.response);
           this.success = false;
+          if (error.response.status == 422) {
+            this.statusText = error.response.data.message;
+          }
+          console.log(error.response);
           // this.stopUpload()
         });
       this.stopUpload();
