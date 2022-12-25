@@ -25,8 +25,6 @@
           <form
             name="callForm"
             @submit.prevent="sendForm"
-            action="/call"
-            method="post"
           >
             <div class="form-group">
               <input
@@ -38,7 +36,7 @@
                 name="name"
                 placeholder="Ваше имя"
               />
-              <div v-if="v$.name.$errors.length" class="errLabel"><mdicon name="exclamation-thick" /></div>
+              <div v-if="v$.name.$errors.length" class="errLabel"><mdicon name="alert-circle-outline" /></div>
               <p
                 v-for="error of v$.$errors"
                 :key="error.$uid"

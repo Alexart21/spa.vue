@@ -3,8 +3,6 @@
     name="indexForm"
     id="index-form"
     @submit.prevent="sendForm"
-    action="/"
-    method="post"
   >
     <!-- <input type="hidden" name="_csrf" :value="csrfToken"> -->
 
@@ -19,8 +17,7 @@
         name="name"
         tabindex="1"
       />
-      <!-- <div v-if="v$.name.$errors.length" class="errLabel"><fa-icon icon="exclamation-circle" /></div> -->
-      <div v-if="v$.name.$errors.length" class="errLabel"><mdicon name="exclamation-thick" /></div>
+      <div v-if="v$.name.$errors.length" class="errLabel"><mdicon name="alert-circle-outline" /></div>
       <p v-for="error of v$.$errors" :key="error.$uid" class="text-danger">
         <span v-if="error.$property === 'name'">
           <span v-if="error.$validator === 'minLength'">
@@ -49,7 +46,7 @@
         v-model.trim="email"
         tabindex="2"
       />
-      <div v-if="v$.email.$errors.length" class="errLabel"><mdicon name="exclamation-thick" /></div>
+      <div v-if="v$.email.$errors.length" class="errLabel"><mdicon name="alert-circle-outline" /></div>
       <p v-for="error of v$.$errors" :key="error.$uid" class="text-danger">
         <span v-if="error.$property === 'email'">
           <span v-if="error.$validator === 'email'">
@@ -85,7 +82,7 @@
         name="body"
         tabindex="4"
       ></textarea>
-      <div v-if="v$.text.$errors.length" class="errLabel"><mdicon name="exclamation-thick" /></div>
+      <div v-if="v$.text.$errors.length" class="errLabel"><mdicon name="alert-circle-outline" /></div>
       <p v-for="error of v$.$errors" :key="error.$uid" class="text-danger">
         <span v-if="error.$property === 'text'">
           <span v-if="error.$validator === 'minLength'">

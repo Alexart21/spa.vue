@@ -71,8 +71,8 @@
 <script>
 import axios from "axios";
 import { mapGetters } from "vuex";
-import ProgressBar from "./../ui/ProgressBar";
-import Loader from "./../ui/Loader";
+import ProgressBar from "@/components/ui/ProgressBar";
+import Loader from "@/components/ui/Loader";
 export default {
   components: {
     ProgressBar,
