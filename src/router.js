@@ -13,6 +13,7 @@ import Test from '@/components/pages/Test';
 import Dragdrop from '@/components/pages/Dragdrop';
 import Photo from '@/components/pages/Photo';
 import Cropper from '@/components/pages/Cropper';
+import Chat from '@/components/pages/Chat';
 
 const routes = [
   {
@@ -114,6 +115,11 @@ const routes = [
     name: 'cropper',
     path: '/cropper',
     component:Cropper 
+  },
+  {
+    name: 'chat',
+    path: '/chat',
+    component:Chat 
   },
   {
     path: '/:any(.*)', // .*
