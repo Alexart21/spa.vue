@@ -60,7 +60,7 @@ export default {
     return {
       name: "",
       msg: "",
-      color: "#000000",
+      color: "",
       names: [],
       // selfName: null,
       lastId: 0,
@@ -110,6 +110,7 @@ export default {
       this.checkName();
       if (this.nameChecked) {
         localStorage.setItem("nickName", this.name);
+        this.setColor();
         this.nameStatus = "Имя установлено";
       }
     },
@@ -129,6 +130,7 @@ export default {
             this.lastId = result.lastId;
             this.allMsgs.push(...result.msgs);
             this.allMsgs.reverse();
+            this.scrollToBottom();
             let thisName = this.name.toLowerCase();
             this.allMsgs.map((item) => {
               // создаем массив с уже используемыми именами в нижнем регистре
@@ -202,7 +204,7 @@ export default {
       this.name = localStorage.getItem("nickName") ?? "";
     },
     initColor() {
-      this.color = localStorage.getItem("nameColor") ?? "";
+      this.color = localStorage.getItem("nameColor") ?? "#000000";
     },
   },
   computed: {
