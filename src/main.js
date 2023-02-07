@@ -13,7 +13,7 @@ import router from '@/router';
 
 import mdiVue from 'mdi-vue/v3'
 // import * as mdijs from '@mdi/js'
-import { mdiCheckBold, mdiAsterisk, mdiWordpress, mdiDrupal, mdiReact, mdiCheckAll, mdiDotsCircle, mdiCloudUploadOutline, mdiLogout, mdiAlertCircleOutline } from "@mdi/js";
+import { mdiCheckBold, mdiAsterisk, mdiWordpress, mdiDrupal, mdiReact, mdiCheckAll, mdiDotsCircle, mdiCloudUploadOutline, mdiLogout, mdiAlertCircleOutline, mdiSend } from "@mdi/js";
 
 // library.add(faCheck, faAsterisk, faExternalLinkAlt, faExclamationCircle, faCheckCircle, faDrupal, faWordpress, faReact, faTelegramPlane, faViber, faWhatsapp);
 // имей ввиду что иконки free-brands выводяться так <fa-icon :icon="['fab', 'react']" />
@@ -22,7 +22,7 @@ createApp(App)
     .use(router)
     // .component('fa-icon', FontAwesomeIcon)
     .use(mdiVue, {
-        icons: {mdiCheckBold, mdiAsterisk, mdiWordpress, mdiDrupal, mdiReact, mdiCheckAll, mdiDotsCircle, mdiCloudUploadOutline, mdiLogout, mdiAlertCircleOutline}
+        icons: {mdiCheckBold, mdiAsterisk, mdiWordpress, mdiDrupal, mdiReact, mdiCheckAll, mdiDotsCircle, mdiCloudUploadOutline, mdiLogout, mdiAlertCircleOutline, mdiSend}
     })
     .mount('#app');
 

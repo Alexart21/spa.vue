@@ -3,7 +3,9 @@
   <div class="chat-window" ref="chat">
     <template v-if="allMsgs.length">
       <div v-for="msg in allMsgs" :key="msg.id">
-        <small class="small">{{ formatTime(msg.created_at) }}</small> <b class="name" :style="{color: msg.color}">{{ msg.name }} : </b><span>{{ msg.msg }}</span>
+        <small class="small">{{ formatTime(msg.created_at) }}</small>
+        <b class="name" :style="{ color: msg.color }">{{ msg.name }} : </b
+        ><span>{{ msg.msg }}</span>
       </div>
     </template>
   </div>
@@ -13,30 +15,39 @@
     </div>
     <input
       class="name-inp"
-      :style="{color: color}"
+      :style="{ color: color }"
       type="text"
       name="name"
       v-model="name"
-      placeholder="name"
+      placeholder="имя"
       @input="checkName"
     />
-    <input type="color" v-model="color" @input="setColor">
-    <button @click="checkName" class="btn btn-primary">set Name</button>
+    &nbsp;
+    <input type="color" v-model="color" @input="setColor" />
+    <button @click="sendName" class="btn btn-primary">Установить</button>
     <br />
-    <input
-      class="msg-inp"
-      type="text"
-      name="msg"
-      v-model="msg"
-      placeholder="text"
-    /><br />
-    <!-- <div v-if="statusText">{{ statusText }}</div> -->
-    <button type="submit" :disabled="disabled" class="btn btn-success">send</button>
+    <div class="msg-block">
+      <textarea
+        @keydown.enter.ctrl="formSend"
+        class="msg-inp"
+        type="text"
+        name="msg"
+        v-model="msg"
+        placeholder="текст"
+        rows="2"
+      >
+      </textarea>
+      <button type="submit" :disabled="disabled" class="msg-send">
+        <mdicon name="send" width="40" height="40" class="send-icon" />
+      </button>
+    </div>
+    <small>отправка Ctrl + Enter или кнопкой</small>
+    <br />
     <!-- <button @click="update()" type="button" class="btn btn-success">
       update
     </button> -->
-    <button @click="clear" type="button" class="btn btn-danger">
-      clear
+    <button @click="clear" type="button" class="btn btn-warning">
+      Очистить чат
     </button>
     <input type="checkbox" v-model="soundCheck" />Звук
     <input type="checkbox" v-model="fullDate" />Показывать дату
@@ -49,8 +60,9 @@ export default {
     return {
       name: "",
       msg: "",
-      color: '',
+      color: "#000000",
       names: [],
+      // selfName: null,
       lastId: 0,
       soundCheck: true,
       fullDate: false,
@@ -59,20 +71,20 @@ export default {
       ),
       allMsgs: [],
       disabled: false,
-      nameStatus: "Установите имя",
+      nameStatus: "Введите имя и нажмите установить",
       nameChecked: false,
       // statusText: "",
       success: true,
     };
   },
   methods: {
-    formatTime(str){
+    formatTime(str) {
       let short = str.substring(11, 16);
       let long = str.substring(0, 16);
       return this.fullDate ? long : short;
     },
-    setColor(){
-      localStorage.setItem('color', this.color)
+    setColor() {
+      localStorage.setItem("nameColor", this.color);
     },
     checkName() {
       if (this.name.length < 3) {
@@ -81,25 +93,30 @@ export default {
         return;
       }
       if (this.names.length) {
-        if (this.names.includes(this.name)) {
+        if (this.names.includes(this.name.toLowerCase())) {
           this.nameChecked = false;
           this.nameStatus = "Это имя уже используется.Выберите другое";
         } else {
           this.nameChecked = true;
-          this.nameStatus = "Имя установлено";
-          localStorage.setItem("nickName", this.name);
+          this.nameStatus = 'Имя свободно. Жмите "Установить"';
         }
       } else {
         // никого еще нет в чате
         this.nameChecked = true;
-        this.nameStatus = "Имя установлено";
-        localStorage.setItem("nickName", this.name);
+        this.nameStatus = 'Имя свободно. Жмите "Установить"';
       }
     },
-    clear(){
+    sendName() {
+      this.checkName();
+      if (this.nameChecked) {
+        localStorage.setItem("nickName", this.name);
+        this.nameStatus = "Имя установлено";
+      }
+    },
+    clear() {
       this.allMsgs = [];
     },
-    scrollToBottom(){
+    scrollToBottom() {
       this.$refs.chat.scrollTop = this.$refs.chat.clientHeight;
     },
     async all() {
@@ -112,21 +129,15 @@ export default {
             this.lastId = result.lastId;
             this.allMsgs.push(...result.msgs);
             this.allMsgs.reverse();
-            let savedName = localStorage.getItem("nickName");
-            let color = localStorage.getItem("color");
-            if (savedName) {
-              this.name = savedName;
-            }
-            if (color) {
-              this.color = color;
-            }
+            let thisName = this.name.toLowerCase();
             this.allMsgs.map((item) => {
-              // создаем массив с уже используемыми именами
-              if (!this.names.includes(item.name) && item.name !== savedName) {
-                this.names.push(item.name);
+              // создаем массив с уже используемыми именами в нижнем регистре
+              let itemName = item.name.toLowerCase();
+              if (!this.names.includes(itemName) && itemName !== thisName) {
+                this.names.push(itemName);
               }
             });
-            console.log(this.names);
+            // console.log(this.names)
           }
         })
         .catch((error) => console.log("error", error));
@@ -158,7 +169,7 @@ export default {
           }
         })
         .catch((error) => console.log("error", error));
-        this.disabled = false;
+      this.disabled = false;
     },
     async update() {
       let url = "/chat/update?id=" + this.lastId;
@@ -168,6 +179,14 @@ export default {
           if (result.success && result.msgs.length) {
             this.lastId = result.lastId;
             this.allMsgs.push(...result.msgs);
+            let thisName = this.name.toLowerCase();
+            this.allMsgs.map((item) => {
+              // создаем массив с уже используемыми именами в нижнем регистре
+              let itemName = item.name.toLowerCase();
+              if (!this.names.includes(itemName) && itemName !== thisName) {
+                this.names.push(itemName);
+              }
+            });
             this.scrollToBottom();
             if (this.soundCheck) {
               this.snd.play();
@@ -179,11 +198,19 @@ export default {
     tick() {
       setInterval(() => this.update(), 5000);
     },
+    initName() {
+      this.name = localStorage.getItem("nickName") ?? "";
+    },
+    initColor() {
+      this.color = localStorage.getItem("nameColor") ?? "";
+    },
   },
   computed: {
     ...mapGetters(["csrf"]),
   },
   mounted() {
+    this.initName();
+    this.initColor();
     this.all();
     this.scrollToBottom();
     this.tick();
@@ -198,25 +225,41 @@ export default {
   border: 1px solid #222;
   overflow-y: scroll;
 }
-.name-inp, .msg-inp {
-  padding: .5em;
+.name-inp,
+.msg-inp {
+  padding: 0.5em;
   border: 1px solid #222;
 }
 
-.name-inp{
+.name-inp {
   width: 12em;
 }
 
-.msg-inp{
-  width: 24em;
+.msg-inp {
+  width: 600px;
+  padding: 0 3em 0 0.5em;
 }
 
-.small{
-  color: rgba(0,0,0,.3);
+.small {
+  color: rgba(0, 0, 0, 0.3);
 }
 
-button{
-  margin: .5em;
+button {
+  margin: 0.5em;
 }
 
+.msg-block {
+  position: relative;
+}
+
+.msg-send {
+  position: absolute;
+  left: 560px;
+  top: 0;
+  background-color: transparent !important;
+}
+
+.send-icon {
+  color: blueviolet;
+}
 </style>
