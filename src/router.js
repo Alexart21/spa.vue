@@ -14,6 +14,7 @@ import Dragdrop from '@/components/pages/Dragdrop';
 import Photo from '@/components/pages/Photo';
 import Cropper from '@/components/pages/Cropper';
 import Chat from '@/components/pages/Chat';
+import Video from '@/components/pages/Video';
 
 const routes = [
   {
@@ -120,6 +121,11 @@ const routes = [
     name: 'chat',
     path: '/chat',
     component:Chat 
+  },
+  {
+    name: 'video',
+    path: '/video',
+    component:Video 
   },
   {
     path: '/:any(.*)', // .*

@@ -51,7 +51,6 @@ import MsgBlock from "@/components/MsgBlock";
 import LeftBlock from "@/components/LeftBlock";
 import ScrollTopBtn from "@/components/ui/ScrollTopBtn";
 import CallModal from "@/components/CallModal";
-
 // import { mapGetters } from 'vuex';
 
 export default {

@@ -28,15 +28,16 @@
     "vue-axios": "^3.4.1",
     "vue-cropperjs": "^5.0.0",
     "vue-router": "^4.0.14",
+    "vue3-canvas-video-player": "^1.2.3",
     "vue3-datepicker": "^0.3.4",
     "vuejs-paginate-next": "^1.0.2",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "*",
-    "@vue/cli-service": "*",
-    "@vue/compiler-sfc": "*",
-    "node-sass": "*",
-    "sass-loader": "*"
+    "@vue/cli-plugin-babel": "5.0.8",
+    "@vue/cli-service": "5.0.8",
+    "@vue/compiler-sfc": "3.2.47",
+    "node-sass": "8.0.0",
+    "sass-loader": "13.2.0"
   }
 }

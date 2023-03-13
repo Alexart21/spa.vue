@@ -192,16 +192,34 @@ export default {
             console.log(this.uploadPercentage);
           } else {
             this.success = false;
+            // console.log('here1');
             this.statusText = "Что то пошло не так...";
           }
         })
         .catch((error) => {
           this.success = false;
+          let errText;
           if (error.response.status == 422) {
-            this.statusText = error.response.data.message;
+            let errors = error.response.data.errors;
+            // так по разному ответы Laravel дает поскольку мултизагрузка файлов
+            try{
+              errText = errors['images.0'][0]
+            }catch(err){
+              try{
+                errText = errors.images[0];
+              }catch(err){
+                errText = 'Ошибка!';
+              }
+            }
+          }else if(error.response.status == 403){
+            errText = 'Требуется авторизация!';
+          }else if(error.response.status == 500){
+            errText = 'Ошибка сервера!';
+          }else{
+            errText = `Ошибка ${error.response.status} ${error.response.statusText}!`;
           }
+          this.statusText = errText;
           console.log(error.response);
-          // this.stopUpload()
         });
       this.stopUpload();
     },
