@@ -26,7 +26,7 @@
 <script>
 import InfiniteLoading from "v3-infinite-loading";
 // import { mapActions, mapGetters } from "vuex";
-import { mapGetters} from "vuex";
+import { mapGetters } from "vuex";
 export default {
   components: {
     InfiniteLoading,
@@ -40,13 +40,13 @@ export default {
       list: [],
       csrf: "",
       errText: "",
-      csrf: '',
-      token: '',
+      csrf: "",
+      token: "",
     };
   },
   methods: {
     async loadData() {
-      this.errText = '';
+      this.errText = "";
       if (!this.stop) {
         this.loader = true;
         this.stop = true; // запираем а то скрол дергается и несколько запросов летит
@@ -60,8 +60,8 @@ export default {
           method: "POST",
           headers: {
             "Content-Type": "application/json;charset=utf-8",
-            "Accept": "application/json",
-            "Authorization" : "Bearer " + this.token
+            Accept: "application/json",
+            Authorization: "Bearer " + this.token,
           },
           body: JSON.stringify(body),
         });
@@ -95,42 +95,48 @@ export default {
         console.log("total=" + this.list.length);
       }
     },
-    async getToken(){
-      let url = '/token';
+    async getToken() {
+      let url = "/token";
       let formData = new FormData();
       formData.append("_token", this.csrf);
       await fetch(url, {
-          method: 'post',
-          headers: {
-            "Accept": "application/json",
-          },
-          body: formData
+        method: "post",
+        headers: {
+          Accept: "application/json",
+        },
+        body: formData,
       })
-      .then(response => response.json())
-      .then(result => {
-        console.log('here')
-        console.log(result)
-        if(result.token){
-          this.token = result.token;
-          this.stop = false;
-          console.log('csrf=' + this.csrf);
-          this.loadData();
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-    }
-    
+        .then((response) => {
+          if (response.ok) {
+            return response.json()
+            }else if(response.status == 401 || response.status == 403){
+              this.errText = 'Требуется авторизация!';
+            }else {
+              this.errText = `${response.status} ${response.statusText}`;
+            }
+            return false;
+        })
+        .then((result) => {
+          console.log(result);
+          if (result.token) {
+            this.token = result.token;
+            this.stop = false;
+            console.log("csrf=" + this.csrf);
+            this.loadData();
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
   mounted() {
-    this.csrf = document.getElementById('_csrf_token').content;
+    this.csrf = document.getElementById("_csrf_token").content;
     this.getToken();
   },
 
   computed: {
     ...mapGetters(["csrf"]),
   },
-  
 };
 </script>
