@@ -13,6 +13,7 @@ const store = {
     userStatus: '',
     avatarPath: '',
     csrf: '',
+    token: '',
   },
   getters: {
     modal: (state) => state.modal,
@@ -26,6 +27,7 @@ const store = {
     userStatus: (state) => state.userStatus,
     avatarPath: (state) => state.avatarPath,
     csrf: (state) => state.csrf,
+    token: (state) => state.token,
   },
   mutations: {
     showCallModal(state) {
@@ -52,6 +54,9 @@ const store = {
     setCsrf(state, response) {
       state.csrf = response.csrf;
     },
+    // setToken(state, response) {
+    //   state.token = response.token;
+    // },
     // setGuest(state) {
     //   state.isGuest = true;
     // },
@@ -65,6 +70,11 @@ const store = {
         state.userRole = response.role;
         state.userStatus = response.status;
         state.avatarPath = response.avatarPath;
+        // JWT
+        if(response.token){
+          state.token = response.token;
+          // localStorage.setItem('token', response.token)
+        }
       }
     },
   },

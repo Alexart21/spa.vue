@@ -223,6 +223,13 @@ export default {
         });
       this.stopUpload();
     },
+    getToken(){
+      console.log("csrf2=" + this.csrf)
+    }
+  },
+  mounted() {
+    setTimeout(this.getToken, 10000)
+    console.log("csrf=" + this.csrf);
   },
   computed: {
     ...mapGetters(["csrf"]),

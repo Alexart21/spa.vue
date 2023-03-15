@@ -15,6 +15,8 @@
 </style>
 <template>
   <h1>Infinite scroll test</h1>
+  <h1>{{ csrf }}</h1>
+  <h3 class="text-danger" v-if="errText">{{ errText }}</h3>
   <div id="scroll-container">
     <h1 v-for="item in list" :key="item.country_id">{{ item.name }}</h1>
     <!-- <infinite-loading target="#scroll-container" @infinite="load"></infinite-loading> -->
@@ -24,57 +26,88 @@
 </template>
 <script>
 import InfiniteLoading from "v3-infinite-loading";
+import { mapGetters } from "vuex";
+// import { mapGetters } from "vuex";
 export default {
+  components: {
+    InfiniteLoading,
+  },
   data() {
     return {
       offset: 0,
-      step: 10,
+      limit: 10,
       loader: false,
-      stop: false,
+      stop: true,
       list: [],
+      csrf: "",
+      errText: "",
     };
   },
   methods: {
     async loadData() {
+      this.errText = '';
       if (!this.stop) {
         this.loader = true;
         this.stop = true; // запираем а то скрол дергается и несколько запросов летит
         // чтобы не оправлять следующий запрос не обработав предидущий
-        let url = "/inf?offset=" + this.offset + "&step=" + this.step;
-        let options = {
-          mode: "no-cors",
+        let url = "/api/auth/countrys";
+        let body = {
+          offset: this.offset,
+          limit: this.limit,
         };
-        await fetch(url, options)
-          .then((response) => response.json())
-          .then((result) => {
-            if (result.success && result.data) {
-              this.stop = false;
-              let total = result.total;
-              let data = result.data;
-              console.log(data);
-              this.list.push(...data);
-              console.log("current list count = " + this.list.length);
-              // смотрим все ли данные выбрали с сервера
-              // result.total - столько записей всего в базе
-              if (this.list.length >= total || total < this.step) {
-                this.stop = true;
-              }
-              this.offset += this.step;
-              console.log("next offs = " + this.offset);
+        let response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json;charset=utf-8",
+            "Accept": "application/json",
+            "Authorization" : "Bearer " + this.token
+          },
+          body: JSON.stringify(body),
+        });
+        if (response.redirected || response.status == 403) {
+          this.loader = false;
+          this.errText = "Требуется авторизация!";
+        }
+        if (!response.ok) {
+          console.log(response);
+          this.loader = false;
+          this.errText = `Ошибка ${response.status} ${response.statusText}`;
+        } else {
+          // 200
+          let result = await response.json();
+          if (result.success && result.data) {
+            this.stop = false;
+            let total = result.total;
+            let data = result.data;
+            this.list.push(...data);
+            // смотрим все ли данные выбрали с сервера
+            // result.total - столько записей всего в базе
+            if (this.list.length >= total || total < this.limit) {
+              this.stop = true;
             }
-          })
-          .catch((error) => console.log("error", error));
+            this.offset += this.limit;
+            // console.log("next offs = " + this.offset);
+          }
+        }
         this.loader = false;
       } else {
         console.log("total=" + this.list.length);
       }
     },
+    start(){
+      console.log("token=" + this.token)
+      if(this.token){
+        this.stop = false;
+        this.loadData();
+      }
+    }
   },
   mounted() {
-    // this.loadData()
+    // токен не сразу асинхронно приходит 
+    setTimeout(this.start, 2000)
   },
-  components: {
-    InfiniteLoading,
+  computed: {
+    ...mapGetters(["token"]),
   },
 };
 </script>
