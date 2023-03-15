@@ -15,7 +15,6 @@
 </style>
 <template>
   <h1>Infinite scroll test</h1>
-  <h1>{{ csrf }}</h1>
   <h3 class="text-danger" v-if="errText">{{ errText }}</h3>
   <div id="scroll-container">
     <h1 v-for="item in list" :key="item.country_id">{{ item.name }}</h1>
@@ -26,8 +25,8 @@
 </template>
 <script>
 import InfiniteLoading from "v3-infinite-loading";
-import { mapGetters } from "vuex";
-// import { mapGetters } from "vuex";
+// import { mapActions, mapGetters } from "vuex";
+import { mapGetters} from "vuex";
 export default {
   components: {
     InfiniteLoading,
@@ -41,6 +40,8 @@ export default {
       list: [],
       csrf: "",
       errText: "",
+      csrf: '',
+      token: '',
     };
   },
   methods: {
@@ -94,20 +95,42 @@ export default {
         console.log("total=" + this.list.length);
       }
     },
-    start(){
-      console.log("token=" + this.token)
-      if(this.token){
-        this.stop = false;
-        this.loadData();
-      }
+    async getToken(){
+      let url = '/token';
+      let formData = new FormData();
+      formData.append("_token", this.csrf);
+      await fetch(url, {
+          method: 'post',
+          headers: {
+            "Accept": "application/json",
+          },
+          body: formData
+      })
+      .then(response => response.json())
+      .then(result => {
+        console.log('here')
+        console.log(result)
+        if(result.token){
+          this.token = result.token;
+          this.stop = false;
+          console.log('csrf=' + this.csrf);
+          this.loadData();
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
     }
+    
   },
   mounted() {
-    // токен не сразу асинхронно приходит 
-    setTimeout(this.start, 2000)
+    this.csrf = document.getElementById('_csrf_token').content;
+    this.getToken();
   },
+
   computed: {
-    ...mapGetters(["token"]),
+    ...mapGetters(["csrf"]),
   },
+  
 };
 </script>

@@ -54,12 +54,6 @@ const store = {
     setCsrf(state, response) {
       state.csrf = response.csrf;
     },
-    // setToken(state, response) {
-    //   state.token = response.token;
-    // },
-    // setGuest(state) {
-    //   state.isGuest = true;
-    // },
     setUser(state, response) {
       if(response.isGuest){
         state.isGuest = true;
@@ -70,11 +64,6 @@ const store = {
         state.userRole = response.role;
         state.userStatus = response.status;
         state.avatarPath = response.avatarPath;
-        // JWT
-        if(response.token){
-          state.token = response.token;
-          // localStorage.setItem('token', response.token)
-        }
       }
     },
   },
