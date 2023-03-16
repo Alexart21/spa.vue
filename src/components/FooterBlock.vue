@@ -29,8 +29,6 @@
         </form>
         </div>
     </div>
-    <router-link :to="{name: 'location'}" >Select location
-              </router-link>
   </footer>
 </template>
 <script>

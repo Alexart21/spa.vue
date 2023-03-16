@@ -26,7 +26,7 @@ createApp(App)
     })
     .mount('#app');
 
-store.dispatch('loadCsrf');
+store.commit('setCsrf');
 store.dispatch('loadUser');
 
 import './assets/css/bootstrap.min.css';

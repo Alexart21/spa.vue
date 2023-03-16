@@ -52,7 +52,7 @@ const store = {
       state.citys = [];
     },
     setCsrf(state, csrf) {
-      state.csrf = csrf;
+      state.csrf = document.getElementById("_csrf_token").content;
     },
     setUser(state, response) {
       if (response.isGuest) {
@@ -81,10 +81,6 @@ const store = {
         body: formData,
       });
       return response;
-    },
-    async loadCsrf({ commit }) {
-      let csrf = document.getElementById("_csrf_token").content;
-      commit("setCsrf", csrf);
     },
     // данные пользователя если авторизован
     async loadUser(context) {
