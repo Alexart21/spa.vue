@@ -27,6 +27,7 @@
 import InfiniteLoading from "v3-infinite-loading";
 // import { mapActions, mapGetters } from "vuex";
 import { mapGetters } from "vuex";
+import { mdiLeak } from "@mdi/js";
 export default {
   components: {
     InfiniteLoading,
@@ -56,7 +57,7 @@ export default {
           offset: this.offset,
           limit: this.limit,
         };
-        let response = await fetch(url, {
+        await fetch(url, {
           method: "POST",
           headers: {
             "Content-Type": "application/json;charset=utf-8",
@@ -64,61 +65,70 @@ export default {
             Authorization: "Bearer " + this.token,
           },
           body: JSON.stringify(body),
-        });
-        if (response.redirected || response.status == 403) {
-          this.loader = false;
-          this.errText = "Требуется авторизация!";
-        }
-        if (!response.ok) {
-          console.log(response);
-          this.loader = false;
-          this.errText = `Ошибка ${response.status} ${response.statusText}`;
-        } else {
-          // 200
-          let result = await response.json();
-          if (result.success && result.data) {
-            this.stop = false;
-            let total = result.total;
-            let data = result.data;
-            this.list.push(...data);
-            // смотрим все ли данные выбрали с сервера
-            // result.total - столько записей всего в базе
-            if (this.list.length >= total || total < this.limit) {
-              this.stop = true;
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              let errTxt;
+              if (response.status == 401 || response.status == 403) {
+                errTxt = "Требуется авторизация!";
+              } else {
+                errTxt = `${response.status} ${response.statusText}`;
+              }
+              throw new Error(errTxt);
             }
-            this.offset += this.limit;
-            // console.log("next offs = " + this.offset);
-          }
-        }
+          })
+          .then((result) => {
+            if (result.success && result.data) {
+              this.stop = false;
+              let total = result.total;
+              let data = result.data;
+              this.list.push(...data);
+              // смотрим все ли данные выбрали с сервера
+              // result.total - столько записей всего в базе
+              if (this.list.length >= total || total < this.limit) {
+                this.stop = true;
+              }
+              this.offset += this.limit;
+              // console.log("next offs = " + this.offset);
+            }
+          })
+          .catch((error) => {
+            this.errText = error.message;
+          });
         this.loader = false;
       } else {
         console.log("total=" + this.list.length);
       }
     },
-    start(){
-      this.$store.dispatch("loadToken")
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else if (response.status == 401 || response.status == 403) {
-          this.errText = "Требуется авторизация!";
-        } else {
-          this.errText = `${response.status} ${response.statusText}`;
-        }
-        return false;
-      })
-      .then((result) => {
-        if (result.token) {
-          this.token = result.token;
-          this.stop = false;
-          this.loadData();
-        }
-      })
-      .catch((error) => {
-        console.log("here err");
-        console.log(error);
-      });
-    }
+    start() {
+      this.$store
+        .dispatch("loadToken")
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            let errTxt;
+            if (response.status == 401 || response.status == 403) {
+              errTxt = "Требуется авторизация!";
+            } else {
+              errTxt = `${response.status} ${response.statusText}`;
+            }
+            throw new Error(errTxt);
+          }
+        })
+        .then((result) => {
+          if (result.token) {
+            this.token = result.token;
+            this.stop = false;
+            this.loadData();
+          }
+        })
+        .catch((error) => {
+          this.errText = error.message;
+        });
+    },
   },
   mounted() {
     this.start();
@@ -129,9 +139,9 @@ export default {
   watch: {
     stop: {
       handler() {
-        console.log('stop=' + this.stop)
+        console.log("stop=" + this.stop);
       },
-    }
-  }
+    },
+  },
 };
 </script>
