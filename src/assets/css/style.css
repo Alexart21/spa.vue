@@ -2358,3 +2358,29 @@ abbr{
 .successLabel{
     color: green;
 }
+/*  */
+#logoutDialog{
+    width: 20em;
+    height: 8em;
+    border: 2px solid red;
+    border-radius: 3px;
+    box-shadow: 0 0 30px #fff;
+    left: calc(50% - 10em);
+    top: calc(50% - 4em);
+    letter-spacing: 2px;
+}
+
+#logoutDialog form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#logoutDialog form button{
+   font-weight: bold;
+   letter-spacing: 2px;
+}
+
+#logoutDialog::backdrop{
+    background: rgba(0,0,0, .7);
+}
