@@ -7,13 +7,13 @@ const store = {
     regions: [],
     citys: [],
     isGuest: true,
-    username: '',
-    userEmail: '',
-    userRole: '',
-    userStatus: '',
-    avatarPath: '',
-    csrf: '',
-    token: '',
+    username: "",
+    userEmail: "",
+    userRole: "",
+    userStatus: "",
+    avatarPath: "",
+    csrf: "",
+    token: "",
   },
   getters: {
     modal: (state) => state.modal,
@@ -45,19 +45,19 @@ const store = {
     setCitys(state, response) {
       state.citys = response.data;
     },
-    clearRegions(state){
+    clearRegions(state) {
       state.regions = [];
     },
-    clearCitys(state){
+    clearCitys(state) {
       state.citys = [];
     },
-    setCsrf(state, response) {
-      state.csrf = response.csrf;
+    setCsrf(state, csrf) {
+      state.csrf = csrf;
     },
     setUser(state, response) {
-      if(response.isGuest){
+      if (response.isGuest) {
         state.isGuest = true;
-      }else{
+      } else {
         state.isGuest = false;
         state.username = response.username;
         state.userEmail = response.email;
@@ -68,14 +68,26 @@ const store = {
     },
   },
   actions: {
-    async loadCsrf({ commit }){
-      let url = "/csrf";
-      let response = await fetch(url);
-      response = await response.json();
-      commit("setCsrf", response);
+    // возвращает промис для дпльнейшего использования в компонентах
+    async loadToken(context) {
+      let url = "/token";
+      let formData = new FormData();
+      formData.append("_token", context.state.csrf);
+      let response = await fetch(url, {
+        method: "post",
+        headers: {
+          Accept: "application/json",
+        },
+        body: formData,
+      });
+      return response;
+    },
+    async loadCsrf({ commit }) {
+      let csrf = document.getElementById("_csrf_token").content;
+      commit("setCsrf", csrf);
     },
     // данные пользователя если авторизован
-    async loadUser({ commit }){
+    async loadUser({ commit }) {
       let url = "/user";
       let response = await fetch(url);
       response = await response.json();

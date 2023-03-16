@@ -40,7 +40,7 @@ export default {
       list: [],
       csrf: "",
       errText: "",
-      csrf: "",
+      // csrf: "",
       token: "",
     };
   },
@@ -95,48 +95,43 @@ export default {
         console.log("total=" + this.list.length);
       }
     },
-    async getToken() {
-      let url = "/token";
-      let formData = new FormData();
-      formData.append("_token", this.csrf);
-      await fetch(url, {
-        method: "post",
-        headers: {
-          Accept: "application/json",
-        },
-        body: formData,
+    start(){
+      this.$store.dispatch("loadToken")
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else if (response.status == 401 || response.status == 403) {
+          this.errText = "Требуется авторизация!";
+        } else {
+          this.errText = `${response.status} ${response.statusText}`;
+        }
+        return false;
       })
-        .then((response) => {
-          if (response.ok) {
-            return response.json()
-            }else if(response.status == 401 || response.status == 403){
-              this.errText = 'Требуется авторизация!';
-            }else {
-              this.errText = `${response.status} ${response.statusText}`;
-            }
-            return false;
-        })
-        .then((result) => {
-          console.log(result);
-          if (result.token) {
-            this.token = result.token;
-            this.stop = false;
-            console.log("csrf=" + this.csrf);
-            this.loadData();
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
+      .then((result) => {
+        if (result.token) {
+          this.token = result.token;
+          this.stop = false;
+          this.loadData();
+        }
+      })
+      .catch((error) => {
+        console.log("here err");
+        console.log(error);
+      });
+    }
   },
   mounted() {
-    this.csrf = document.getElementById("_csrf_token").content;
-    this.getToken();
+    this.start();
   },
-
   computed: {
-    ...mapGetters(["csrf"]),
+    // ...mapGetters(["csrf"]),
   },
+  watch: {
+    stop: {
+      handler() {
+        console.log('stop=' + this.stop)
+      },
+    }
+  }
 };
 </script>
