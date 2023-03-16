@@ -87,11 +87,19 @@ const store = {
       commit("setCsrf", csrf);
     },
     // данные пользователя если авторизован
-    async loadUser({ commit }) {
+    async loadUser(context) {
       let url = "/user";
-      let response = await fetch(url);
+      let formData = new FormData();
+      formData.append("_token", context.state.csrf);
+      let response = await fetch(url, {
+        method: "post",
+        headers: {
+          Accept: "application/json",
+        },
+        body: formData,
+      });
       response = await response.json();
-      commit("setUser", response);
+      context.commit('setUser', response);
     },
     // список стран
     async loadCountrys({ commit }) {
