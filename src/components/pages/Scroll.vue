@@ -25,9 +25,9 @@
 </template>
 <script>
 import InfiniteLoading from "v3-infinite-loading";
-// import { mapActions, mapGetters } from "vuex";
-import { mapGetters } from "vuex";
-import { mdiLeak } from "@mdi/js";
+// import { mapActions } from "vuex";
+// import { mapGetters } from "vuex";
+// import { mdiLeak } from "@mdi/js";
 export default {
   components: {
     InfiniteLoading,
@@ -46,6 +46,20 @@ export default {
     };
   },
   methods: {
+    // ...mapActions(['getErrText']),
+    errorHandler(code, statusText) {
+      let text;
+      if (code == 401) {
+        text = `${code} Недействительный токен авторизации. Не выполнен вход или истек срок токена`;
+      } else if (code == 403) {
+        text = `${code} Требуется авторизации`;
+      } else if (code == 404) {
+        text = `${code} Not Found`;
+      } else {
+        text = `Ошибка ${code} ${statusText}`;
+      }
+      return text;
+    },
     async loadData() {
       this.errText = "";
       if (!this.stop) {
@@ -70,13 +84,11 @@ export default {
             if (response.ok) {
               return response.json();
             } else {
-              let errTxt;
-              if (response.status == 401 || response.status == 403) {
-                errTxt = "Требуется авторизация!";
-              } else {
-                errTxt = `${response.status} ${response.statusText}`;
-              }
-              throw new Error(errTxt);
+              let errMsg = this.errorHandler(
+                response.status,
+                response.statusText
+              );
+              throw new Error(errMsg);
             }
           })
           .then((result) => {
@@ -109,13 +121,11 @@ export default {
           if (response.ok) {
             return response.json();
           } else {
-            let errTxt;
-            if (response.status == 401 || response.status == 403) {
-              errTxt = "Требуется авторизация!";
-            } else {
-              errTxt = `${response.status} ${response.statusText}`;
-            }
-            throw new Error(errTxt);
+            let errMsg = this.errorHandler(
+              response.status,
+              response.statusText
+            );
+            throw new Error(errMsg);
           }
         })
         .then((result) => {
