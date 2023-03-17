@@ -4,7 +4,7 @@
     <div class="photo-main">
       <div v-for="(photo, index) in photos" :key="photo.id" class="img-out">
         <picture>
-          <img :src="photo.path" alt="" class="img-inner" />
+          <img :src="photo.link" alt="" class="img-inner" />
         </picture>
         <div class="del" @click="delPhoto(photo.id, index)"><b>удалить</b></div>
       </div>
@@ -60,6 +60,7 @@ export default {
         .then((response) => response.json())
         .then((result) => {
           if (result.success && result.all) {
+            console.log(result.all)
             this.photos = result.all.data;
             if (!this.photos.length) {
               this.statusText = "Фотографий не найдено";
