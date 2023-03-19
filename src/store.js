@@ -64,24 +64,12 @@ const store = {
         state.userRole = response.role;
         state.userStatus = response.status;
         state.avatarPath = response.avatarPath;
+        state.token = response.token;
+        localStorage.setItem('token', response.token)
       }
     },
   },
   actions: {
-    // возвращает промис для дпльнейшего использования в компонентах
-    async loadToken(context) {
-      let url = "/token";
-      let formData = new FormData();
-      formData.append("_token", context.state.csrf);
-      let response = await fetch(url, {
-        method: "post",
-        headers: {
-          Accept: "application/json",
-        },
-        body: formData,
-      });
-      return response;
-    },
     // данные пользователя если авторизован
     async loadUser(context) {
       let url = "/user";

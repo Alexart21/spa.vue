@@ -26,7 +26,7 @@
 <script>
 import InfiniteLoading from "v3-infinite-loading";
 // import { mapActions } from "vuex";
-// import { mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 // import { mdiLeak } from "@mdi/js";
 export default {
   components: {
@@ -41,12 +41,9 @@ export default {
       list: [],
       csrf: "",
       errText: "",
-      // csrf: "",
-      token: "",
     };
   },
   methods: {
-    // ...mapActions(['getErrText']),
     errorHandler(code, statusText) {
       let text;
       if (code == 401) {
@@ -96,6 +93,7 @@ export default {
               this.stop = false;
               let total = result.total;
               let data = result.data;
+              // console.log(data);
               this.list.push(...data);
               // смотрим все ли данные выбрали с сервера
               // result.total - столько записей всего в базе
@@ -115,41 +113,29 @@ export default {
       }
     },
     start() {
-      this.$store
-        .dispatch("loadToken")
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            let errMsg = this.errorHandler(
-              response.status,
-              response.statusText
-            );
-            throw new Error(errMsg);
-          }
-        })
-        .then((result) => {
-          if (result.token) {
-            this.token = result.token;
-            this.stop = false;
-            this.loadData();
-          }
-        })
-        .catch((error) => {
-          this.errText = error.message;
-        });
+      this.stop = false;
+      this.loadData();
     },
+    warn(){
+      if(!this.token){
+        this.errText = 'Необходима авторизация!';
+      }
+    }
   },
   mounted() {
-    this.start();
+    setTimeout(this.warn, 4000);
   },
   computed: {
-    // ...mapGetters(["csrf"]),
+    ...mapGetters(["token"]),
   },
   watch: {
-    stop: {
+    token: {
       handler() {
-        console.log("stop=" + this.stop);
+        // как получим токен только тогда запускаем загрузку данных
+        if(this.token){
+          // console.log('token=' + this.token)
+          this.start();
+        }
       },
     },
   },
