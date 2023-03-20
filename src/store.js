@@ -14,6 +14,8 @@ const store = {
     avatarPath: "",
     csrf: "",
     token: "",
+    refreshTokenModal: false,
+    refreshed: false,
   },
   getters: {
     modal: (state) => state.modal,
@@ -35,6 +37,12 @@ const store = {
     },
     hideCallModal(state) {
       state.modal = false;
+    },
+    showRefreshTokenModal(state) {
+      state.refreshTokenModal = true;
+    },
+    hideRefreshTokenModal(state) {
+      state.refreshTokenModal = false;
     },
     setCountrys(state, response) {
       state.countrys = response.data;
@@ -65,9 +73,13 @@ const store = {
         state.userStatus = response.status;
         state.avatarPath = response.avatarPath;
         state.token = response.token;
-        localStorage.setItem('token', response.token)
+        localStorage.setItem("token", response.token);
       }
     },
+    setToken(state, response){
+      state.token = response.access_token;
+      localStorage.setItem("token", response.access_token);
+    }
   },
   actions: {
     // данные пользователя если авторизован
@@ -83,7 +95,24 @@ const store = {
         body: formData,
       });
       response = await response.json();
-      context.commit('setUser', response);
+      context.commit("setUser", response);
+    },
+    async refreshToken(context) {
+      let url = "/api/auth/refresh";
+      let response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + context.state.token,
+        },
+      });
+      if (response.ok) {
+        response = await response.json();
+        context.commit("setToken", response);
+      } else {
+        console.log("Ошибка в action refreshToken");
+        console.log(response);
+      }
     },
   },
   strict: process.env.NODE_ENV !== "production",

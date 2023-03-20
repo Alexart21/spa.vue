@@ -15,9 +15,9 @@
 </style>
 <template>
   <h1>Infinite scroll test</h1>
-  <h3 class="text-danger" v-if="errText">{{ errText }}</h3>
-  <div  v-if="refreshBtn"><button @click="refreshToken" class="btn btn-success">Обновить токен</button></div>
-  <div v-if="refreshed" class="text-success">Токен обновлен!</div>
+  <RefreshTokenModal />
+  <!-- <h3 v-if="successText" class="text-success">{{ successText }}</h3> -->
+  <h3 v-if="errText" class="text-danger">{{ errText }}</h3>
   <div id="scroll-container">
     <h1 v-for="item in list" :key="item.country_id">{{ item.name }}</h1>
     <!-- <infinite-loading target="#scroll-container" @infinite="load"></infinite-loading> -->
@@ -27,13 +27,13 @@
 </template>
 <script>
 import InfiniteLoading from "v3-infinite-loading";
-// import { mapActions } from "vuex";
-import { mapGetters } from "vuex";
-import LocationVue from './Location.vue';
+import { mapGetters, mapMutations, mapActions } from "vuex";
+import RefreshTokenModal from "@/components/RefreshTokenModal.vue";
 // import { mdiLeak } from "@mdi/js";
 export default {
   components: {
     InfiniteLoading,
+    RefreshTokenModal
   },
   data() {
     return {
@@ -43,13 +43,13 @@ export default {
       stop: true,
       list: [],
       csrf: "",
-      token: "",
+      // token: "",
+      // successText: "",
       errText: "",
-      refreshBtn: false,
-      refreshed: false,
     };
   },
   methods: {
+    ...mapMutations(['showRefreshTokenModal', 'hideRefreshTokenModal']),
     errorHandler(code, statusText) {
       let text;
       if (code == 401) {
@@ -57,7 +57,7 @@ export default {
           text = `${code} Требуется авторизации`;
         }else{
           text = `${code} Истек срок действия токена`;
-          this.refreshBtn = true;
+          this.showRefreshTokenModal();
         }
       } else if (code == 403) {
         text = `${code} Требуется авторизации`;
@@ -68,34 +68,10 @@ export default {
       }
       return text;
     },
-    async refreshToken(){
-      let url = '/api/auth/refresh';
-      await fetch(url, {
-        method: "POST",
-        headers: {
-            Accept: "application/json",
-            Authorization: "Bearer " + this.token,
-          },
-      })
-      .then(response => response.json())
-      .then((result) => {
-        if(result.access_token){
-          this.token = result.access_token;
-          localStorage.setItem('token', this.token);
-          this.refreshed = true;
-          this.stop = false;
-          console.log('new_token=' + result.access_token);
-          console.log('stoped=' + this.stop);
-        }else{
-          console.log('что то не так...')
-          console.log(result)
-        }
-      })
-    },
     async loadData() {
+      // this.successText = "";
       this.errText = "";
-      this.refreshBtn = false;
-      this.refreshed = false;
+      this.hideRefreshTokenModal();
       if (!this.stop) {
         this.loader = true;
         // this.stop = true; // запираем а то скрол дергается и несколько запросов летит
@@ -130,7 +106,6 @@ export default {
               this.stop = false;
               let total = result.total;
               let data = result.data;
-              // console.log(data);
               this.list.push(...data);
               // смотрим все ли данные выбрали с сервера
               // result.total - столько записей всего в базе
@@ -155,7 +130,7 @@ export default {
       this.loadData();
     },
     checkToken(){
-      this.token = localStorage.getItem('token')
+      // this.token = localStorage.getItem('token')
       if(!this.token){
         this.errText = 'Необходима авторизация!';
       }else{
@@ -167,13 +142,18 @@ export default {
     setTimeout(this.checkToken, 1000);
   },
   computed: {
-    ...mapGetters(["isGuest"]),
+    ...mapGetters(["token", "isGuest"]),
   },
   watch: {
-    token: {
-      // handler() {
-      //     this.start();
-      // },
+    token: { // асинхронно подгрузился токен
+      handler() {
+          console.log('token_changed=' + this.token)
+          if(!this.list.length){ // список еще пуст(в начале) -- запускаем загрузку данных
+            this.start();
+          }
+          this.stop = false;
+          this.errText = '';
+      },
     },
   },
 };
