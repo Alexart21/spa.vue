@@ -16,6 +16,8 @@
 <template>
   <h1>Infinite scroll test</h1>
   <h3 class="text-danger" v-if="errText">{{ errText }}</h3>
+  <div  v-if="refreshBtn"><button @click="refreshToken" class="btn btn-success">Обновить токен</button></div>
+  <div v-if="refreshed" class="text-success">Токен обновлен!</div>
   <div id="scroll-container">
     <h1 v-for="item in list" :key="item.country_id">{{ item.name }}</h1>
     <!-- <infinite-loading target="#scroll-container" @infinite="load"></infinite-loading> -->
@@ -27,6 +29,7 @@
 import InfiniteLoading from "v3-infinite-loading";
 // import { mapActions } from "vuex";
 import { mapGetters } from "vuex";
+import LocationVue from './Location.vue';
 // import { mdiLeak } from "@mdi/js";
 export default {
   components: {
@@ -40,14 +43,22 @@ export default {
       stop: true,
       list: [],
       csrf: "",
+      token: "",
       errText: "",
+      refreshBtn: false,
+      refreshed: false,
     };
   },
   methods: {
     errorHandler(code, statusText) {
       let text;
       if (code == 401) {
-        text = `${code} Недействительный токен авторизации. Не выполнен вход или истек срок токена`;
+        if(this.isGuest){
+          text = `${code} Требуется авторизации`;
+        }else{
+          text = `${code} Истек срок действия токена`;
+          this.refreshBtn = true;
+        }
       } else if (code == 403) {
         text = `${code} Требуется авторизации`;
       } else if (code == 404) {
@@ -57,11 +68,37 @@ export default {
       }
       return text;
     },
+    async refreshToken(){
+      let url = '/api/auth/refresh';
+      await fetch(url, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            Authorization: "Bearer " + this.token,
+          },
+      })
+      .then(response => response.json())
+      .then((result) => {
+        if(result.access_token){
+          this.token = result.access_token;
+          localStorage.setItem('token', this.token);
+          this.refreshed = true;
+          this.stop = false;
+          console.log('new_token=' + result.access_token);
+          console.log('stoped=' + this.stop);
+        }else{
+          console.log('что то не так...')
+          console.log(result)
+        }
+      })
+    },
     async loadData() {
       this.errText = "";
+      this.refreshBtn = false;
+      this.refreshed = false;
       if (!this.stop) {
         this.loader = true;
-        this.stop = true; // запираем а то скрол дергается и несколько запросов летит
+        // this.stop = true; // запираем а то скрол дергается и несколько запросов летит
         // чтобы не оправлять следующий запрос не обработав предидущий
         let url = "/api/auth/countrys";
         let body = {
@@ -106,6 +143,7 @@ export default {
           })
           .catch((error) => {
             this.errText = error.message;
+            this.stop = true;
           });
         this.loader = false;
       } else {
@@ -116,27 +154,26 @@ export default {
       this.stop = false;
       this.loadData();
     },
-    warn(){
+    checkToken(){
+      this.token = localStorage.getItem('token')
       if(!this.token){
         this.errText = 'Необходима авторизация!';
+      }else{
+        this.start();
       }
     }
   },
   mounted() {
-    setTimeout(this.warn, 4000);
+    setTimeout(this.checkToken, 1000);
   },
   computed: {
-    ...mapGetters(["token"]),
+    ...mapGetters(["isGuest"]),
   },
   watch: {
     token: {
-      handler() {
-        // как получим токен только тогда запускаем загрузку данных
-        if(this.token){
-          // console.log('token=' + this.token)
-          this.start();
-        }
-      },
+      // handler() {
+      //     this.start();
+      // },
     },
   },
 };
