@@ -45,6 +45,7 @@ export default {
       MAX_BTN_COUNT: 5,
       options: {
         chunk: 5,
+        edgeNavigation: true,
         texts: {
           count: `Фото {from}-{to} из {count}`,
         },
@@ -121,6 +122,7 @@ export default {
   display: flex;
   /* justify-content: center; */
   flex-wrap: wrap;
+  align-items: flex-end;
 }
 .img-out {
   display: flex;
@@ -147,5 +149,13 @@ export default {
   flex-grow: 0;
   color: red;
   cursor: pointer;
+}
+
+
+</style>
+<style>
+/* прибил кнопки последняя страница ... */
+.VuePagination__pagination-item-prev-chunk.disabled, .VuePagination__pagination-item-next-chunk.disabled{
+  display: none;
 }
 </style>

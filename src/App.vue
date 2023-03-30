@@ -39,6 +39,7 @@
     <footer-block />
     <!--/noindex-->
   </div>
+  <button @click="toast">Toast it!</button>
 </template>
 <script>
 const screen_w = document.body.clientWidth;
@@ -52,7 +53,6 @@ import LeftBlock from "@/components/LeftBlock";
 import ScrollTopBtn from "@/components/ui/ScrollTopBtn";
 import CallModal from "@/components/CallModal";
 // import { mapGetters } from 'vuex';
-
 export default {
   // computed: mapGetters(['modal']),
   components: {

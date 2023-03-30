@@ -32,3 +32,4 @@ store.dispatch('loadUser');
 import './assets/css/bootstrap.min.css';
 import './assets/css/style.css';
 import './assets/css/animate.min.css';
+import "mosha-vue-toastify/dist/style.css";

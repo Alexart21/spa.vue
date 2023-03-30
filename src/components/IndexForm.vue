@@ -1,9 +1,5 @@
 <template>
-  <form
-    name="indexForm"
-    id="index-form"
-    @submit.prevent="sendForm"
-  >
+  <form name="indexForm" id="index-form" @submit.prevent="sendForm">
     <!-- <input type="hidden" name="_csrf" :value="csrfToken"> -->
 
     <div class="field form-group">
@@ -17,7 +13,9 @@
         name="name"
         tabindex="1"
       />
-      <div v-if="v$.name.$errors.length" class="errLabel"><mdicon name="alert-circle-outline" /></div>
+      <div v-if="v$.name.$errors.length" class="errLabel">
+        <mdicon name="alert-circle-outline" />
+      </div>
       <p v-for="error of v$.$errors" :key="error.$uid" class="text-danger">
         <span v-if="error.$property === 'name'">
           <span v-if="error.$validator === 'minLength'">
@@ -46,7 +44,9 @@
         v-model.trim="email"
         tabindex="2"
       />
-      <div v-if="v$.email.$errors.length" class="errLabel"><mdicon name="alert-circle-outline" /></div>
+      <div v-if="v$.email.$errors.length" class="errLabel">
+        <mdicon name="alert-circle-outline" />
+      </div>
       <p v-for="error of v$.$errors" :key="error.$uid" class="text-danger">
         <span v-if="error.$property === 'email'">
           <span v-if="error.$validator === 'email'">
@@ -82,7 +82,9 @@
         name="body"
         tabindex="4"
       ></textarea>
-      <div v-if="v$.text.$errors.length" class="errLabel"><mdicon name="alert-circle-outline" /></div>
+      <div v-if="v$.text.$errors.length" class="errLabel">
+        <mdicon name="alert-circle-outline" />
+      </div>
       <p v-for="error of v$.$errors" :key="error.$uid" class="text-danger">
         <span v-if="error.$property === 'text'">
           <span v-if="error.$validator === 'minLength'">
@@ -100,13 +102,15 @@
     <input type="hidden" id="indexform-recaptcha" name="reCaptcha" />
 
     <div class="form-group">
-      <button type="submit" class="btn success-button" :disabled="btnDisabled">Отправить</button>
+      <button type="submit" class="btn success-button" :disabled="btnDisabled">
+        Отправить
+      </button>
       <h3
         v-if="statusText"
         class="status"
         :class="[isOk ? 'text-success' : 'text-danger']"
       >
-      <span v-show="loader"><loader /></span>{{ statusText }}
+        <span v-show="loader"><loader /></span>{{ statusText }}
       </h3>
       <div v-show="errArr.length">
         <h4 class="text-danger" v-for="(item, index) in errArr" :key="index">
@@ -120,6 +124,7 @@
 import useValidate from "@vuelidate/core";
 import Loader from "./ui/Loader.vue";
 import { mapGetters } from "vuex";
+import { createToast } from "mosha-vue-toastify";
 import {
   required,
   email,
@@ -130,7 +135,7 @@ import {
 //
 export default {
   components: {
-    Loader
+    Loader,
   },
   computed: mapGetters(["csrf"]),
   directives: {
@@ -202,16 +207,16 @@ export default {
     },
     clearForm() {
       this.hideStatus();
-      this.name = '';
-      this.email = '';
-      this.tel = '';
-      this.text = '';
+      this.name = "";
+      this.email = "";
+      this.tel = "";
+      this.text = "";
       this.v$.$reset(); // иначе выбрасывает валидацию что поля пустые
     },
     async fetchData() {
       const form = document.forms.indexForm;
       let formData = new FormData(form);
-      formData.append('_token', this.csrf);
+      formData.append("_token", this.csrf);
       this.errArr = [];
       const url = "/mail";
       let response = await fetch(url, {
@@ -227,11 +232,29 @@ export default {
         this.loader = false;
         this.btnDisabled = false;
         if (result.success) {
-          this.statusText = "Спасибо, данные приняты. Мы с Вами свяжемся";
+          // this.statusText = "Спасибо, данные приняты. Мы с Вами свяжемся";
+          createToast(
+            {
+              title: "Спасибо, данные приняты. Мы с Вами свяжемся",
+            },
+            {
+              type: "success",
+              hideProgressBar: true,
+            }
+          );
           setTimeout(this.clearForm, 4000);
         } else {
           this.isOk = false;
-          this.statusText = "Ошибка! Что то пошло не так...";
+          // this.statusText = "Ошибка! Что то пошло не так...";
+          createToast(
+            {
+              title: "Ошибка! Что то пошло не так...",
+            },
+            {
+              type: "danger",
+              hideProgressBar: true,
+            }
+          );
           console.log(response);
           console.log(result);
           for (let [key, value] of Object.entries(result.errors)) {
@@ -241,7 +264,16 @@ export default {
       } else {
         this.loader = false;
         this.isOk = false;
-        this.statusText = "Произошла ошибка!";
+        // this.statusText = "Произошла ошибка!";
+        createToast(
+          {
+            title: "Ошибка !",
+          },
+          {
+            type: "danger",
+            hideProgressBar: true,
+          }
+        );
         this.btnDisabled = false;
         console.log(response);
       }
@@ -272,7 +304,16 @@ export default {
       } catch (error) {
         this.loader = false;
         this.isOk = false;
-        this.statusText = "Ошибка ReCaptcha! Попробуйте повторить попытку.";
+        // this.statusText = "Ошибка ReCaptcha! Попробуйте повторить попытку.";
+        createToast(
+          {
+            title: "Ошибка ReCaptcha! Попробуйте повторить попытку",
+          },
+          {
+            type: "danger",
+            hideProgressBar: true,
+          }
+        );
         this.btnDisabled = false;
         console.log(error);
         // setTimeout(this.clearForm, 4000);

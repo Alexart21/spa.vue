@@ -73,6 +73,7 @@ import axios from "axios";
 import { mapGetters } from "vuex";
 import ProgressBar from "@/components/ui/ProgressBar";
 import Loader from "@/components/ui/Loader";
+import { createToast } from "mosha-vue-toastify";
 export default {
   components: {
     ProgressBar,
@@ -153,10 +154,10 @@ export default {
         this.statusText = `Не более ${this.MAX_FILE_COUNT} файлов по ${this.MAX_FILE_SIZE} кБ каждый`;
         return false;
       } else {
-        let err = this.files.filter(item => {
-          return item.size > (this.MAX_FILE_SIZE * 1024);
-        })
-        if(err.length) {
+        let err = this.files.filter((item) => {
+          return item.size > this.MAX_FILE_SIZE * 1024;
+        });
+        if (err.length) {
           this.success = false;
           this.statusText = `Файл ${err[0].name} весит более ${this.MAX_FILE_SIZE} кБ`;
           return false;
@@ -188,12 +189,25 @@ export default {
       })
         .then((response) => {
           if (response.data.success) {
-            this.statusText = "Успешно!";
-            console.log(this.uploadPercentage);
+            createToast(
+              {
+                title: "Успешно!",
+              },
+              {
+                type: "success",
+                hideProgressBar: true,
+              }
+            );
           } else {
-            this.success = false;
-            // console.log('here1');
-            this.statusText = "Что то пошло не так...";
+            createToast(
+              {
+                title: "Ошибка !",
+              },
+              {
+                type: "danger",
+                hideProgressBar: true,
+              }
+            );
           }
         })
         .catch((error) => {
@@ -202,33 +216,42 @@ export default {
           if (error.response.status == 422) {
             let errors = error.response.data.errors;
             // так по разному ответы Laravel дает поскольку мултизагрузка файлов
-            try{
-              errText = errors['images.0'][0]
-            }catch(err){
-              try{
+            try {
+              errText = errors["images.0"][0];
+            } catch (err) {
+              try {
                 errText = errors.images[0];
-              }catch(err){
-                errText = 'Ошибка!';
+              } catch (err) {
+                errText = "Ошибка!";
               }
             }
-          }else if(error.response.status == 403){
-            errText = 'Требуется авторизация!';
-          }else if(error.response.status == 500){
-            errText = 'Ошибка сервера!';
-          }else{
+          } else if (error.response.status == 403) {
+            errText = "Требуется авторизация!";
+          } else if (error.response.status == 500) {
+            errText = "Ошибка сервера!";
+          } else {
             errText = `Ошибка ${error.response.status} ${error.response.statusText}!`;
           }
           this.statusText = errText;
           console.log(error.response);
+          createToast(
+              {
+                title: "Ошибка !",
+              },
+              {
+                type: "danger",
+                hideProgressBar: true,
+              }
+            );
         });
       this.stopUpload();
     },
-    getToken(){
-      console.log("csrf2=" + this.csrf)
-    }
+    getToken() {
+      console.log("csrf2=" + this.csrf);
+    },
   },
   mounted() {
-    setTimeout(this.getToken, 10000)
+    setTimeout(this.getToken, 10000);
     console.log("csrf=" + this.csrf);
   },
   computed: {

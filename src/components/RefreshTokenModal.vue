@@ -15,7 +15,7 @@ export default {
   methods: {
     ...mapActions(["refreshToken"]),
     ...mapMutations(["hideRefreshTokenModal"]),
-    hideModal(){
+    hide(){
         this.hideRefreshTokenModal();
     }
   },
@@ -29,7 +29,7 @@ export default {
       handler() {
           if(this.token){
             this.tokenChanged = true;
-            setTimeout(this.hideModal, 3000);
+            setTimeout(this.hide, 3000);
           }
       },
     },

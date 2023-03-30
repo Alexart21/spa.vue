@@ -33,7 +33,7 @@ import RefreshTokenModal from "@/components/RefreshTokenModal.vue";
 export default {
   components: {
     InfiniteLoading,
-    RefreshTokenModal
+    RefreshTokenModal,
   },
   data() {
     return {
@@ -49,13 +49,13 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(['showRefreshTokenModal', 'hideRefreshTokenModal']),
+    ...mapMutations(["showRefreshTokenModal", "hideRefreshTokenModal"]),
     errorHandler(code, statusText) {
       let text;
       if (code == 401) {
-        if(this.isGuest){
+        if (this.isGuest) {
           text = `${code} Требуется авторизации`;
-        }else{
+        } else {
           text = `${code} Истек срок действия токена`;
           this.showRefreshTokenModal();
         }
@@ -119,8 +119,10 @@ export default {
           .catch((error) => {
             this.errText = error.message;
             this.stop = true;
-          });
-        this.loader = false;
+          })
+          .finally(() => {
+            this.loader = false;
+          })
       } else {
         console.log("total=" + this.list.length);
       }
@@ -129,14 +131,14 @@ export default {
       this.stop = false;
       this.loadData();
     },
-    checkToken(){
+    checkToken() {
       // this.token = localStorage.getItem('token')
-      if(!this.token){
-        this.errText = 'Необходима авторизация!';
-      }else{
+      if (!this.token) {
+        this.errText = "Необходима авторизация!";
+      } else {
         this.start();
       }
-    }
+    },
   },
   mounted() {
     setTimeout(this.checkToken, 1000);
@@ -145,14 +147,16 @@ export default {
     ...mapGetters(["token", "isGuest"]),
   },
   watch: {
-    token: { // асинхронно подгрузился токен
+    token: {
+      // асинхронно подгрузился токен
       handler() {
-          console.log('token_changed=' + this.token)
-          if(!this.list.length){ // список еще пуст(в начале) -- запускаем загрузку данных
-            this.start();
-          }
-          this.stop = false;
-          this.errText = '';
+        console.log("token_changed=" + this.token);
+        if (!this.list.length) {
+          // список еще пуст(в начале) -- запускаем загрузку данных
+          this.start();
+        }
+        this.stop = false;
+        this.errText = "";
       },
     },
   },

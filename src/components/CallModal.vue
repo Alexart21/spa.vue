@@ -22,10 +22,7 @@
         </div>
         <!-- Modal body -->
         <div class="modal-body">
-          <form
-            name="callForm"
-            @submit.prevent="sendForm"
-          >
+          <form name="callForm" @submit.prevent="sendForm">
             <div class="form-group">
               <input
                 v-model.lazy.trim="name"
@@ -36,7 +33,9 @@
                 name="name"
                 placeholder="Ваше имя"
               />
-              <div v-if="v$.name.$errors.length" class="errLabel"><mdicon name="alert-circle-outline" /></div>
+              <div v-if="v$.name.$errors.length" class="errLabel">
+                <mdicon name="alert-circle-outline" />
+              </div>
               <p
                 v-for="error of v$.$errors"
                 :key="error.$uid"
@@ -60,9 +59,7 @@
             </div>
 
             <div class="form-group">
-              <label class="control-label" for="tel"
-                >Номер телефона</label
-              >
+              <label class="control-label" for="tel">Номер телефона</label>
               <input
                 v-model.lazy.trim="tel"
                 @focus="v$.$reset()"
@@ -80,19 +77,19 @@
               >
                 <span v-if="error.$property === 'tel'">
                   <span v-if="error.$validator === 'required'">
-                  Номер телефона обязателен
-                </span>
+                    Номер телефона обязателен
+                  </span>
                 </span>
               </p>
             </div>
-            <input
-              id="callform-recaptcha"
-              type="hidden"
-              name="reCaptcha"
-            />
+            <input id="callform-recaptcha" type="hidden" name="reCaptcha" />
 
             <div class="form-group">
-              <button type="submit" class="btn success-button button-anim" :disabled="btnDisabled">
+              <button
+                type="submit"
+                class="btn success-button button-anim"
+                :disabled="btnDisabled"
+              >
                 жду звонка!
               </button>
               <h3
@@ -100,7 +97,7 @@
                 class="status"
                 :class="[isOk ? 'text-success' : 'text-danger']"
               >
-              <span v-show="loader"><loader /></span>{{ statusText }}
+                <span v-show="loader"><loader /></span>{{ statusText }}
               </h3>
             </div>
             <div v-show="errArr.length">
@@ -122,6 +119,7 @@
 import { mapGetters, mapMutations } from "vuex";
 import useValidate from "@vuelidate/core";
 import Loader from "./ui/Loader.vue";
+import { createToast } from "mosha-vue-toastify";
 import {
   required,
   email,
@@ -132,7 +130,7 @@ import {
 //
 export default {
   components: {
-    Loader
+    Loader,
   },
   computed: mapGetters(["modal", "csrf"]),
   directives: {
@@ -187,20 +185,20 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(['hideCallModal']),
+    ...mapMutations(["hideCallModal"]),
     hideStatus() {
       this.statusText = "";
     },
     clearForm() {
-        this.hideStatus();
-        this.name = '';
-        this.tel = '';
-        this.v$.$reset(); // иначе выбрасывает валидацию что поля пустые
+      this.hideStatus();
+      this.name = "";
+      this.tel = "";
+      this.v$.$reset(); // иначе выбрасывает валидацию что поля пустые
     },
     async fetchData() {
       let form = document.forms.callForm;
       let formData = new FormData(form);
-      formData.append('_token', this.csrf);
+      formData.append("_token", this.csrf);
       this.errArr = [];
       const url = "/zvonok";
       let response = await fetch(url, {
@@ -216,20 +214,47 @@ export default {
         this.loader = false;
         this.btnDisabled = false;
         if (result.success) {
-          this.statusText = "Спасибо, данные приняты. Мы с Вами свяжемся";
+          // this.statusText = "Спасибо, данные приняты. Мы с Вами свяжемся";
+          createToast(
+            {
+              title: "Спасибо, данные приняты. Мы с Вами свяжемся",
+            },
+            {
+              type: "success",
+              hideProgressBar: true,
+            }
+          );
           setTimeout(this.clearForm, 4000);
         } else {
           this.isOk = false;
-          this.statusText = "Ошибка! Что то пошло не так...";
-          console.log(response);
-          console.log(result);
+          // this.statusText = "Ошибка! Что то пошло не так...";
+          // console.log(response);
+          // console.log(result);
+          createToast(
+            {
+              title: "Ошибка !",
+            },
+            {
+              type: "danger",
+              hideProgressBar: true,
+            }
+          );
           for (let [key, value] of Object.entries(result.errors)) {
             this.errArr.push(value);
           }
         }
       } else {
         this.loader = false;
-        this.statusText = "Произошла ошибка!";
+        // this.statusText = "Произошла ошибка!";
+        createToast(
+          {
+            title: "Ошибка !",
+          },
+          {
+            type: "danger",
+            hideProgressBar: true,
+          }
+        );
         this.btnDisabled = false;
         this.isOk = false;
         console.log(response);
@@ -261,7 +286,16 @@ export default {
       } catch (error) {
         this.loader = false;
         this.isOk = false;
-        this.statusText = "Ошибка ReCaptcha! Попробуйте повторить попытку.";
+        // this.statusText = "Ошибка ReCaptcha! Попробуйте повторить попытку.";
+        createToast(
+          {
+            title: "Ошибка ReCaptcha! Попробуйте повторить попытку",
+          },
+          {
+            type: "danger",
+            hideProgressBar: true,
+          }
+        );
         this.btnDisabled = false;
         console.log(error);
         // setTimeout(this.clearForm, 4000);
