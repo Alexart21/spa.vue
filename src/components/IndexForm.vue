@@ -213,6 +213,28 @@ export default {
       this.text = "";
       this.v$.$reset(); // иначе выбрасывает валидацию что поля пустые
     },
+    showSuccess(msg){
+      createToast(
+            {
+              title: msg,
+            },
+            {
+              type: "success",
+              hideProgressBar: true,
+            }
+          );
+    },
+    showError(msg){
+      createToast(
+            {
+              title: msg,
+            },
+            {
+              type: "danger",
+              hideProgressBar: true,
+            }
+          );
+    },
     async fetchData() {
       const form = document.forms.indexForm;
       let formData = new FormData(form);
@@ -232,31 +254,12 @@ export default {
         this.loader = false;
         this.btnDisabled = false;
         if (result.success) {
-          // this.statusText = "Спасибо, данные приняты. Мы с Вами свяжемся";
-          createToast(
-            {
-              title: "Спасибо, данные приняты. Мы с Вами свяжемся",
-            },
-            {
-              type: "success",
-              hideProgressBar: true,
-            }
-          );
+          this.showSuccess('Спасибо, данные приняты. Мы с Вами свяжемся');
           setTimeout(this.clearForm, 4000);
         } else {
           this.isOk = false;
-          // this.statusText = "Ошибка! Что то пошло не так...";
-          createToast(
-            {
-              title: "Ошибка! Что то пошло не так...",
-            },
-            {
-              type: "danger",
-              hideProgressBar: true,
-            }
-          );
+          this.showError('Ошибка! Что то пошло не так...');
           console.log(response);
-          console.log(result);
           for (let [key, value] of Object.entries(result.errors)) {
             this.errArr.push(value);
           }
@@ -264,16 +267,7 @@ export default {
       } else {
         this.loader = false;
         this.isOk = false;
-        // this.statusText = "Произошла ошибка!";
-        createToast(
-          {
-            title: "Ошибка !",
-          },
-          {
-            type: "danger",
-            hideProgressBar: true,
-          }
-        );
+        this.showError('Произошла ошибка!');
         this.btnDisabled = false;
         console.log(response);
       }
@@ -304,16 +298,7 @@ export default {
       } catch (error) {
         this.loader = false;
         this.isOk = false;
-        // this.statusText = "Ошибка ReCaptcha! Попробуйте повторить попытку.";
-        createToast(
-          {
-            title: "Ошибка ReCaptcha! Попробуйте повторить попытку",
-          },
-          {
-            type: "danger",
-            hideProgressBar: true,
-          }
-        );
+        this.showError('Ошибка ReCaptcha! Попробуйте повторить попытку.');
         this.btnDisabled = false;
         console.log(error);
         // setTimeout(this.clearForm, 4000);
