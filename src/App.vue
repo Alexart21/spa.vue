@@ -39,7 +39,6 @@
     <footer-block />
     <!--/noindex-->
   </div>
-  <button @click="toast">Toast it!</button>
 </template>
 <script>
 const screen_w = document.body.clientWidth;
