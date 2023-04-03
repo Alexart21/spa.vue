@@ -142,7 +142,7 @@ export default {
         .catch((error) => {
           console.log(error.response);
           this.success = false;
-          this.statusText = "Ошибка сервера!";
+          this.statusText = `${error.response.status} ${error.response.statusText}`;
         });
     },
     strRand(len) { // рандомная строка для имени файла
