@@ -123,7 +123,7 @@
 <script>
 import useValidate from "@vuelidate/core";
 import Loader from "./ui/Loader.vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import { createToast } from "mosha-vue-toastify";
 import {
   required,
@@ -197,6 +197,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['beep']),
     choiceField(event) {
       let el = event.target;
       let lbl = el.previousElementSibling;
@@ -254,7 +255,9 @@ export default {
         this.loader = false;
         this.btnDisabled = false;
         if (result.success) {
+          this.statusText = "Успешно!";
           this.showSuccess('Спасибо, данные приняты. Мы с Вами свяжемся');
+          this.beep();
           setTimeout(this.clearForm, 4000);
         } else {
           this.isOk = false;

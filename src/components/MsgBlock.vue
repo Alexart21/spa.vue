@@ -1,8 +1,4 @@
 <template>
-  <audio preload="auto">
-    <source src="./../assets/audio/buben.mp3" type="audio/mpeg">
-    <!-- <source src="./assets/audio/buben.ogg" type="audio/ogg"> -->
-  </audio>
   <!--Окно чата-->
   <div v-show="showMsg" @click="openMsgBlock" @mouseover="hideTooltip" :class="msgBlockClasses"
        :style="{right: marginRight}" id="msg-block">
@@ -37,6 +33,7 @@
 <script>
 const screen_w = document.body.clientWidth;
 const screen_h = document.body.clientHeight;
+import { mapActions } from 'vuex';
 export default {
   props: {
     right: {
@@ -54,11 +51,11 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['beep']),
     displayMsgBlock() {
       setTimeout(() => {
         this.showMsg = true;
       }, 3000);
-
     },
     openMsgBlock() {
       this.msgOpened = true;
@@ -71,15 +68,7 @@ export default {
       setTimeout(() => {
         this.showTooltip = true;
         //
-        let promise = document.querySelector('audio').play();
-        if (promise !== undefined) {
-          promise.then(_ => {
-            console.log('play!');
-          }).catch(err => {
-            console.log(err.message);
-          });
-        }
-        //
+        this.beep();
       }, 6000);
     },
     hideTooltip() {

@@ -116,7 +116,7 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 import useValidate from "@vuelidate/core";
 import Loader from "./ui/Loader.vue";
 import { createToast } from "mosha-vue-toastify";
@@ -186,6 +186,7 @@ export default {
   },
   methods: {
     ...mapMutations(["hideCallModal"]),
+    ...mapActions(["beep"]),
     hideStatus() {
       this.statusText = "";
     },
@@ -195,27 +196,27 @@ export default {
       this.tel = "";
       this.v$.$reset(); // иначе выбрасывает валидацию что поля пустые
     },
-    showSuccess(msg){
+    showSuccess(msg) {
       createToast(
-            {
-              title: msg,
-            },
-            {
-              type: "success",
-              hideProgressBar: true,
-            }
-          );
+        {
+          title: msg,
+        },
+        {
+          type: "success",
+          hideProgressBar: true,
+        }
+      );
     },
-    showError(msg){
+    showError(msg) {
       createToast(
-            {
-              title: msg,
-            },
-            {
-              type: "danger",
-              hideProgressBar: true,
-            }
-          );
+        {
+          title: msg,
+        },
+        {
+          type: "danger",
+          hideProgressBar: true,
+        }
+      );
     },
     async fetchData() {
       let form = document.forms.callForm;
@@ -231,27 +232,31 @@ export default {
           // в зависимости от тела запроса
         },
       });
-      let result = await response.json(); // с сервера json вида {status: true, msg:{}}
-      if (response.ok) {
+      if (!response.ok) {
+        this.loader = false;
+        this.isOk = false;
+        this.statusText = "Ошибка!";
+        this.btnDisabled = false;
+        this.showError(`${response.status} ${response.statusText}`);
+        console.log(response);
+        this.beep();
+        return;
+      } else {
+        let result = await response.json(); // с сервера json вида {status: true, msg:{}}
         this.loader = false;
         this.btnDisabled = false;
         if (result.success) {
-          // this.statusText = "Спасибо, данные приняты. Мы с Вами свяжемся";
-          this.showSuccess('Спасибо, данные приняты. Мы с Вами свяжемся');
+          this.statusText = "Успешно!";
+          this.showSuccess("Спасибо, данные приняты. Мы с Вами свяжемся");
+          this.beep();
           setTimeout(this.clearForm, 4000);
         } else {
           this.isOk = false;
-          this.showError('Ошибка! Что то пошло не так...');
+          this.showError("Ошибка! Что то пошло не так...");
           for (let [key, value] of Object.entries(result.errors)) {
             this.errArr.push(value);
           }
         }
-      } else {
-        this.loader = false;
-        this.showError('Ошибка!');
-        this.btnDisabled = false;
-        this.isOk = false;
-        console.log(response);
       }
     },
     async sendForm() {
@@ -274,13 +279,16 @@ export default {
             .then((token) => {
               let inp = document.getElementById("callform-recaptcha");
               inp.value = token;
+              console.log("here1");
               this.fetchData();
+              console.log("here2");
             });
         });
       } catch (error) {
+        console.log("here3");
         this.loader = false;
         this.isOk = false;
-        this.showError('Ошибка ReCaptcha! Попробуйте повторить попытку.');
+        this.showError("Ошибка ReCaptcha! Попробуйте повторить попытку.");
         this.btnDisabled = false;
         console.log(error);
         // setTimeout(this.clearForm, 4000);
