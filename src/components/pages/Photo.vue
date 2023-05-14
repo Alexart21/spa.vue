@@ -88,6 +88,8 @@ export default {
     },
 
     async delPhoto(id, index) {
+      let del = confirm('Подтвердите удаление');
+      if (!del) return;
       let formData = new FormData();
       formData.append("_token", this.csrf);
       await fetch("/remove?id=" + id, {
